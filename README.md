@@ -2,30 +2,18 @@
 
 Get started by initializing the project:
 
-- Clone the repo:
+Clone the repo:
 ```bash
 git clone https://github.com/AymanHawk/Library-System.git
 ```
-- CD to the root dir:
+CD to the root dir:
 ```bash
 cd Library-System
 ```
-- Install packages and run the dev env:
-```bash
+Install packages and run the dev server:
+```npm
 npm install
 npm run dev
-```
-
-Next, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
