@@ -3,7 +3,7 @@
 Get started by initializing the project:
 
 Clone the repo:
-```bash
+```git
 git clone https://github.com/AymanHawk/Library-System.git
 ```
 CD to the root dir:
