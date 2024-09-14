@@ -1,8 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Library System
 
-## Getting Started
+Get started by initializing the project:
 
-First, run the development server:
+- Clone the repo:
+```bash
+git clone https://github.com/AymanHawk/Library-System.git
+```
+- CD to the root dir:
+```bash
+cd Library-System
+```
+- Install packages and run the dev env:
+```bash
+npm install
+npm run dev
+```
+
+Next, run the development server:
 
 ```bash
 npm run dev
