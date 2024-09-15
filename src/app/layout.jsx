@@ -6,6 +6,7 @@ import "./globals.css";
 
 import {
   IconArrowLeft,
+  IconBook,
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
@@ -28,9 +29,16 @@ export default function RootLayout({ children }) {
   const links = [
     {
       label: "Dashboard",
-      href: "#",
+      href: "/",
       icon: (
         <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "My Reccomendations",
+      href: "/pages/my-recs",
+      icon: (
+        <IconBook className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -68,7 +76,7 @@ export default function RootLayout({ children }) {
         >
           <div
             className={cn(
-              "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1     border border-neutral-200 dark:border-neutral-700 overflow-hidden",
+              "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 border border-neutral-200 dark:border-neutral-700 overflow-hidden",
               // for your use case, use `h-screen` instead of `h-[60vh]`
               "h-screen"
             )}>
