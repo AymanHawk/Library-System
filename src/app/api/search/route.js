@@ -1,25 +1,26 @@
 // src/app/api/search/route.js
-import { MongoClient } from 'mongodb';
+//import { MongoClient } from 'mongodb';
 import rateLimit from 'express-rate-limit';
+import clientPromise from '../../../lib/mongoDB.js'
 
 // Replace with your actual MongoDB connection string
-const MONGODB_URI = 'mongodb+srv://fanged-shadow:7BdyIP9hqlIjjyHZ@librarydeliverycluster.o8ory.mongodb.net/'; // Replace with your actual connection string
-let cachedClient;
+// const MONGODB_URI = 'mongodb+srv://fanged-shadow:7BdyIP9hqlIjjyHZ@librarydeliverycluster.o8ory.mongodb.net/'; // Replace with your actual connection string
+// let cachedClient;
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 10 // Limit each IP to 10 requests per windowMs
 });
 
-async function connectToDatabase() {
-  if (cachedClient) {
-    return cachedClient;
-  }
+// async function connectToDatabase() {
+//   if (cachedClient) {
+//     return cachedClient;
+//   }
 
-  const client = await MongoClient.connect(MONGODB_URI);
-  cachedClient = client;
-  return client;
-}
+//   const client = await MongoClient.connect(MONGODB_URI);
+//   cachedClient = client;
+//   return client;
+// }
 
 export async function GET(request) {
   const url = new URL(request.url);
@@ -30,7 +31,7 @@ export async function GET(request) {
     return new Response(JSON.stringify({ message: 'Query parameter is required' }), { status: 400 });
   }
 
-  const client = await connectToDatabase();
+  const client = await clientPromise;
   const db = client.db('lib'); 
 
   const books = await db.collection('books')
