@@ -14,21 +14,27 @@
     "@tabler/icons-react": "^3.16.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "express-rate-limit": "^7.4.0",
     "framer-motion": "^11.5.4",
     "lucide-react": "^0.441.0",
-    "next": "14.2.0",
+    "mongodb": "^6.9.0",
     "next-themes": "^0.3.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
-    "@types/node": "20.12.7",
-    "@types/react": "18.2.77",
+    "@babel/core": "^7.25.2",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.77",
     "autoprefixer": "^10.4.19",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.0",
+    "babel-loader": "^9.2.1",
+    "babel-preset-next": "^1.4.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.13",
+    "next": "^14.2.13",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.6.2"
   }
 }
