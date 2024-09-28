@@ -16,7 +16,7 @@ export default function Home() {
           The Library <br /> Delivery <br /> System
         </h1>
       </div>
-      <div className="text-white text-1xl sm:text-1xl md:text-2xl lg:text-2xl xl:text-2xl ml-[5%] mt-[2%] mr-[30%]">
+      <div className="text-white text-1xl sm:text-1xl md:text-2xl lg:text-2xl xl:text-2xl ml-[5%] mt-[2%] mr-[15%] sm:mr-[15%] md:mr-[15%] lg:mr-[33%]">
         <h2>
           Insert explanation of our service here, Lorem ipsum odor amet,
           consectetuer adipiscing elit. Euismod felis egestas nulla tellus mus;
