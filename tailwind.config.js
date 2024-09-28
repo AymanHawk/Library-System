@@ -15,6 +15,11 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      colors: {
+        background: "#1E1C1C",
+        primary: "#DCE75C",
+        secondary: "#5D68B0",
+      },
       extend: {
         animation: {
           scroll:
