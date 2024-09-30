@@ -15,6 +15,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      screens: {
+        'xs' : {'max': '639px'},
+      },
       colors: {
         background: "#1E1C1C",
         primary: "#DCE75C",

@@ -88,6 +88,38 @@ function Books() {
       </div>
       <hr />
       <div className='book-mid-div'>
+          <div className='book-bott-left'>
+            <select className='lib-dropdown' name="libraries" id="libraries">
+                <option value="lib-default" disabled selected> Libraries</option>
+                <option value="lib-1"> Library 1 </option>
+                <option value="lib-2"> Library 2 </option>
+                <option value="lib-3"> Library 3 </option>
+            </select>
+            <div>
+              <div>ISBN: </div>
+              <div>{book.isbn}</div>
+            </div>
+            <div>
+              <div>Publisher: </div>
+              <div>{book.publishName}</div>
+            </div>
+            <div>
+              <div>Length: </div>
+              <div>{book.length}</div>
+            </div>
+            <div>
+              <div>Format:</div>
+              <div>{book.format}</div>
+            </div>
+            <div>
+              <div>Language:</div>
+              <div>{book.language}</div>
+            </div>
+            <div>
+              <div>Publish Date:</div>
+              <div>{new Date(book.publishDate).toDateString()}</div>
+            </div>
+          </div>
           <div className='book-feel'>
             <h2>Feel</h2>
             <ul>
@@ -101,6 +133,7 @@ function Books() {
             ))}
         </ul>
           </div>
+          <hr />
           <div className='book-genre'>
             <h2>Tags</h2>
             <div className='tag-list'>
