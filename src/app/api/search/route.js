@@ -1,31 +1,18 @@
-// src/app/api/search/route.js
-//import { MongoClient } from 'mongodb';
+
 import rateLimit from 'express-rate-limit';
 import clientPromise from '../../../lib/mongoDB.js'
 
-// Replace with your actual MongoDB connection string
-// const MONGODB_URI = 'mongodb+srv://fanged-shadow:7BdyIP9hqlIjjyHZ@librarydeliverycluster.o8ory.mongodb.net/'; // Replace with your actual connection string
-// let cachedClient;
 
 const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 10 // Limit each IP to 10 requests per windowMs
+  windowMs: 1 * 60 * 1000, 
+  max: 10 
 });
 
-// async function connectToDatabase() {
-//   if (cachedClient) {
-//     return cachedClient;
-//   }
-
-//   const client = await MongoClient.connect(MONGODB_URI);
-//   cachedClient = client;
-//   return client;
-// }
 
 export async function GET(request) {
   const url = new URL(request.url);
   const query = url.searchParams.get('query');
-  //console.log('API called with query:', query); 
+
 
   if (!query) {
     return new Response(JSON.stringify({ message: 'Query parameter is required' }), { status: 400 });
@@ -42,7 +29,7 @@ export async function GET(request) {
         { isbn: query } 
       ]
     })
-    .project({ title: 1, author: 1, imgUrl: 1, isbn: 1 })
+    .project({ title: 1, author: 1, imgUrl: 1, isbn: 1, _id: 1 })
     .limit(6) 
     .toArray();
 

@@ -16,7 +16,9 @@ export default function Navbar() {
         setIsFocus(true);
     }
     const handleBlue = () => {
-        setIsFocus(false);
+        setTimeout(()=> {
+            setIsFocus(false);
+        }, 225)
     }
 
 
@@ -62,20 +64,21 @@ export default function Navbar() {
                     />
                 </div>
                 {isFocus && 
-                    <ul  className={` ${ results.length ? '' : 'hidden' } absolute z-10 bg-background rounded-md w-11/12 mx-auto mb-9 border-primary search-list`}>
+                    <div  className={` ${ results.length ? '' : 'hidden' } absolute z-10 bg-background rounded-md w-11/12 mx-auto mb-9 border-primary search-list`}>
                     {results.map((book) => (
-                        <li key={book._id} className='flex m-2 pb-2'>
+                        <a href={`/books/${book._id}`} key={book._id} className='flex m-2 pb-2'>
                             <img src={book.imgUrl} className='search-img' alt={book.title} />
                             <div className='flex  flex-col pl-2'>
                                 <span className='font-bold'>{book.title}</span>
                                 <span className='font-light'>{book.author}</span>
+                                {/* <span className='font-light'>{book._id}</span> */}
                                 <span className={`${book.isbn? '' : 'hidden'} font-light`}>ISBN: {book.isbn} </span>
                             </div>
-                        </li>
+                        </a>
         
                     ))
                     }
-                </ul>
+                </div>
                 }
                 
 

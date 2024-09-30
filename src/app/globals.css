@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Jeju+Myeongjo&display=swap');
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -15,6 +17,13 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+body{
+  font-family: 'Jeju Myeongjo', serif;
+}
+
+/* this is for the nav bar component */
+
 
 nav {
   @apply flex
@@ -66,12 +75,12 @@ nav {
   @apply rounded-md;
 }
 
-.search-list li:last-child {
+.search-list a:last-child {
   border: none;
   @apply p-0;
 }
 
-.search-list li {
+.search-list a {
   border-bottom: 1px solid;
   @apply border-b-primary;
 }
@@ -116,4 +125,204 @@ nav {
 .nav-prof {
   width: 35px;
   height: 35px;
+}
+
+
+/* book page component */
+.book-top-div{
+  @apply
+    flex
+    justify-between
+    items-center
+    mx-auto
+    p-5
+    w-11/12
+    pb-10
+}
+
+.book-img{
+  @apply
+    w-3/12
+}
+
+.book-info-mid{
+  @apply 
+    w-5/12
+
+}
+
+.book-info-left{
+  @apply
+    w-3/12
+    my-auto
+}
+
+.book-title{
+  @apply
+    text-6xl
+    text-primary
+}
+
+.book-author{
+  @apply
+    rounded-md
+    border-primary
+    border-solid
+    border-2
+    text-2xl
+    text-primary
+    p-2
+    mt-4
+}
+
+.book-description{
+  height: 275px;
+  overflow-y: auto;
+  @apply
+    mt-4
+    text-lg
+}
+
+.book-description::-webkit-scrollbar {
+  display: none;
+}
+
+.lib-dropdown{
+  -webkit-appearance: none; /* Hides the default dropdown arrow */
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  @apply
+    w-full
+    bg-primary
+    text-black
+    text-2xl
+    text-center
+    rounded-md
+    py-2
+    outline-none
+}
+
+.lib-dropdown option{
+  @apply
+    bg-white
+    border-b-2
+    border-background
+    py-2
+    border-solid
+    hover:bg-slate-500
+}
+
+.book-info-left div{
+  
+  @apply
+    flex
+    justify-between
+    text-2xl
+    text-primary
+    font-bold
+    mt-2
+}
+
+.book-info-left div div:nth-child(2){
+  @apply
+    text-white
+    text-right
+    font-normal
+}
+
+hr{
+  @apply
+    bg-white
+    w-10/12
+    mx-auto
+}
+
+.book-mid-div{
+  @apply
+    flex
+    justify-between
+    mx-auto
+    p-5
+    w-11/12
+    pb-10
+}
+
+.book-feel{
+  @apply
+    w-3/12
+}
+
+.book-genre{
+  @apply
+    w-6/12
+}
+
+.book-pace{
+  @apply  
+    w-3/12
+}
+
+.book-mid-div h2{
+  @apply
+    text-4xl
+    text-primary
+    mb-2
+    ml-5
+}
+
+.book-feel ul li{
+  @apply
+    flex
+    justify-between
+    text-2xl
+    capitalize
+    px-3
+}
+
+.book-feel ul li span{
+  @apply
+    font-bold
+}
+
+
+.tag-list{
+  @apply
+    flex
+    flex-wrap
+    justify-center
+    gap-1
+}
+
+.tag-list div{
+  @apply
+  bg-secondary
+  w-48
+  text-center
+  capitalize
+  text-2xl
+  p-4
+  my-2
+  rounded-full
+}
+
+.book-pace ul li{
+  @apply
+    flex
+    justify-between
+    text-2xl
+    capitalize
+    items-center
+    font-bold
+}
+
+.book-pace ul li span{
+  @apply
+    bg-secondary
+    text-2xl
+    p-4
+    m-2
+    w-48
+    text-center
+    rounded-full
 }
