@@ -16,7 +16,13 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        'xs' : {'max': '639px'},
+          'xs': {'max': '350px'},       
+          'sm': '480px',                
+          'md': '640px',                
+          'norm': '768px',               
+          'lg': '1024px',               
+          'xl': '1280px',              
+          '2xl': '1440px',
       },
       colors: {
         background: "#1E1C1C",

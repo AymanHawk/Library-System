@@ -12,11 +12,11 @@ export default function Navbar() {
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
 
-    const handleFocus = () =>{
+    const handleFocus = () => {
         setIsFocus(true);
     }
     const handleBlue = () => {
-        setTimeout(()=> {
+        setTimeout(() => {
             setIsFocus(false);
         }, 225)
     }
@@ -63,24 +63,24 @@ export default function Navbar() {
                         onBlur={handleBlue}
                     />
                 </div>
-                {isFocus && 
-                    <div  className={` ${ results.length ? '' : 'hidden' } absolute z-10 bg-background rounded-md w-11/12 mx-auto mb-9 border-primary search-list`}>
-                    {results.map((book) => (
-                        <a href={`/books/${book._id}`} key={book._id} className='flex m-2 pb-2'>
-                            <img src={book.imgUrl} className='search-img' alt={book.title} />
-                            <div className='flex  flex-col pl-2'>
-                                <span className='font-bold'>{book.title}</span>
-                                <span className='font-light'>{book.author}</span>
-                                {/* <span className='font-light'>{book._id}</span> */}
-                                <span className={`${book.isbn? '' : 'hidden'} font-light`}>ISBN: {book.isbn} </span>
-                            </div>
-                        </a>
-        
-                    ))
-                    }
-                </div>
+                {isFocus &&
+                    <div className={` ${results.length ? '' : 'hidden'} absolute z-10 bg-background rounded-md w-11/12 mx-auto mb-9 border-primary search-list`}>
+                        {results.map((book) => (
+                            <a href={`/books/${book._id}`} key={book._id} className='flex m-2 pb-2'>
+                                <img src={book.imgUrl} className='search-img' alt={book.title} />
+                                <div className='flex flex-col pl-2'>
+                                    <span className='font-bold'>{book.title}</span>
+                                    <span className='font-light'>{book.author}</span>
+                                    {/* <span className='font-light'>{book._id}</span> */}
+                                    <span className={`${book.isbn ? '' : 'hidden'} font-light`}>ISBN: {book.isbn} </span>
+                                </div>
+                            </a>
+
+                        ))
+                        }
+                    </div>
                 }
-                
+
 
             </div>
             <div className='nav-user p-1'>
