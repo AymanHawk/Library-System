@@ -18,8 +18,17 @@ export default function Home() {
           accumsan velit senectus sodales tempor.
         </h2>
       </div>
-      <div className="flex justify-center sm:block mt-5">
-        <button className="text-white bg-secondary p-2 px-6 lg:py-3 rounded-md sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 2xl:w-1/6 text-center text-sm w-32 sm:text-xl md:text-2xl lg:text-3xl">Browse</button>
+      <div className="flex justify-center sm:flex mt-5">
+        <a href="/browse/books" className="text-white bg-secondary mr-[5%] p-3 px-6 lg:py-3 rounded-md sm:w-3/4 md:w-3/4 lg:w-3/4 xl:w-3/4 2xl:w-3/4 text-center text-sm w-32 sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl">
+          <button>
+            Books
+          </button>
+        </a>
+        <a href="/browse/libraries" className="text-white bg-secondary mr-[5%] p-3 px-6 lg:py-3 rounded-md sm:w-3/4 md:w-3/4 lg:w-3/4 xl:w-3/4 2xl:w-3/4 text-center text-sm w-32 sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl">
+          <button >
+            Libraries
+          </button>
+        </a>
       </div>
     </div>
   );
