@@ -26,6 +26,7 @@ function Books() {
       </h2>
       <div className="mt-[5%] ml-[10vw] text-white sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
         <h1>Popular</h1>
+        <div>books</div>
         <h1>Everyone's Talking About</h1>
       </div>
     </div>
