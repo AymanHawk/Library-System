@@ -2,7 +2,7 @@
 
 export default function Home() {
   return (
-    <div className="bg-background sm:ml-16 sm:w-8/12 mx-10 xs:mx-5">
+    <div className="bg-background sm:ml-16 sm:w-8/12 mx-10 xs:mx-5 mt-10">
       <div className="text-primary xs:text-2xl text-4xl md:text-5xl lg:text-6xl mx-auto text-center sm:text-left">
         <h1>
           The Library <br /> Delivery <br className="hidden md:block" /> System
