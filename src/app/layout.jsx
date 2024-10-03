@@ -12,13 +12,26 @@ export default function RootLayout({ children }) {
 
   
   return (
-    <ClerkProvider>
-    <html lang="en">
-      <body className="bg-background p-5 text-white">
-          <Navbar />
-            {children}
-      </body>
-    </html>
+    <ClerkProvider
+        appearance={{
+            variables: {
+            colorPrimary: '#DCE75C',
+            colorBackground: '#1E1C1C',
+            colorText: '#DCE75C',
+            colorNeutral: '#DCE75C',
+            colorInputText: '#DCE75C',
+            colorInputBackground: '#1E1C1C',
+            colorTextOnPrimaryBackground: '#1E1C1C',
+            fontSize: '0.9em'
+          },
+        }}
+      >
+      <html lang="en">
+        <body className="bg-background p-5 text-white">
+            <Navbar />
+              {children}
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
