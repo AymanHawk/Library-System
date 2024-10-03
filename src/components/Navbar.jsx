@@ -5,6 +5,8 @@ import logo from '../images/logo.png'
 import dropdown from '../images/dropdown.png'
 import search from '../images/search.png'
 import profile from '../images/profile.png'
+import Link from 'next/link';
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 export default function Navbar() {
 
@@ -83,11 +85,14 @@ export default function Navbar() {
 
 
             </div>
-            <div className='nav-user p-1'>
-                <span className='flex items-center w-2 h-1 pt-1'><Image src={dropdown} alt='dropdown' /></span>
-                <span className='sm:flex hidden'>John Doe</span>
-                <span className='sm:hidden'><Image className='nav-prof' src={profile} alt='profile' /></span>
-            </div>
+            <ul className='nav-user p-1'>
+                <SignedIn>
+                    <UserButton />
+                </SignedIn>
+                <SignedOut>
+                    <SignInButton />
+                </SignedOut>
+                </ul>
 
         </nav>
     )
