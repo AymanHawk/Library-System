@@ -11,7 +11,7 @@ function Dashboard() {
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
             Orders
           </h1>
-          <div className="border border-secondary rounded-[5px] border-2 p-2">
+          <div className=" border-secondary rounded-[5px] border-2 p-2">
             <a href="/user/orders">See All</a>
           </div>
         </div>
@@ -19,7 +19,7 @@ function Dashboard() {
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
             Recommendations
           </h1>
-          <div className="border border-secondary rounded-[5px] border-2 p-2">
+          <div className=" border-secondary rounded-[5px] border-2 p-2">
             <a href="/user/recommendation/id">See All</a>
           </div>
         </div>
@@ -27,7 +27,7 @@ function Dashboard() {
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
             Read Recently
           </h1>
-          <div className="border border-secondary rounded-[5px] border-2 p-2">
+          <div className=" border-secondary rounded-[5px] border-2 p-2">
             <a href="/user/list/readBooks">See All</a>
           </div>
         </div>
