@@ -20,7 +20,7 @@ function Dashboard() {
             Recommendations
           </h1>
           <div className="border border-secondary rounded-[5px] border-2 p-2">
-            <a href="/user/recommendation">See All</a>
+            <a href="/user/recommendation/id">See All</a>
           </div>
         </div>
         <div>
