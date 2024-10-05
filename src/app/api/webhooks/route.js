@@ -1,5 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers';
+import { createOrUpdateUser, deleteUser } from '../../../lib/actions/user';
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -54,12 +55,45 @@ export async function POST(req) {
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
 
-  if (eventType === 'user.created') {
-    console.log("User created");
+  if (eventType === 'user.created' || eventType === 'user.updated') {
+    // When this action is trigerred you want to first get the data so
+    const{id,first_name,last_name,img_url,email_address,username} = evt?.data;
+    try{
+      await createOrUpdateUser(
+        id,
+        first_name,
+        last_name,
+        image_url,
+        email_address,
+        username
+      );
+      return new Response("Usercreated",{
+        status:200
+      });
+
+    }catch(error){
+      console.log(error)
+      return new Response("ErrorOccured",{
+        status:400
+      });
+    }
+    
   }
 
-  if (eventType === 'user.updated') {
-    console.log("User updated");
+  if (eventType === 'user.deleted') {
+    const{id} = evt?.data
+    try {
+      await deleteUser(id)
+      return new Response("UserisDeleted",{
+        status:200
+      });
+    } catch (error) {
+      console.log(error)
+      return new Response('ErrorOccured',{
+        status:400
+      })
+      
+    }
   }
 
 
