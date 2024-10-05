@@ -1,11 +1,16 @@
 'use client'
 import React from "react";
-import {DashboardNavbar }from "../../../../components/DashboardNavbar";
+import UserNavbar from "../../../../components/UserNavbar";
+import { usePathname, useSearchParams } from 'next/navigation';
 
 function Dashboard() {
+
+  const pathname = usePathname();
+  const id = pathname.split('/').pop();
+
   return (
     <div>
-      <DashboardNavbar />
+      <UserNavbar userId={id} userPath={pathname}/>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-3">
         <div>
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">

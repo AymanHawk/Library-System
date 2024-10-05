@@ -19,7 +19,7 @@ module.exports = {
           'xs': {'max': '350px'},       
           'sm': '480px',                
           'md': '640px',                
-          'norm': '768px',               
+          'norm': {'min': '768px', 'max': '1024px'},               
           'lg': '1024px',               
           'xl': '1280px',              
           '2xl': '1440px',
