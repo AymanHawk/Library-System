@@ -15,6 +15,20 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      screens: {
+          'xs': {'max': '350px'},       
+          'sm': '480px',                
+          'md': '640px',                
+          'norm': {'min': '768px', 'max': '1024px'},               
+          'lg': '1024px',               
+          'xl': '1280px',              
+          '2xl': '1440px',
+      },
+      colors: {
+        background: "#1E1C1C",
+        primary: "#DCE75C",
+        secondary: "#5D68B0",
+      },
       extend: {
         animation: {
           scroll:
@@ -28,6 +42,11 @@ module.exports = {
           },
         },
       },
+      colors: {
+        'background' : '#1E1C1C',
+        'primary': '#DCE75C',
+        'secondary': '#5D68B0'
+      }
     },
   },
   plugins: [addVariablesForColors],

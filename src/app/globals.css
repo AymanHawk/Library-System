@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Jeju+Myeongjo&display=swap");
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -17,17 +18,407 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: "Jeju Myeongjo", serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* this is for the nav bar component */
+
+nav {
+  @apply text-primary
+    mb-3
+    flex
+    items-center
+    justify-between;
+}
+
+.nav-logo {
+  @apply flex
+    items-center
+    justify-center;
+}
+
+.nav-logo img {
+  @apply xs:w-10
+    xs:h-8
+    h-11
+    w-14;
+}
+
+.nav-search-bar {
+  height: 38px;
+  @apply border-primary
+    xs:pl-1
+    xs:pt-0.5
+    xs:h-8
+    flex
+    h-10
+    w-7/12
+    flex-col
+    items-start
+    gap-4
+    rounded-sm
+    border-[1px]
+    pb-1
+    pl-2
+    pt-1
+    sm:w-3/5
+    lg:w-2/3;
+}
+
+.search-list {
+  @apply norm:h-[500px]
+  xs:h-64
+  mt-12
+  h-96
+  overflow-y-auto
+  border-[1px];
+}
+
+.search-list::-webkit-scrollbar {
+  display: none;
+}
+
+.search-img {
+  @apply norm:w-20
+  w-10
+  rounded-md
+  md:w-14;
+}
+
+.search-list a:last-child {
+  border: none;
+  @apply p-0;
+}
+
+.search-list a {
+  border-bottom: 1px solid;
+  @apply border-b-primary;
+}
+
+.search-list div {
+  @apply xs:text-[7px]
+    text-[9px]
+    sm:text-[12px]
+    md:text-lg
+    lg:text-xl;
+}
+
+.nav-search {
+  @apply flex
+    w-11/12
+    items-center
+    gap-1;
+}
+
+.nav-search img {
+  @apply xs:w-7
+    xs:h-7
+    h-8
+    w-8;
+}
+
+.nav-search-bar input {
+  @apply xs:text-sm
+    bg-background
+    w-11/12
+    focus:outline-none
+    md:text-lg
+    lg:text-xl
+    xl:text-2xl;
+}
+
+.nav-user {
+  @apply norm:w-[13%]
+    bg-primary
+    xs:h-9
+    flex
+    h-12
+    w-1/5
+    items-center
+    justify-center
+    gap-1
+    text-nowrap
+    rounded-md
+    text-black;
+}
+
+.nav-prof {
+  width: 35px;
+  height: 35px;
+}
+
+/* book page component */
+.book-top-div {
+  @apply mx-auto
+    flex
+    w-11/12
+    flex-wrap
+    items-center
+    justify-evenly
+    pb-10
+    md:gap-0
+    md:p-5
+    lg:justify-between;
+}
+
+.book-img {
+  @apply w-[45%]
+    sm:w-[200px]
+    md:w-[300px]
+    lg:w-[28%]
+    xl:w-[29%]
+    2xl:w-3/12;
+}
+
+.book-info-mid {
+  @apply w-[45%]
+    md:w-1/3
+    lg:w-5/12;
+}
+
+.book-info-left {
+  @apply mt-5
+    hidden
+    w-1/2
+    lg:my-auto
+    lg:block
+    lg:w-3/12;
+}
+
+.book-title {
+  @apply text-primary
+    xs:text-[12px]
+    text-sm
+    sm:text-xl
+    md:text-2xl
+    lg:text-4xl
+    xl:text-6xl;
+}
+
+.book-author {
+  @apply border-primary
+    text-primary
+    xs:text-[9px]
+    mt-4
+    rounded-md
+    border-2
+    border-solid
+    p-2
+    text-[12px]
+    sm:text-base
+    md:text-lg
+    lg:text-xl
+    xl:text-2xl;
+}
+
+.book-description {
+  @apply xs:h-[75px]
+    mt-4
+    h-[100px]
+    overflow-y-auto
+    text-[10px]
+    sm:h-[175px]
+    sm:text-[12px]
+    md:h-[250px]
+    md:text-base
+    lg:h-[275px]
+    lg:text-lg;
+}
+
+.book-description::-webkit-scrollbar {
+  display: none;
+}
+
+.lib-dropdown {
+  -webkit-appearance: none; /* Hides the default dropdown arrow */
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  @apply bg-primary
+    w-full
+    rounded-md
+    py-2
+    text-center
+    text-base
+    font-bold
+    text-black
+    outline-none
+    md:text-xl
+    lg:text-2xl;
+}
+
+.lib-dropdown option {
+  @apply border-background
+    w-32
+    border-b-2
+    border-solid
+    bg-white
+    py-2
+    hover:bg-slate-500;
+}
+
+.book-info-left div {
+  @apply text-primary
+    mt-2
+    flex
+    justify-between
+    text-xl
+    font-bold
+    xl:text-2xl;
+}
+
+.book-bott-left div {
+  @apply text-primary
+    xs:text-[7px]
+    mt-2
+    flex
+    justify-between
+    text-[9.5px]
+    font-bold
+    sm:text-base
+    lg:text-2xl;
+}
+
+.book-bott-left {
+  @apply my-auto
+  w-1/2
+  px-5
+  lg:hidden;
+}
+
+.book-bott-left div div:nth-child(2) {
+  @apply text-right
+    font-normal
+    text-white;
+}
+
+.book-info-left div div:nth-child(2) {
+  @apply text-right
+    font-normal
+    text-white;
+}
+
+hr {
+  @apply mx-auto
+    w-10/12
+    bg-white;
+}
+
+.book-mid-div {
+  @apply mx-auto
+    flex
+    w-11/12
+    flex-wrap
+    justify-evenly
+    p-5
+    pb-10
+    md:justify-between;
+}
+
+.book-feel {
+  @apply w-1/2
+    px-4
+    lg:w-3/12;
+}
+
+.book-genre {
+  @apply w-2/3
+    lg:w-6/12;
+}
+
+.book-pace {
+  @apply w-1/3
+    lg:w-3/12;
+}
+
+.book-mid-div h2 {
+  @apply text-primary
+    mb-2
+    ml-5
+    text-xl
+    font-bold
+    md:text-2xl
+    lg:text-4xl
+    xl:text-5xl;
+}
+
+.book-mid-div hr {
+  @apply my-8
+   lg:hidden;
+}
+
+.book-feel ul li {
+  @apply xs:text-[9px]
+    flex
+    justify-between
+    text-[12px]
+    capitalize
+    sm:px-3
+    sm:text-base
+    md:text-lg
+    lg:text-2xl;
+}
+
+.book-feel ul li span {
+  @apply font-bold;
+}
+
+.tag-list {
+  @apply flex
+    flex-wrap
+    justify-center
+    gap-1;
+}
+
+.tag-list div {
+  @apply bg-secondary
+  xs:text-[8px]
+  xs:min-w-12
+  my-2
+  min-w-16
+  rounded-full
+  p-2
+  text-center
+  text-[12px]
+  capitalize
+  sm:min-w-24
+  sm:p-4
+  sm:text-lg
+  md:min-w-36
+  md:text-xl
+  xl:w-48
+  xl:text-2xl;
+}
+
+.book-pace ul li {
+  @apply xs:text-[8px]
+    flex
+    items-center
+    justify-between
+    text-[12px]
+    font-bold
+    capitalize
+    sm:text-lg
+    md:text-xl
+    xl:text-2xl;
+}
+
+.book-pace ul li span {
+  @apply bg-secondary
+  xs:text-[8px]
+  xs:min-w-12
+  m-2
+  min-w-16
+  rounded-full
+  p-2
+  text-center
+  text-[12px]
+  capitalize
+  sm:min-w-24
+  sm:p-4
+  sm:text-lg
+  md:min-w-36
+  md:text-xl
+  xl:w-48
+  xl:text-2xl;
 }
