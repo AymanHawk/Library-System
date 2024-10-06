@@ -17,6 +17,9 @@ export default function UserLayout({ children }) {
                 router.push('/');
             }
         }
+        if(!isSignedIn) {
+            router.push('/')
+        }
     }, [isLoaded, isSignedIn, userId, router]);
     
     if (!isLoaded) {
