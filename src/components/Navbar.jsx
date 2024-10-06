@@ -2,17 +2,32 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import logo from '../images/logo.png'
-import dropdown from '../images/dropdown.png'
 import search from '../images/search.png'
-import profile from '../images/profile.png'
-import Link from 'next/link';
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import dashboard from '../images/dashboard.png'
+import preferences from '../images/preferences.png'
+import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+import { useRouterContext } from "../utils/RouterContext";
+
 
 export default function Navbar() {
-
+    const router = useRouterContext();
+    const { user } = useUser();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
+
+
+    const handleDashboardRedirect = () => {
+        if (user) {
+        router.push(`/user/dashboard/${user.id}`);
+        }
+    };
+
+    const handlePreferencesRedirect = () => {
+        if(user) {
+            router.push(`/user/profile/preferences/${user.id}`)
+        }
+    }
 
     const handleFocus = () => {
         setIsFocus(true);
@@ -87,10 +102,27 @@ export default function Navbar() {
             </div>
             <ul className='nav-user p-1'>
                 <SignedIn>
-                    <UserButton />
+                    <UserButton>
+                        <UserButton.MenuItems>
+                            <UserButton.Action
+                                label="Dashboard"
+                                labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                                onClick={handleDashboardRedirect}
+                            />
+                        </UserButton.MenuItems>
+                        <UserButton.MenuItems>
+                            <UserButton.Action
+                                label="Preferences"
+                                labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
+                                onClick={handlePreferencesRedirect}
+                            />
+                        </UserButton.MenuItems>
+                    </UserButton>
                 </SignedIn>
                 <SignedOut>
-                    <SignInButton />
+                    <SignInButton>
+                        <button className='text-lg'>Sign In</button>
+                    </SignInButton>
                 </SignedOut>
                 </ul>
 

@@ -1,29 +1,28 @@
 'use client'
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation'; // Make sure to import from next/navigation
-import { useAuth } from '@clerk/nextjs';
+
+import { useAuth, useUser } from '@clerk/nextjs';
+import { usePathname } from 'next/navigation';
 
 export default function UserLayout({ children }) {
-    const router = useRouter();
-    const { userId, isLoaded, isSignedIn } = useAuth();
+    const { isLoaded, isSignedIn } = useAuth();
+    const {user} = useUser();
 
-    useEffect(() => {
-        if (isLoaded && isSignedIn) {
-            const pathname = window.location.pathname; 
-            const pathSegments = pathname.split('/');
-            const id = pathSegments[pathSegments.length - 1];
+    const pathname = usePathname();
+    const userId = pathname.split('/').pop();
 
-            if (userId !== id) {
-                router.push('/');
-            }
-        }
-        if(!isSignedIn) {
-            router.push('/')
-        }
-    }, [isLoaded, isSignedIn, userId, router]);
-    
+    const id = isLoaded && isSignedIn && user ? user.id : null;
+
     if (!isLoaded) {
         return <div>Loading...</div>;
+    }
+
+    if (!isSignedIn) {
+        return <div>Please sign in to access this page.</div>;
+    }
+
+    if (id !== userId) {
+        // Redirect or show an error if the user ID doesn't match
+        return <div>Access Denied: Invalid User ID.</div>;
     }
 
     return <div>{children}</div>;
