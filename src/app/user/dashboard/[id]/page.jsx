@@ -2,15 +2,22 @@
 import React from "react";
 import UserNavbar from "../../../../components/UserNavbar";
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useUser } from "@clerk/nextjs";
 
 function Dashboard() {
 
   const pathname = usePathname();
   const id = pathname.split('/').pop();
+  const user = useUser();
 
   return (
     <div>
       <UserNavbar userId={id} userPath={pathname}/>
+      <div>
+        {
+          console.log("User ID: ", user)
+        }
+      </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-3">
         <div>
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
