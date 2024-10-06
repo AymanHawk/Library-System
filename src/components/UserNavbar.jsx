@@ -1,10 +1,12 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouterContext } from "../utils/RouterContext";
 
 
 function UserNavbar({userId, userPath}) {
   const [ham, setHam] = useState(true);
+  const router = useRouterContext();
   const routes = [
     { path: `/user/dashboard/${userId}`, label: 'Dashboard' },
     { path: `/user/stats/${userId}`, label: 'Statistics' },
@@ -12,6 +14,11 @@ function UserNavbar({userId, userPath}) {
     { path: `/user/recommendation/${userId}`, label: 'Recommendations' },
     { path: `/user/list/${userId}`, label: 'Books List' },
   ];
+
+  const handleRoutes = (path) => {
+    console.log("activated")
+    router.push(path);
+  }
 
   const toggleSwitch = () =>{
     setHam(!ham)
@@ -27,13 +34,13 @@ function UserNavbar({userId, userPath}) {
         </div> */}
         <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-evenly hidden">
           {routes.map((route) => (
-            <Link 
+            <button 
               key={route.path} 
-              href={route.path}
+              onClick={() => handleRoutes(route.path)}  
               className={`p-2 hover:bg-primary w-full hover:text-black text-nowrap ${userPath === route.path ? 'bg-primary text-black' : ''}`}
             >
               {route.label}
-            </Link>
+            </button>
           ))}
         </div>
         <div className="border-primary border-[1px] bg-background rounded-md w-11/12 mx-auto flex flex-col p-1 mb-5 sm:hidden">
