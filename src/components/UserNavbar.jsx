@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { useRouterContext } from "../utils/RouterContext";
 
 
@@ -25,13 +24,6 @@ function UserNavbar({ userId, userPath }) {
   }
   return (
     <div>
-      {/* <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-evenly hidden">
-          <h2 className="hover:bg-primary p-2 hover:text-black hover:rounded-md">Dashboard</h2>
-          <h2 className="hover:bg-primary p-2 hover:text-black hover:rounded-md">Statistics</h2>
-          <h2 className="hover:bg-primary p-2 hover:text-black hover:rounded-md">Orders</h2>
-          <h2 className="hover:bg-primary p-2 hover:text-black hover:rounded-md">Recommendations</h2>
-          <h2 className="hover:bg-primary p-2 hover:text-black hover:rounded-md">Books List</h2>
-        </div> */}
       <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-evenly hidden">
         {routes.map((route) => (
           <button
@@ -56,13 +48,13 @@ function UserNavbar({ userId, userPath }) {
         <div className={` ${(ham ? 'hidden' : '')} border-t-2 border-primary pt-2 `}>
           <div className="text-primary text-center text-lg flex flex-col items-center justify-center">
             {routes.map((route) => (
-              <Link
+              <button
                 key={route.path}
-                href={route.path}
-                className={`p-2 hover:bg-primary w-full hover:text-black hover:rounded-md text-nowrap ${userPath === route.path ? 'bg-primary text-black rounded-md' : ''}`}
+                onClick={() => handleRoutes(route.path)}
+                className={`p-2 hover:bg-primary w-full hover:text-black text-nowrap ${userPath === route.path ? 'bg-primary text-black rounded-md' : ''}`}
               >
                 {route.label}
-              </Link>
+              </button>
             ))}
           </div>
         </div>

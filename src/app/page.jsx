@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 export default function Home() {
   return (
     <div className="bg-background sm:ml-16 sm:w-8/12 mx-10 xs:mx-5 mt-10">

@@ -1,5 +1,4 @@
-"use client";
-
+'use client'
 import React from "react";
 import "./globals.css";
 import Navbar from "../components/Navbar.jsx"
@@ -10,7 +9,6 @@ import { RouterProvider } from "../utils/RouterContext.jsx";
 
 
 export default function RootLayout({ children }) {
-
 
   return (
     <ClerkProvider
