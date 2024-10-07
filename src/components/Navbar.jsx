@@ -15,7 +15,7 @@ export default function Navbar() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
-
+    // 
 
     const handleDashboardRedirect = () => {
         if (user) {
