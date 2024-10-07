@@ -59,7 +59,7 @@ export async function POST(req) {
   const eventType = evt.type;
 
   const name = first_name+ " " +last_name;
-  const email = email_addresses.email_address;
+  const email = email_addresses[0].email_address;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
