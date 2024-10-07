@@ -2,6 +2,12 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers';
 import { MongoClient } from 'mongodb';
 
+
+const clientPromise = MongoClient.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
@@ -49,7 +55,7 @@ export async function POST(req) {
   }
 
   // Do something with the payload
-  const { id, email, name, avatarUrl } = evt.data; 
+  const { id, email, name, image_url } = evt.data; 
   const eventType = evt.type;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
@@ -63,7 +69,7 @@ export async function POST(req) {
       console.log("User created");
       await db.collection('users').updateOne(
         { id }, 
-        { $set: { email, name, avatarUrl } }, 
+        { $set: { email, name, image_url } }, 
         { upsert: true }
       );
     }
@@ -72,7 +78,7 @@ export async function POST(req) {
       console.log("User updated");
       await db.collection('users').updateOne(
         { id },
-        { $set: { email, name, avatarUrl } } 
+        { $set: { email, name, image_url } } 
       );
     }
 
