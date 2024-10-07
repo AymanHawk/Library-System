@@ -1,11 +1,17 @@
 'use client'
 
+
 import { useAuth, useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
+import { SignIn } from '@clerk/nextjs';
+import { NextResponse } from "next/server";
+import { useRouterContext } from "../../utils/RouterContext";
+
 
 export default function UserLayout({ children }) {
     const { isLoaded, isSignedIn } = useAuth();
     const {user} = useUser();
+    const router = useRouterContext();
 
     const pathname = usePathname();
     const userId = pathname.split('/').pop();
@@ -17,12 +23,13 @@ export default function UserLayout({ children }) {
     }
 
     if (!isSignedIn) {
-        return <div>Please sign in to access this page.</div>;
+            router.push(`/sign-in`);
+    
     }
 
     if (id !== userId) {
         // Redirect or show an error if the user ID doesn't match
-        return <div>Access Denied: Invalid User ID.</div>;
+        router.push(`/`);
     }
 
     return <div>{children}</div>;
