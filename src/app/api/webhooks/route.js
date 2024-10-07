@@ -55,10 +55,11 @@ export async function POST(req) {
   }
 
   // Do something with the payload
-  const { id, email_address, first_name, last_name, image_url } = evt.data; 
+  const { id, email_addresses, first_name, last_name, image_url } = evt.data; 
   const eventType = evt.type;
 
   const name = first_name+ " " +last_name;
+  const email = email_addresses.email_address;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
@@ -71,7 +72,7 @@ export async function POST(req) {
       console.log("User created");
       await db.collection('users').updateOne(
         { id }, 
-        { $set: { email_address, name, image_url } }, 
+        { $set: { email, name, image_url } }, 
         { upsert: true }
       );
     }
@@ -80,7 +81,7 @@ export async function POST(req) {
       console.log("User updated");
       await db.collection('users').updateOne(
         { id },
-        { $set: { email_address, name, image_url } } 
+        { $set: { email, name, image_url } } 
       );
     }
 
