@@ -1,5 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers';
+import { MongoClient } from 'mongodb';
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -48,20 +49,41 @@ export async function POST(req) {
   }
 
   // Do something with the payload
-  const { id } = evt.data;
+  const { id, email, name, avatarUrl } = evt.data; 
   const eventType = evt.type;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
 
-  if (eventType === 'user.created') {
-    console.log("User created");
-  }
+  const client = await clientPromise;
+  const db = client.db('your_database_name'); 
 
-  if (eventType === 'user.updated') {
-    console.log("User updated");
-  }
+  try {
+    if (eventType === 'user.created') {
+      console.log("User created");
+      await db.collection('users').updateOne(
+        { id }, 
+        { $set: { email, name, avatarUrl } }, 
+        { upsert: true }
+      );
+    }
 
+    if (eventType === 'user.updated') {
+      console.log("User updated");
+      await db.collection('users').updateOne(
+        { id },
+        { $set: { email, name, avatarUrl } } 
+      );
+    }
+
+    if (eventType === 'user.deleted') {
+      console.log("User deleted");
+      await db.collection('users').deleteOne({ id });
+    }
+  } catch (dbError) {
+    console.error('Error syncing with MongoDB:', dbError);
+    return new Response('Error syncing with database', { status: 500 });
+  }
 
   return new Response('', { status: 200 });
 }
