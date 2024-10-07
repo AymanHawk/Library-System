@@ -34,7 +34,7 @@ export default function Navbar() {
     }
     const handleBlue = () => {
         setTimeout(() => {
-            setIsFocus(false);
+            setIsFocus(true);
         }, 225)
     }
 
@@ -46,7 +46,7 @@ export default function Navbar() {
                 return;
             }
 
-            const res = await fetch(`../api/search?query=${encodeURIComponent(query)}`);
+            const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
             const data = await res.json();
             setResults(data);
         };

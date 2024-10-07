@@ -1,12 +1,6 @@
 
-import rateLimit from 'express-rate-limit';
 import clientPromise from '../../../lib/mongoDB.js'
 
-
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, 
-  max: 10 
-});
 
 
 export async function GET(request) {
