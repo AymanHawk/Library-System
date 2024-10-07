@@ -55,7 +55,7 @@ export async function POST(req) {
   }
 
   // Do something with the payload
-  const { id, email, name, image_url } = evt.data; 
+  const { id, email_address, name, image_url } = evt.data; 
   const eventType = evt.type;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
