@@ -3,8 +3,6 @@
 
 import { useAuth, useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
-import { SignIn } from '@clerk/nextjs';
-import { NextResponse } from "next/server";
 import { useRouterContext } from "../../utils/RouterContext";
 
 
@@ -23,13 +21,14 @@ export default function UserLayout({ children }) {
     }
 
     if (!isSignedIn) {
-            router.push(`/sign-in`);
-    
+        router.push(`/sign-in`);
+        return <div>Redirecting to Sign In ...</div>
+
     }
 
-    if (id !== userId) {
-        // Redirect or show an error if the user ID doesn't match
+    if ((id !== userId) && isSignedIn) {
         router.push(`/`);
+        return <div>Unauthorized ...</div>
     }
 
     return <div>{children}</div>;

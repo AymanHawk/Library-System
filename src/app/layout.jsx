@@ -26,8 +26,7 @@ export default function RootLayout({ children }) {
       }}
     >
       <RouterProvider>
-
-        <html lang="en">
+       <html lang="en">
           <body className="bg-background p-5 text-white">
             <Navbar />
             {children}
