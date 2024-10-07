@@ -62,7 +62,7 @@ export async function POST(req) {
   console.log('Webhook body:', body);
 
   const client = await clientPromise;
-  const db = client.db('your_database_name'); 
+  const db = client.db('lib'); 
 
   try {
     if (eventType === 'user.created') {
