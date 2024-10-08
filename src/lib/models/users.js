@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
         booksRented: {type: Number, default: 0 },
         orderCount : {type: Number, default: 0 },
     }
-}, { _id: false }, {timeStamps: true})
+}, {timeStamps: true})
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
