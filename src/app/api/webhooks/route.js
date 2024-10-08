@@ -1,12 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers';
-import { MongoClient } from 'mongodb';
-
-
-const clientPromise = MongoClient.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+import {createUser, updateUser, deleteUser } from '../../../lib/actions/user'
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -55,44 +49,47 @@ export async function POST(req) {
   }
 
   // Do something with the payload
-  const { id, email_addresses, first_name, last_name, image_url } = evt.data; 
-  const eventType = evt.type;
-
-  const name = first_name+ " " +last_name;
-  const email = email_addresses[0].email_address;
+  const { id } = evt?.data;
+  const eventType = evt?.type;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
 
-  const client = await clientPromise;
-  const db = client.db('lib'); 
+  if (eventType === 'user.created') {
+    const {id, image_url, username, first_name, last_name, email_addresses} = evt?.data;
+    try{
+      await createUser(id, image_url, username, first_name, last_name, email_addresses);
 
-  try {
-    if (eventType === 'user.created') {
-      console.log("User created");
-      await db.collection('users').updateOne(
-        { id }, 
-        { $set: { email, name, image_url } }, 
-        { upsert: true }
-      );
+      return new Response('User is created', {status: 200});
+    }catch(error){
+      console.log('Error Creating user:', error)
+      return new Response('Error Occured', {status: 400});
     }
-
-    if (eventType === 'user.updated') {
-      console.log("User updated");
-      await db.collection('users').updateOne(
-        { id },
-        { $set: { email, name, image_url } } 
-      );
-    }
-
-    if (eventType === 'user.deleted') {
-      console.log("User deleted");
-      await db.collection('users').deleteOne({ id });
-    }
-  } catch (dbError) {
-    console.error('Error syncing with MongoDB:', dbError);
-    return new Response('Error syncing with database', { status: 500 });
   }
+
+  if (eventType === 'user.updated') {
+    const {id, image_url, username, first_name, last_name, email_addresses} = evt?.data;
+    try{
+      await updateUser(id, image_url, username, first_name, last_name, email_addresses);
+
+      return new Response('User is updated', {status: 200});
+    }catch(error){
+      console.log('Error Updating user:', error)
+      return new Response('Error Occured', {status: 400});
+    }
+  }
+
+  if(eventType === 'user.deleted' ){
+    const {id} = evt?.data;
+    try {
+      await deleteUser(id);
+      return new Response('User is Deleted', {status: 200});
+    }catch(error){
+      console.log('Error Deleting user:', error)
+      return new Response('Error Occured', {status: 400});
+    }
+  }
+
 
   return new Response('', { status: 200 });
 }

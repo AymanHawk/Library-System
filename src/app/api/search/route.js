@@ -1,5 +1,5 @@
 
-import clientPromise from '../../../lib/mongoDB.js'
+import clientPromise from '../../../lib/dbConnection/mongoDB.js'
 
 
 
