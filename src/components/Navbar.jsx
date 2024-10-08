@@ -15,7 +15,6 @@ export default function Navbar() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
-    const [hasRefreshed, setHasRefreshed] = useState(false);
 
     const handleDashboardRedirect = () => {
         if (user) {
@@ -63,11 +62,14 @@ export default function Navbar() {
     }
 
     useEffect(() => {
-        if(isLoaded && isSignedIn && !hasRefreshed) {
-            setHasRefreshed(true);
-            window.location.reload();
+        if(isLoaded && isSignedIn) {
+            const hasRefreshed = sessionStorage.getItem('hasRefreshed');
+            if(!hasRefreshed) {
+                sessionStorage.setItem('hasRefreshed', 'true')
+                window.location.reload()
+            }
         }
-    }, [isLoaded, isSignedIn, hasRefreshed]);
+    }, [isLoaded, isSignedIn]);
 
     return (
         <nav>
