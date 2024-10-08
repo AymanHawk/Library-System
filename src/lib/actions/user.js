@@ -1,6 +1,5 @@
 import User from "../models/users";
 import {connect} from '../dbConnection/mongoose'
-import { tap } from "node:test/reporters";
 
 export const createUser = async (
     id,
@@ -15,7 +14,7 @@ export const createUser = async (
         await connect();
         const name = `${first_name} ${last_name}`
 
-        const existingUser = await user.findOne({authId: id});
+        const existingUser = await User.findOne({authId: id});
         if(existingUser) {throw new Error ('User already Exits')}
 
         const newUser  = await User({
@@ -61,7 +60,7 @@ export const updateUser = async (
 
         if(!updateUser){throw new Error('User not Found')}
 
-        return updateUser;
+        return updatedUser;
 
     } catch(error){
         console.log('Error while updating user:', error);
