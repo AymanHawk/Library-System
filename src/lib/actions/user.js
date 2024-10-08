@@ -20,7 +20,7 @@ export const createUser = async (
         const newUser  = await User({
             authId: id,
             name: name,
-            email: email_addresses[0].email,
+            email: email_addresses[0].email_address,
             username: username,
             profileImg: image_url
         });
@@ -50,7 +50,7 @@ export const updateUser = async (
             {
                 $set: {
                     name: name,
-                    email: email_addresses[0].email,
+                    email: email_addresses[0].email_address,
                     username: username,
                     profileImg: image_url
                 }
