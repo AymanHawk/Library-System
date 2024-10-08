@@ -11,11 +11,11 @@ import { useRouterContext } from "../utils/RouterContext";
 
 export default function Navbar() {
     const router = useRouterContext();
-    const { user } = useUser();
+    const { user, isLoaded, isSignedIn } = useUser();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
-    // 
+    const [hasRefreshed, setHasRefreshed] = useState(false);
 
     const handleDashboardRedirect = () => {
         if (user) {
@@ -61,6 +61,13 @@ export default function Navbar() {
     const handleChange = (e) => {
         setQuery(e.target.value)
     }
+
+    useEffect(() => {
+        if(isLoaded && isSignedIn && !hasRefreshed) {
+            setHasRefreshed(true);
+            window.location.reload();
+        }
+    }, [isLoaded, isSignedIn, hasRefreshed]);
 
     return (
         <nav>
