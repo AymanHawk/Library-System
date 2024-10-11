@@ -72,7 +72,7 @@ export const deleteUser = async(id) => {
     try {
         await connect();
         
-        await User.findOneAndDelete({clerkId: id});
+        await User.findOneAndDelete({authId: id});
     } catch (error) {
         console.log('Error deleting user', error);
     }
