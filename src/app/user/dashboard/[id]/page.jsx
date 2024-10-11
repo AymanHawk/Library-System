@@ -1,12 +1,18 @@
 'use client'
 import React from "react";
 import UserNavbar from "../../../../components/UserNavbar";
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useRouterContext } from '../../../../utils/RouterContext'
 
 function Dashboard() {
 
   const pathname = usePathname();
   const id = pathname.split('/').pop();
+  const router = useRouterContext();
+
+  const handleRoute = (path) => {
+    router.push(path);
+  }
 
   return (
     <div>
@@ -17,7 +23,7 @@ function Dashboard() {
             Orders
           </h1>
           <div className=" border-secondary rounded-[5px] border-2 p-2">
-            <a href="/user/orders">See All</a>
+            <span className="cursor-pointer" onClick={() => handleRoute(`/user/orders/${id}`)}>See All</span>
           </div>
         </div>
         <div>
@@ -25,7 +31,7 @@ function Dashboard() {
             Recommendations
           </h1>
           <div className=" border-secondary rounded-[5px] border-2 p-2">
-            <a href="/user/recommendation/id">See All</a>
+            <span className="cursor-pointer" onClick={() =>handleRoute(`/user/recommendation/${id}`)}>See All</span>
           </div>
         </div>
         <div>
@@ -33,7 +39,7 @@ function Dashboard() {
             Read Recently
           </h1>
           <div className=" border-secondary rounded-[5px] border-2 p-2">
-            <a href="/user/list/readBooks">See All</a>
+            <span className="cursor-pointer" onClick={() =>handleRoute(`/user/list/readBooks/${id}`)}>See All</span>
           </div>
         </div>
       </div>

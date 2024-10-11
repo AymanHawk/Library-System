@@ -1,5 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers';
+import {createUser, updateUser, deleteUser } from '../../../lib/actions/user'
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -48,18 +49,45 @@ export async function POST(req) {
   }
 
   // Do something with the payload
-  const { id } = evt.data;
-  const eventType = evt.type;
+  const { id } = evt?.data;
+  const eventType = evt?.type;
 
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
 
   if (eventType === 'user.created') {
-    console.log("User created");
+    const {id, image_url, username, first_name, last_name, email_addresses} = evt?.data;
+    try{
+      await createUser(id, image_url, username, first_name, last_name, email_addresses);
+
+      return new Response('User is created', {status: 200});
+    }catch(error){
+      console.log('Error Creating user:', error)
+      return new Response('Error Occured', {status: 400});
+    }
   }
 
   if (eventType === 'user.updated') {
-    console.log("User updated");
+    const {id, image_url, username, first_name, last_name, email_addresses} = evt?.data;
+    try{
+      await updateUser(id, image_url, username, first_name, last_name, email_addresses);
+
+      return new Response('User is updated', {status: 200});
+    }catch(error){
+      console.log('Error Updating user:', error)
+      return new Response('Error Occured', {status: 400});
+    }
+  }
+
+  if(eventType === 'user.deleted' ){
+    const {id} = evt?.data;
+    try {
+      await deleteUser(id);
+      return new Response('User is Deleted', {status: 200});
+    }catch(error){
+      console.log('Error Deleting user:', error)
+      return new Response('Error Occured', {status: 400});
+    }
   }
 
 
