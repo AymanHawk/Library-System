@@ -71,6 +71,7 @@ export const updateUser = async (
 export const deleteUser = async(id) => {
     try {
         await connect();
+        console.log(`Deleting User: ${id}`)
         
         await User.findOneAndDelete({authId: id});
     } catch (error) {
