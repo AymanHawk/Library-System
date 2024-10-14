@@ -1,4 +1,4 @@
-import clientPromise from '../../../../lib/mongoDB.js'
+import clientPromise from '../../../../lib/dbConnection/mongoDB.js'
 import { ObjectId } from 'mongodb';
 
 export async function GET(req, { params }) {
