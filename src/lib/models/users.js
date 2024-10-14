@@ -44,10 +44,10 @@ const userSchema = new mongoose.Schema({
     stats: {
         bookedRead: {type: Number, default: 0 },
         booksLiked: {type: Number, default: 0 },
-        genresRead: {type: Number, default: 0 },
-        themeRead: {type: Number, default: 0 },
-        paceRead: {type: Number, default: 0 },
-        pagesRead: {type: Number, default: 0 },
+        genresRead: {type: [Number], default: [] },
+        themeRead: {type: [Number], default: [] },
+        paceRead: {type: [Number], default: [] },
+        pagesRead: {type: [Number], default: [] },
         booksRented: {type: Number, default: 0 },
         orderCount : {type: Number, default: 0 },
     }

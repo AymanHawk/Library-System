@@ -159,8 +159,15 @@ function Books() {
           </ul>
         </div>
       </div>
-      <div>
-        reviews
+      <div className='flex w-11/12 mx-auto mb-10 gap-4'>
+        <div className='w-[60%]'>
+          <h2 className='text-primary mb-2 ml-5 text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Reviews</h2>
+          <div className='h-48 border-[1px] border-secondary border-solid rounded-md'></div>
+        </div>
+        <div className='w-[35%]'>
+          <h2 className='text-primary mb-2 ml-12 text-nowrap text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Leave a Review</h2>
+          <div className='h-48 border-[1px] ml-10 border-secondary border-solid rounded-md'></div>
+        </div>
       </div>
     </div>
   )

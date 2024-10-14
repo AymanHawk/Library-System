@@ -18,13 +18,13 @@ export async function GET(request) {
   const books = await db.collection('books')
     .find({
       $or: [
-        { title: { $regex: `^${query}`, $options: 'i' } }, 
-        { author: { $regex: `^${query}`, $options: 'i' } }, 
+        { title: { $regex: `${query}`, $options: 'i' } }, 
+        { author: { $regex: `${query}`, $options: 'i' } }, 
         { isbn: query } 
       ]
     })
     .project({ title: 1, author: 1, imgUrl: 1, isbn: 1, _id: 1 })
-    .limit(6) 
+    .limit(10) 
     .toArray();
 
   return new Response(JSON.stringify(books), { status: 200 });
