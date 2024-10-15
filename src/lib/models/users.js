@@ -42,13 +42,13 @@ const userSchema = new mongoose.Schema({
         dislikedTheme: { type: [String], default: [] },
     },
     stats: {
-        bookedRead: {type: Number, default: 0 },
+        totalBooksRead: {type: Number, default: 0 },
+        totalBooksRented: {type: Number, default: 0 },
+        totalPagesRead: {type: [Number], default: [] },
+        trendingBooks: {type: [String], default: 0},
+        genresRead: {type: [String], default: [] },
         booksLiked: {type: Number, default: 0 },
-        genresRead: {type: [Number], default: [] },
-        themeRead: {type: [Number], default: [] },
-        paceRead: {type: [Number], default: [] },
-        pagesRead: {type: [Number], default: [] },
-        booksRented: {type: Number, default: 0 },
+        themesRead: {type: [String], default: [] },
         orderCount : {type: Number, default: 0 },
     }
 }, {timeStamps: true})
