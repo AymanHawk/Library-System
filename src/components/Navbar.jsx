@@ -33,7 +33,7 @@ export default function Navbar() {
     }
     const handleBlue = () => {
         setTimeout(() => {
-            setIsFocus(true);
+            setIsFocus(false);
         }, 225)
     }
 
