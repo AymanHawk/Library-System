@@ -12,33 +12,43 @@ function Lists() {
   return (
     <div>
       <UserNavbar userId={id} userPath={pathname}/>
-      <div className='mx-20'>
+      <div className='sm:mx-20 mx-5'>
         <div className=" border-secondary rounded-md border-2 p-3 mb-10">
           <div className="flex flex-col items-start">
-            <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
-              Currently Have
-            </h1>
-            <div className="w-[10%] h-48 bg-white">
+            <div className="flex justify-between items-center w-[99%]">
+              <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
+                Read Books
+              </h1>
+              <a href="#" className="text-white text-[10px] sm:text-sm md:text-base norm:text-lg lg:text-xl">See All</a>
+            </div>
+            
+            <div className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28  bg-white">
               Books
             </div>
           </div>
         </div>
         <div className=" border-secondary rounded-md border-2 p-3 mb-10">
           <div className="flex flex-col items-start">
-            <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
-              To-read Books
-            </h1>
-            <div className="w-[10%] h-48 bg-white">
+            <div className="flex justify-between items-center w-[99%]">
+              <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
+                Liked Books
+              </h1>
+              <a href="#" className="text-white text-[10px] sm:text-sm md:text-base norm:text-lg lg:text-xl">See All</a>
+            </div>
+            <div className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28  bg-white">
               Books
             </div>
           </div>
         </div>
         <div className=" border-secondary rounded-md border-2 p-3 mb-10">
           <div className="flex flex-col items-start">
-            <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
-              Rated Books
-            </h1>
-            <div className="w-[10%] h-48 bg-white">
+            <div className="flex justify-between items-center w-[99%]">
+              <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
+                To-Read
+              </h1>
+              <a href="#" className="text-white text-[10px] sm:text-sm md:text-base norm:text-lg lg:text-xl">See All</a>
+            </div>
+            <div className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28  bg-white">
               Books
             </div>
           </div>
