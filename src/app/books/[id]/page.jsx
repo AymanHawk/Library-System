@@ -2,11 +2,23 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Image from 'next/image';
+import dropdown from '../../../images/dd.png'
 
 function Books() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [error, setError] = useState(null);
+  const [drop, setDrop] = useState(false);
+  const [dropText, setDropText] = useState('Add to the List');
+
+  const handleTextChange = (text) => {
+    setDropText(text);
+  }
+
+  const handleHover = () => {
+    setDrop(!drop)
+  }
+
   useEffect(() => {
     if (id) {
       fetch(`/api/bookID/${id}`)
@@ -18,7 +30,7 @@ function Books() {
             setBook(data);
           }
         })
-        .catch((err) => setError('Error'))
+        .catch((err) => setError('Error', err))
     }
   }, [id])
 
@@ -54,71 +66,103 @@ function Books() {
           </div>
         </div>
         <div className='book-info-left'>
+          <div onClick={handleHover} className=' cursor-pointer flex justify-start items-center mb-3'>
+            <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal z-10 py-2 px-2 w-48 h-[48px] content-center my-auto text-left'>{dropText}</section>
+            <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center z-20 justify-end w-[48px] h-[48px] border-l-2  py-2 '>
+              <Image src={dropdown} alt='dd'  className='mx-auto relative' width={25} height={20}></Image>
+              <section className={`bg-secondary ${drop ? 'hidden' : ' '} z-10 absolute xl:mt-[197px] mt-[185px] w-36 text-center`}>
+                <ul className='text-white'>
+                  <li onClick={() => handleTextChange('Finished')} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
+                  <li onClick={() => handleTextChange('To-Read')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
+                  <li onClick={()=> handleTextChange('Liked')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>Liked</li>
+                </ul>
+              </section>
+            </section>
+          </div>
           <select className='lib-dropdown' name="libraries" id="libraries">
             <option value="lib-default" disabled selected> Libraries</option>
             <option value="lib-1"> Library 1 </option>
             <option value="lib-2"> Library 2 </option>
             <option value="lib-3"> Library 3 </option>
           </select>
-          <div>
+          <div className='justify-between'>
             <div>ISBN: </div>
             <div>{book.isbn}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Publisher: </div>
             <div>{book.publishName}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Length: </div>
             <div>{book.length}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Format:</div>
             <div>{book.format}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Language:</div>
             <div>{book.language}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Publish Date:</div>
             <div>{new Date(book.publishDate).toDateString()}</div>
           </div>
+          <button className='bg-secondary w-full py-2 rounded-md mt-5 text-2xl'>
+            Add to Cart
+          </button>
         </div>
       </div>
       <hr />
       <div className='book-mid-div'>
         <div className='book-bott-left'>
+          <div onClick={handleHover} className=' cursor-pointer flex justify-start items-center mb-3'>
+            <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal py-2 px-2 w-24 sm:w-48 h-[40px] sm:text-lg text-sm xs:w-20 xs:text-[10px] leading-none content-center text-left'>{dropText}</section>
+            <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center z-20 justify-end w-[40px] h-[40px] border-l-2  py-2 '>
+              <Image src={dropdown} alt='dd'  className='mx-auto relative' width={25} height={20}></Image>
+              <section className={`bg-secondary ${drop ? 'hidden' : ' '} z-10 absolute xs:mt-[122px] mt-[133px] sm:mt-[163px] sm:w-36 w-[90px] xs:w-16 text-center`}>
+                <ul className='text-white'>
+                  <li onClick={() => handleTextChange('Finished')} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
+                  <li onClick={() => handleTextChange('To-Read')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
+                  <li onClick={()=> handleTextChange('Liked')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>Liked</li>
+                </ul>
+              </section>
+            </section>
+          </div>
           <select className='lib-dropdown' name="libraries" id="libraries">
             <option value="lib-default" disabled selected> Libraries</option>
             <option value="lib-1"> Library 1 </option>
             <option value="lib-2"> Library 2 </option>
             <option value="lib-3"> Library 3 </option>
           </select>
-          <div>
+          <div className='justify-between'>
             <div>ISBN: </div>
             <div>{book.isbn}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Publisher: </div>
             <div>{book.publishName}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Length: </div>
             <div>{book.length}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Format:</div>
             <div>{book.format}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Language:</div>
             <div>{book.language}</div>
           </div>
-          <div>
+          <div className='justify-between'>
             <div>Publish Date:</div>
             <div>{new Date(book.publishDate).toDateString()}</div>
           </div>
+          <button className='bg-secondary w-full py-2 rounded-md mt-5 xs:text-sm text-base sm:text-2xl'>
+            Add to Cart
+          </button>
         </div>
         <div className='book-feel'>
           <h2>Feel</h2>
@@ -159,14 +203,15 @@ function Books() {
           </ul>
         </div>
       </div>
-      <div className='flex w-11/12 mx-auto mb-10 gap-4'>
-        <div className='w-[60%]'>
-          <h2 className='text-primary mb-2 ml-5 text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Reviews</h2>
-          <div className='h-48 border-[1px] border-secondary border-solid rounded-md'></div>
+      <hr />
+      <div className='flex flex-col w-11/12 mx-auto mt-5 mb-10 gap-4'>
+        <div className='flex justify-between items-end'>
+          <h3 className='text-primary text-left content-end xs:text-sm text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Reviews</h3>
+          <h3 className='text-primary text-right xs:text-sm text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Leave a Review</h3>
         </div>
-        <div className='w-[35%]'>
-          <h2 className='text-primary mb-2 ml-12 text-nowrap text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Leave a Review</h2>
-          <div className='h-48 border-[1px] ml-10 border-secondary border-solid rounded-md'></div>
+        <div className='flex justify-between'>
+          <div className='h-48 w-[55%] lg:w-[65%] border-[1px] border-secondary border-solid rounded-md'></div>
+          <div className='h-48 w-[40%] lg:w-[30%] border-[1px] border-secondary border-solid rounded-md'></div>
         </div>
       </div>
     </div>

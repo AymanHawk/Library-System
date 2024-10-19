@@ -21,6 +21,7 @@ body {
   font-family: "Jeju Myeongjo", serif;
 }
 
+
 /* this is for the nav bar component */
 
 nav {
@@ -52,7 +53,7 @@ nav {
     xs:h-8
     flex
     h-10
-    w-7/12
+    w-[54%]
     flex-col
     items-start
     gap-4
@@ -133,7 +134,7 @@ nav {
     xs:h-9
     flex
     h-12
-    w-1/5
+    w-[18%]
     items-center
     justify-center
     gap-1
@@ -261,7 +262,6 @@ nav {
   @apply text-primary
     mt-2
     flex
-    justify-between
     text-xl
     font-bold
     xl:text-2xl;
@@ -272,7 +272,6 @@ nav {
     xs:text-[7px]
     mt-2
     flex
-    justify-between
     text-[9.5px]
     font-bold
     sm:text-base

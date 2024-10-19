@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import logo from '../images/logo.png'
 import search from '../images/search.png'
 import dashboard from '../images/dashboard.png'
+import cart from '../images/cart.png'
 import preferences from '../images/preferences.png'
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 import { useRouterContext } from "../utils/RouterContext";
@@ -45,9 +46,9 @@ export default function Navbar() {
                 return;
             }
 
-            const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+            const res = await fetch(`/api/search?query=${encodeURIComponent(query)}&limit=6`);
             const data = await res.json();
-            setResults(data);
+            setResults(data.books);
         };
 
         const timeoutId = setTimeout(() => {
@@ -59,6 +60,20 @@ export default function Navbar() {
 
     const handleChange = (e) => {
         setQuery(e.target.value)
+    }
+
+    const handleLinkClick = () => {
+        router.push(`/browse/books/search/results?search=${encodeURIComponent(query)}`)
+        setQuery('');
+
+    }
+
+    const handleEnter = (e) => {
+        if(e.key === 'Enter'){
+            router.push(`/browse/books/search/results?search=${encodeURIComponent(query)}`)
+            setIsFocus(false)
+            setQuery('');
+        }
     }
 
     useEffect(() => {
@@ -87,6 +102,7 @@ export default function Navbar() {
                         onChange={handleChange}
                         onFocus={handleFocus}
                         onBlur={handleBlue}
+                        onKeyDown={handleEnter}
                     />
                 </div>
                 {isFocus &&
@@ -103,13 +119,20 @@ export default function Navbar() {
                             </a>
 
                         ))
+                        
                         }
+                        <div className='text-center py-2 '>
+                            <span className='cursor-pointer hover:text-secondary'  onClick={handleLinkClick}>View All The Books</span>
+                        </div>
                     </div>
                 }
 
 
             </div>
-            <ul className='nav-user p-1'>
+            <div className='h-12 w-[8%] flex justify-center items-center xs:h-9 bg-primary rounded-md'>
+                <Image src={cart} alt='cart' className='w-[75%] max-w-[36px]' />
+            </div>
+            <div className='nav-user p-1'>
                 <SignedIn>
                     <UserButton>
                         <UserButton.MenuItems>
@@ -133,7 +156,7 @@ export default function Navbar() {
                         <button className='text-lg'>Sign In</button>
                     </SignInButton>
                 </SignedOut>
-                </ul>
+            </div>
 
         </nav>
     )
