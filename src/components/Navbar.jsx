@@ -5,13 +5,18 @@ import logo from '../images/logo.png'
 import search from '../images/search.png'
 import dashboard from '../images/dashboard.png'
 import preferences from '../images/preferences.png'
-import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, useUser, useOrganizationList } from '@clerk/nextjs'
 import { useRouterContext } from "../utils/RouterContext";
 
 
 export default function Navbar() {
     const router = useRouterContext();
     const { user, isLoaded, isSignedIn } = useUser();
+    const { isLoaded: orgsLoaded, userMemberships } = useOrganizationList({
+        userMemberships: {
+          infinite: true,
+        },
+      });
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
@@ -134,6 +139,13 @@ export default function Navbar() {
                     </SignInButton>
                 </SignedOut>
                 </ul>
+
+
+                {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 && (
+        <ul>
+          <OrganizationSwitcher hidePersonal={true} />
+        </ul>
+      )}
 
         </nav>
     )
