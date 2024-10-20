@@ -65,7 +65,7 @@ export default function Navbar() {
     const handleLinkClick = () => {
         router.push(`/browse/books/search/results?search=${encodeURIComponent(query)}`)
         setQuery('');
-
+        setResults([]);
     }
 
     const handleEnter = (e) => {
@@ -73,6 +73,8 @@ export default function Navbar() {
             router.push(`/browse/books/search/results?search=${encodeURIComponent(query)}`)
             setIsFocus(false)
             setQuery('');
+            setResults([]);
+
         }
     }
 

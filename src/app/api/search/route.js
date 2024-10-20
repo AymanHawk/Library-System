@@ -1,4 +1,5 @@
 
+import { format } from 'path';
 import clientPromise from '../../../lib/dbConnection/mongoDB.js'
 
 
@@ -15,32 +16,31 @@ export async function GET(request) {
   }
 
   const client = await clientPromise;
-  const db = client.db('lib'); 
+  const db = client.db('lib');
 
-  const skip = (parseInt(page)-1)*limit;
+  const skip = (parseInt(page) - 1) * limit;
 
   const totalCount = await db.collection('books')
-    .find({
+    .countDocuments({
       $or: [
-        { title: { $regex: `${query}`, $options: 'i' } }, 
-        { author: { $regex: `${query}`, $options: 'i' } }, 
-        { isbn: query } 
+        { title: { $regex: `${query}`, $options: 'i' } },
+        { author: { $regex: `${query}`, $options: 'i' } },
+        { isbn: query }
       ]
-    })
-    .count();
+    });
 
   const books = await db.collection('books')
     .find({
       $or: [
-        { title: { $regex: `${query}`, $options: 'i' } }, 
-        { author: { $regex: `${query}`, $options: 'i' } }, 
-        { isbn: query } 
+        { title: { $regex: `${query}`, $options: 'i' } },
+        { author: { $regex: `${query}`, $options: 'i' } },
+        { isbn: query }
       ]
     })
-    .project({ title: 1, author: 1, imgUrl: 1, isbn: 1, _id: 1 })
+    .project({ title: 1, author: 1, imgUrl: 1, isbn: 1, _id: 1, genre: 1, format: 1, length: 1})
     .skip(skip)
-    .limit(parseInt(limit)) 
+    .limit(parseInt(limit))
     .toArray();
 
-  return new Response(JSON.stringify({books, totalCount}), { status: 200 });
+  return new Response(JSON.stringify({ books, totalCount }), { status: 200 });
 }
