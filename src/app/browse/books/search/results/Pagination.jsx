@@ -7,9 +7,9 @@ const Pagination = ({ currentPage, totalCount, limit, setCurrentPage }) => {
   const pagination = getPagination(currentPage, totalPages);
 
   return (
-    <div>
+    <div className='flex justify-center'>
       {pagination.map((page, index) => (
-        <span key={index} style={{ margin: '0 5px' }}>
+        <span key={index} className='m-2 text-lg text-primary'>
           {page === '...' ? (
             <span>{page}</span>
           ) : (
@@ -23,7 +23,6 @@ const Pagination = ({ currentPage, totalCount, limit, setCurrentPage }) => {
           )}
         </span>
       ))}
-      page
     </div>
   );
 };

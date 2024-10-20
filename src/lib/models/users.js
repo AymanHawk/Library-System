@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
     authId: {
         type: String,
-        required: true, 
+        required: true,
         unique: true,
     },
     email: {
@@ -28,30 +28,43 @@ const userSchema = new mongoose.Schema({
         default: ' '
     },
     bookList: {
-        recomendation: { type: [String], default: []  },
-        toReadList: { type: [String], default: []  },
-        rentedBooks: { type: [String], default: []  } ,
-        likedBooks: { type: [String], default: []  },
+        recomendation: { type: [String], default: [] },
+        toReadList: { type: [String], default: [] },
+        rentedBooks: { type: [String], default: [] },
+        likedBooks: { type: [String], default: [] },
+        dislikedBooks: { type: [String], default: [] },
     },
     userPreferences: {
-        likedGenre: { type: [String], default: []  },
-        likedPace: { type: [String], default: []  },
-        likedTheme: { type: [String], default: []  },
-        dislikedGenre: { type: [String], default: []  },
-        dislikedPace: { type: [String], default: []  },
+        likedGenre: { type: [String], default: [] },
+        likedPace: { type: [String], default: [] },
+        likedTheme: { type: [String], default: [] },
+        dislikedGenre: { type: [String], default: [] },
+        dislikedPace: { type: [String], default: [] },
         dislikedTheme: { type: [String], default: [] },
     },
     stats: {
-        totalBooksRead: {type: Number, default: 0 },
-        totalBooksRented: {type: Number, default: 0 },
-        totalPagesRead: {type: [Number], default: [] },
-        trendingBooks: {type: [String], default: 0},
-        genresRead: {type: [String], default: [] },
-        booksLiked: {type: Number, default: 0 },
-        themesRead: {type: [String], default: [] },
-        orderCount : {type: Number, default: 0 },
+        monthly: [{
+            year: { type: String },
+            month: { type: String },
+            booksRead: { type: Number, default: 0 },
+            booksRented: { type: Number, default: 0 },
+            booksLiked: { type: Number, default: 0 },
+            pagesRead: { type: Number, default: 0 },
+            genreRead: [{
+                genre: {type: String},
+                count: {type: Number, default: 0}
+            }], 
+            themeRead: [{
+                theme: {type: String},
+                count: {type: Number, default: 0}
+            }],
+            paceRead: [{
+                pace: {type: String},
+                count: {type: Number, default: 0}
+            }]
+        }]
     }
-}, {timeStamps: true})
+}, { timeStamps: true })
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
