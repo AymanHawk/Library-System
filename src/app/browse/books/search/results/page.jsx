@@ -21,7 +21,6 @@ function Results({ searchParams }) {
   const [userBookLists, setUserBookLists] = useState({
     readBooks: [],
     toReadBooks: [],
-    likedBooks: []
   })
   const dropRefs = useRef({});
 
@@ -42,7 +41,6 @@ function Results({ searchParams }) {
       }
       if(list === 'Finished') {newList = 'readBooks'}
       else if(list === 'To-Read') {newList = 'toReadBooks'}
-      else if(list === 'Liked') {newList = 'likedBooks'}
 
 
       const res = await fetch('/api/bookList', {
@@ -108,17 +106,15 @@ function Results({ searchParams }) {
         }
         const res = await fetch(`/api/bookList?userId=${userId}`);
         const data = await res.json();
-        const { readBooks, toReadBooks, likedBooks } = data;
-        setUserBookLists({ readBooks, toReadBooks, likedBooks });
+        const { readBooks, toReadBooks} = data;
+        setUserBookLists({ readBooks, toReadBooks});
 
         const updatedDropTextState = {};
-        [...readBooks, ...toReadBooks, ...likedBooks].forEach((bookId) => {
+        [...readBooks, ...toReadBooks].forEach((bookId) => {
           if (readBooks.includes(bookId)) {
             updatedDropTextState[bookId] = 'Finished';
           } else if (toReadBooks.includes(bookId)) {
             updatedDropTextState[bookId] = 'To-Read';
-          } else if (likedBooks.includes(bookId)) {
-            updatedDropTextState[bookId] = 'Liked';
           }
         });
         setDropTextState(updatedDropTextState);
@@ -148,7 +144,7 @@ function Results({ searchParams }) {
                 <a href={`/books/${book._id}`} className='text-primary text-3xl text-wrap'>{book.title}</a>
                 <h3 className='text-primary text-xl'>{book.author}</h3>
                 <h4 className='text-lg'>{book.isbn}</h4>
-                <h4>{book.genre[0]}, {book.genre[1]}, {book.genre[2]}, {book.genre[(book.genre.length - 1)]}</h4>
+                <h4 className='capitalize'>{book.genre[0]}, {book.genre[1]}, {book.genre[2]}, {book.genre[(book.genre.length - 1)]}</h4>
                 <h4>{book.format}</h4>
                 <h4>{book.length}</h4>
               </div>
@@ -161,13 +157,12 @@ function Results({ searchParams }) {
                   <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal py-2 px-2 w-24 sm:w-48 h-[40px] sm:text-lg text-sm xs:w-20 xs:text-[10px] leading-none content-center text-left'>
                     {dropTextState[book._id] || 'Add to a List'}
                   </section>
-                  <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center z-20 justify-end w-[40px] h-[40px] border-l-2  py-2 '>
+                  <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center justify-end w-[40px] h-[40px] border-l-2  py-2 '>
                     <Image src={dropdown} alt='dd' className='mx-auto relative' width={25} height={20} />
-                    <section className={`bg-secondary ${dropState[book._id] ? '' : 'hidden'} z-10 absolute xs:mt-[122px] mt-[133px] sm:mt-[163px] sm:w-36 w-[90px] xs:w-16 text-center`}>
+                    <section className={`bg-secondary ${dropState[book._id] ? '' : 'hidden'} absolute xs:mt-[122px] mt-[133px] sm:mt-[163px] sm:w-36 w-[90px] xs:w-16 text-center`}>
                       <ul className='text-white'>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
-                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Liked') }} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>Liked</li>
                       </ul>
                     </section>
                   </section>

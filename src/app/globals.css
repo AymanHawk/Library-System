@@ -231,10 +231,6 @@ nav {
 }
 
 .lib-dropdown {
-  -webkit-appearance: none; /* Hides the default dropdown arrow */
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
   @apply bg-primary
     w-full
     rounded-md
@@ -246,16 +242,6 @@ nav {
     outline-none
     md:text-xl
     lg:text-2xl;
-}
-
-.lib-dropdown option {
-  @apply border-background
-    w-32
-    border-b-2
-    border-solid
-    bg-white
-    py-2
-    hover:bg-slate-500;
 }
 
 .book-info-left div {

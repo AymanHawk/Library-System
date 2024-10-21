@@ -16,7 +16,6 @@ function Books() {
   const [userList, setUserLists] = useState({
     readBooks: [],
     toReadBooks: [],
-    likedBooks: []
   })
 
 
@@ -60,8 +59,6 @@ function Books() {
           setDropText('Finished');
         } else if (data.toReadBooks.includes(id)) {
           setDropText('To-Read');
-        } else if (data.likedBooks.includes(id)) {
-          setDropText('Liked');
         } else {
           setDropText('Add to the List');
         }
@@ -76,7 +73,6 @@ function Books() {
       let newList;
       if(list === 'Finished') {newList = 'readBooks'}
       else if(list === 'To-Read') {newList = 'toReadBooks'}
-      else if(list === 'Liked') {newList = 'likedBooks'}
       const userId = user.id;
       const bookId = id;
       const res = await fetch('/api/bookList', {
@@ -139,17 +135,13 @@ function Books() {
                 <ul className='text-white'>
                   <li onClick={() => handleTextChange('Finished')} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
                   <li onClick={() => handleTextChange('To-Read')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
-                  <li onClick={()=> handleTextChange('Liked')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>Liked</li>
                 </ul>
               </section>
             </section>
           </div>
-          <select className='lib-dropdown' name="libraries" id="libraries">
-            <option value="lib-default" disabled selected> Libraries</option>
-            <option value="lib-1"> Library 1 </option>
-            <option value="lib-2"> Library 2 </option>
-            <option value="lib-3"> Library 3 </option>
-          </select>
+          <section className='lib-dropdown text-black' name="libraries" id="libraries">
+            Libraries
+          </section>
           <div className='justify-between'>
             <div>ISBN: </div>
             <div>{book.isbn}</div>
@@ -190,17 +182,13 @@ function Books() {
                 <ul className='text-white'>
                   <li onClick={() => handleTextChange('Finished')} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
                   <li onClick={() => handleTextChange('To-Read')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
-                  <li onClick={()=> handleTextChange('Liked')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>Liked</li>
                 </ul>
               </section>
             </section>
           </div>
-          <select className='lib-dropdown' name="libraries" id="libraries">
-            <option value="lib-default" disabled selected> Libraries</option>
-            <option value="lib-1"> Library 1 </option>
-            <option value="lib-2"> Library 2 </option>
-            <option value="lib-3"> Library 3 </option>
-          </select>
+          <section className='lib-dropdown text-black' name="libraries" id="libraries">
+            Libraries
+          </section>
           <div className='justify-between'>
             <div>ISBN: </div>
             <div>{book.isbn}</div>
@@ -249,7 +237,7 @@ function Books() {
             {
               (book.genre)
                 .map((tag) => (
-                  <div>{tag}</div>
+                  <div key={tag}>{tag}</div>
                 ))
             }
           </div>

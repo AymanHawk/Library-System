@@ -51,7 +51,6 @@ export async function POST(req) {
 
         user.bookList.readBooks = user.bookList.readBooks || [];
         user.bookList.toReadBooks = user.bookList.toReadBooks || [];
-        user.bookList.likedBooks = user.bookList.likedBooks || [];
 
 
         const listSet = new Set(user.bookList[newList]);
@@ -63,7 +62,7 @@ export async function POST(req) {
             });
         }
 
-        for (const list of ['readBooks', 'toReadBooks', 'likedBooks']) {
+        for (const list of ['readBooks', 'toReadBooks']) {
             user.bookList[list] = user.bookList[list].filter((id) => id.toString() !== bookId);
         }
         user.bookList[newList].push(bookId);
