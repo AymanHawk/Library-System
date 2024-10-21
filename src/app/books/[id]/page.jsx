@@ -1,19 +1,31 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import dropdown from '../../../images/dd.png'
+import dropdown from '../../../images/dd.png';
+import { useUser } from '@clerk/nextjs';
+
 
 function Books() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [error, setError] = useState(null);
   const [drop, setDrop] = useState(false);
-  const [dropText, setDropText] = useState('Add to the List');
+  const [dropText, setDropText] = useState('Add to a List');
+  const {user} = useUser();
+  const [userList, setUserLists] = useState({
+    readBooks: [],
+    toReadBooks: [],
+    likedBooks: []
+  })
 
-  const handleTextChange = (text) => {
-    setDropText(text);
-  }
+
+  const handleTextChange = (listName) => {
+    setDropText(listName);
+    if(user) {
+      updateBookList(listName);
+    }
+  };
 
   const handleHover = () => {
     setDrop(!drop)
@@ -28,11 +40,64 @@ function Books() {
             setError(data.message);
           } else {
             setBook(data);
+            if(user && user.id) {
+              checkUserBookLists();
+            }
           }
         })
         .catch((err) => setError('Error', err))
     }
-  }, [id])
+  }, [id, user])
+
+  const checkUserBookLists = async () => {
+    if(user && user.id) {
+      try {
+        const res = await fetch(`/api/bookList?userId=${user.id}`);
+        const data = await res.json();
+        setUserLists(data);
+
+        if (data.readBooks.includes(id)) {
+          setDropText('Finished');
+        } else if (data.toReadBooks.includes(id)) {
+          setDropText('To-Read');
+        } else if (data.likedBooks.includes(id)) {
+          setDropText('Liked');
+        } else {
+          setDropText('Add to the List');
+        }
+      } catch(err) {
+        console.error('Error Fetching user book Lists:', err )
+      }
+    }
+  };
+
+  const updateBookList = async (list) => {
+    try{
+      let newList;
+      if(list === 'Finished') {newList = 'readBooks'}
+      else if(list === 'To-Read') {newList = 'toReadBooks'}
+      else if(list === 'Liked') {newList = 'likedBooks'}
+      const userId = user.id;
+      const bookId = id;
+      const res = await fetch('/api/bookList', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, bookId, newList }),
+      });
+      const data = await res.json();
+      if (!data.success) {
+        console.error('Error updating book list:', data.error);
+      } else {
+        setUserLists(data.bookList);
+        await checkUserBookLists(); 
+      }
+
+    } catch (err) {
+      console.error("error updating book list:", err);
+    }
+  }
 
   if (error) {
     return <div>Error: {error}</div>;

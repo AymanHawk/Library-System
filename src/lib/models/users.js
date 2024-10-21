@@ -29,7 +29,8 @@ const userSchema = new mongoose.Schema({
     },
     bookList: {
         recomendation: { type: [String], default: [] },
-        toReadList: { type: [String], default: [] },
+        toReadBooks: { type: [String], default: [] },
+        readBooks:  { type: [String], default: [] },
         rentedBooks: { type: [String], default: [] },
         likedBooks: { type: [String], default: [] },
         dislikedBooks: { type: [String], default: [] },
