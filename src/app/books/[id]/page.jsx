@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import like from "../../../images/like.png";
+import dislike from "../../../images/dislike.png";
 import dropdown from '../../../images/dd.png';
 import { useUser } from '@clerk/nextjs';
 
@@ -127,9 +129,10 @@ function Books() {
           </div>
         </div>
         <div className='book-info-left'>
+          <div className="flex flex-wrap">
           <div onClick={handleHover} className=' cursor-pointer flex justify-start items-center mb-3'>
-            <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal z-10 py-2 px-2 w-48 h-[48px] content-center my-auto text-left'>{dropText}</section>
-            <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center z-20 justify-end w-[48px] h-[48px] border-l-2  py-2 '>
+            <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal z-10 py-2 px-2 w-40 h-[48px] content-center my-auto text-left'>{dropText}</section>
+            <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center z-20 justify-end w-[40px] h-[48px] border-l-2  py-2 '>
               <Image src={dropdown} alt='dd'  className='mx-auto relative' width={25} height={20}></Image>
               <section className={`bg-secondary ${drop ? '' : 'hidden'} z-10 absolute xl:mt-[197px] mt-[185px] w-36 text-center`}>
                 <ul className='text-white'>
@@ -138,6 +141,11 @@ function Books() {
                 </ul>
               </section>
             </section>
+          </div>
+          <div className="flex flex-nowrap mt-2 mb-2">
+          <Image src={like} className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+          <Image src={dislike} className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+          </div>
           </div>
           <section className='lib-dropdown text-black' name="libraries" id="libraries">
             Libraries
@@ -174,6 +182,7 @@ function Books() {
       <hr />
       <div className='book-mid-div'>
         <div className='book-bott-left'>
+          <div className="flex flex-wrap">
           <div onClick={handleHover} className=' cursor-pointer flex justify-start items-center mb-3'>
             <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal py-2 px-2 w-24 sm:w-48 h-[40px] sm:text-lg text-sm xs:w-20 xs:text-[10px] leading-none content-center text-left'>{dropText}</section>
             <section className='bg-secondary hover:bg-[#4f5aa3] flex items-center z-20 justify-end w-[40px] h-[40px] border-l-2  py-2 '>
@@ -185,6 +194,11 @@ function Books() {
                 </ul>
               </section>
             </section>
+          </div>
+          <div className="flex flex-nowrap mt-2 mb-2">
+          <Image src={like} className="w-[30px] xs:w-[20px] sm:w-[30px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+          <Image src={dislike} className="w-[30px] xs:w-[20px] sm:w-[30px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+          </div>
           </div>
           <section className='lib-dropdown text-black' name="libraries" id="libraries">
             Libraries
