@@ -1,12 +1,12 @@
-import { connect } from '../../../lib/dbConnection/mongoose';
-import User from '../../../lib/models/users';
+import { connect } from '../../../../lib/dbConnection/mongoose';
+import User from '../../../../lib/models/users';
 
 export async function GET(req) {
     try {
         await connect();
-        const userId = req.nextUrl.searchParams.get('userId'); // Use nextUrl for query params
+        const userId = req.nextUrl.searchParams.get('userId');
         const user = await User.findOne({ authId: userId }).select('bookList');
-        
+
         if (!user) {
             return new Response(JSON.stringify({ success: false, message: 'User not found' }), {
                 status: 404,
@@ -41,7 +41,7 @@ export async function POST(req) {
         }
 
         const user = await User.findOne({ authId: userId });
-        
+
         if (!user) {
             return new Response(JSON.stringify({ success: false, message: 'User not found' }), {
                 status: 404,
