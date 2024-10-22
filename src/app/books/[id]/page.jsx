@@ -143,8 +143,8 @@ function Books() {
               </section>
             </div>
             <div className="flex flex-nowrap mt-2 mb-2">
-              <Image src={like} className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
-              <Image src={dislike} className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+              <Image src={like} alt='like' className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+              <Image src={dislike} alt='dislike' className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
             </div>
           </div>
           <section className='lib-dropdown text-black' name="libraries" id="libraries">
