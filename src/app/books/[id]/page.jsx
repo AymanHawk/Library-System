@@ -25,7 +25,7 @@ function Books() {
   const [likePref, setLikePref] = useState();
 
   const toggleLike = async () => {
-    try{
+    try {
       setLikePref((prev) => {
         (
           prev === 'like' ? setLikePref(null) : setLikePref('like')
@@ -33,7 +33,7 @@ function Books() {
       })
       const userId = user.id;
       const bookId = id;
-  
+
       const res = await fetch('/api/bookList/like', {
         method: 'POST',
         headers: {
@@ -45,19 +45,19 @@ function Books() {
           prefList: 'likedBooks'
         }),
       });
-  
+
       const data = await res.json();
       if (!data.success) {
         console.error('Failed to update like status');
       }
-    } catch(err) {
+    } catch (err) {
       console.error('Error liking the book:', err);
     }
 
 
   }
   const toggleDislike = async () => {
-    try{
+    try {
       setLikePref((prev) => {
         (
           prev === 'dislike' ? setLikePref(null) : setLikePref('dislike')
@@ -65,7 +65,7 @@ function Books() {
       })
       const userId = user.id;
       const bookId = id;
-  
+
       const res = await fetch('/api/bookList/like', {
         method: 'POST',
         headers: {
@@ -77,12 +77,12 @@ function Books() {
           prefList: 'dislikedBooks'
         }),
       });
-  
+
       const data = await res.json();
       if (!data.success) {
         console.error('Failed to update dislike status');
       }
-    } catch(err) {
+    } catch (err) {
       console.error('Error disliking the book:', err);
     }
   }
@@ -182,7 +182,6 @@ function Books() {
   return (
     <div>
       <div className='book-top-div'>
-        {/* book image */}
         <div className='book-img'>
           <Image src={book.imgUrl}
             alt='book image'
@@ -210,8 +209,9 @@ function Books() {
                 <Image src={dropdown} alt='dd' className='mx-auto relative' width={25} height={20}></Image>
                 <section className={`bg-secondary ${drop ? '' : 'hidden'} z-10 absolute xl:mt-[197px] mt-[185px] w-36 text-center`}>
                   <ul className='text-white'>
-                    <li onClick={() => handleTextChange('Finished')} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
-                    <li onClick={() => handleTextChange('To-Read')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
+                    <li onClick={() => handleTextChange('Finished')} className={dropText === 'Finished' ? `hidden` : `` + ` border-y-2 hover:bg-[#4f5aa3] p-2 w-full`}>Finished</li>
+                    <li onClick={() => handleTextChange('To-Read')} className={dropText === 'To-Read' ? `hidden` : `` + ` border-b-2 hover:bg-[#4f5aa3] p-2 w-full`}>To-Read</li>
+                    <li onClick={() => handleTextChange('Add to a List')} className={dropText === 'Finished' || dropText === 'To-Read' ? ` ` : `hidden` + ` border-b-2 hover:bg-[#4f5aa3] p-2 w-full`}>Remove</li>
                   </ul>
                 </section>
               </section>
@@ -277,8 +277,9 @@ function Books() {
                 <Image src={dropdown} alt='dd' className='mx-auto relative' width={25} height={20}></Image>
                 <section className={`bg-secondary ${drop ? '' : 'hidden'} z-10 absolute xs:mt-[122px] mt-[133px] sm:mt-[163px] sm:w-36 w-[90px] xs:w-16 text-center`}>
                   <ul className='text-white'>
-                    <li onClick={() => handleTextChange('Finished')} className='border-y-2 hover:bg-[#4f5aa3] p-2 w-full'>Finished</li>
-                    <li onClick={() => handleTextChange('To-Read')} className='border-b-2 hover:bg-[#4f5aa3] p-2 w-full'>To-Read</li>
+                    <li onClick={() => handleTextChange('Finished')} className={dropText === 'Finished' ? `hidden` : `` + ` border-y-2 hover:bg-[#4f5aa3] p-2 w-full`}>Finished</li>
+                    <li onClick={() => handleTextChange('To-Read')} className={dropText === 'To-Read' ? `hidden` : `` + ` border-b-2 hover:bg-[#4f5aa3] p-2 w-full`}>To-Read</li>
+                    <li onClick={() => handleTextChange('Add to a List')} className={dropText === 'Finished' || dropText === 'To-Read' ? ` ` : `hidden` + ` border-b-2 hover:bg-[#4f5aa3] p-2 w-full`}>Remove</li>
                   </ul>
                 </section>
               </section>

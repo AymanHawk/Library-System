@@ -244,8 +244,11 @@ function Results({ searchParams }) {
                     <Image src={dropdown} alt='dd' className='mx-auto relative' width={25} height={20} />
                     <section className={`bg-secondary ${dropState[book._id] ? '' : 'hidden'} absolute 2xl:w-[150px] xl:w-[125px] lg:w-[100px] norm:w-[175px] md:w-[125px] sm:w-[110px] 2xl:mt-[148px] xl:mt-[140px] lg:mt-[134px] norm:mt-[147px] md:mt-[140px] sm:mt-[116px] mt-[99px] xs:mt-[99px]`}>
                       <ul className='text-white text-center'>
-                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className='border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full'>Finished</li>
-                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className='border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg  norm:text-2xl md:text-xl text-sm xs:text-[12px] p-2 w-full'>To-Read</li>
+                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className={dropTextState[book._id] === 'Finished' ? `hidden` : `` + ` border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Finished</li>
+                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className={dropTextState[book._id] === 'To-Read' ? `hidden` : `` + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>To-Read</li>
+                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Add to List') }} className={(dropTextState[book._id] === 'Finished' || dropTextState[book._id] === 'To-Read') ? ` ` : `hidden` + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Remove</li>
+                        {/* <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className='border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full'>Finished</li>
+                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className='border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg  norm:text-2xl md:text-xl text-sm xs:text-[12px] p-2 w-full'>To-Read</li> */}
                       </ul>
                     </section>
                   </section>

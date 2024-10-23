@@ -154,7 +154,6 @@ export async function POST(req) {
             }
         }
 
-
         await user.save();
 
         return new Response(JSON.stringify({ success: true, bookList: user.bookList }), {
