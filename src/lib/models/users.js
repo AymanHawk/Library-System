@@ -52,30 +52,36 @@ const userSchema = new mongoose.Schema({
                 pagesRead: { type: Number, default: 0 },
                 genreRead: [{
                     genre: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 themeRead: [{
                     theme: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 paceRead: [{
                     pace: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }]
             }, 
             toReadBooks: {
                 booksRead: { type: Number, default: 0 },
                 genreRead: [{
                     genre: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 themeRead: [{
                     theme: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 paceRead: [{
                     pace: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }]
             },
             likedBooks: {
@@ -83,34 +89,41 @@ const userSchema = new mongoose.Schema({
                 pagesRead: { type: Number, default: 0 },
                 genreRead: [{
                     genre: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 themeRead: [{
                     theme: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 paceRead: [{
                     pace: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }]
             },
             rentedBooks: {
-                booksRented: { type: Number, default: 0 },
+                booksRead: { type: Number, default: 0 },
                 pagesRead: { type: Number, default: 0 },
                 genreRead: [{
                     genre: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 themeRead: [{
                     theme: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }],
                 paceRead: [{
                     pace: { type: String },
-                    count: { type: Number, default: 0 }
+                    count: { type: Number, default: 0 },
+                    _id: false
                 }]
             },
-            totalOrder: {type: Number, default: 0}
+            totalOrder: {type: Number, default: 0},
+            _id: false
         }]
     }
 }, { timeStamps: true })
