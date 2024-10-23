@@ -4,6 +4,9 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import like from "../../../images/like.png";
 import dislike from "../../../images/dislike.png";
+import activeLike from '../../../images/like_active.png'
+import activeDislike from '../../../images/dislike_active.png'
+
 import dropdown from '../../../images/dd.png';
 import { useUser } from '@clerk/nextjs';
 
@@ -19,7 +22,70 @@ function Books() {
     readBooks: [],
     toReadBooks: [],
   })
+  const [likePref, setLikePref] = useState();
 
+  const toggleLike = async () => {
+    try{
+      setLikePref((prev) => {
+        (
+          prev === 'like' ? setLikePref(null) : setLikePref('like')
+        )
+      })
+      const userId = user.id;
+      const bookId = id;
+  
+      const res = await fetch('/api/bookList/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          bookId,
+          prefList: 'likedBooks'
+        }),
+      });
+  
+      const data = await res.json();
+      if (!data.success) {
+        console.error('Failed to update like status');
+      }
+    } catch(err) {
+      console.error('Error liking the book:', err);
+    }
+
+
+  }
+  const toggleDislike = async () => {
+    try{
+      setLikePref((prev) => {
+        (
+          prev === 'dislike' ? setLikePref(null) : setLikePref('dislike')
+        )
+      })
+      const userId = user.id;
+      const bookId = id;
+  
+      const res = await fetch('/api/bookList/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          bookId,
+          prefList: 'dislikedBooks'
+        }),
+      });
+  
+      const data = await res.json();
+      if (!data.success) {
+        console.error('Failed to update dislike status');
+      }
+    } catch(err) {
+      console.error('Error disliking the book:', err);
+    }
+  }
 
   const handleTextChange = (listName) => {
     setDropText(listName);
@@ -63,6 +129,14 @@ function Books() {
           setDropText('To-Read');
         } else {
           setDropText('Add to the List');
+        }
+
+        if (data.likedBooks.includes(id)) {
+          setLikePref('like')
+        } else if (data.dislikedBooks.includes(id)) {
+          setLikePref('dislike')
+        } else {
+          setLikePref(null);
         }
       } catch (err) {
         console.error('Error Fetching user book Lists:', err)
@@ -143,8 +217,22 @@ function Books() {
               </section>
             </div>
             <div className="flex flex-nowrap mt-2 mb-2">
-              <Image src={like} alt='like' className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
-              <Image src={dislike} alt='dislike' className="xs:w-[40px] sm:w-[40px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+              <div onClick={toggleLike}>
+                {
+                  likePref === 'like' ?
+                    <Image src={activeLike} alt='like active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                    :
+                    <Image src={like} alt='active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                }
+              </div>
+              <div onClick={toggleDislike}>
+                {
+                  likePref === 'dislike' ?
+                    <Image src={activeDislike} alt='like active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                    :
+                    <Image src={dislike} alt='active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                }
+              </div>
             </div>
           </div>
           <section className='lib-dropdown text-black' name="libraries" id="libraries">
@@ -196,8 +284,22 @@ function Books() {
               </section>
             </div>
             <div className="flex flex-nowrap mt-2 mb-2">
-              <Image src={like} className="w-[30px] xs:w-[20px] sm:w-[30px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
-              <Image src={dislike} className="w-[30px] xs:w-[20px] sm:w-[30px] md:w-[40px] lg:w-[40px] xl:w-[50px] ml-2" />
+              <div onClick={toggleLike}>
+                {
+                  likePref === 'like' ?
+                    <Image src={activeLike} alt='like active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                    :
+                    <Image src={like} alt='active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                }
+              </div>
+              <div onClick={toggleDislike}>
+                {
+                  likePref === 'dislike' ?
+                    <Image src={activeDislike} alt='like active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                    :
+                    <Image src={dislike} alt='active' width={45} height={45} className='md:h-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                }
+              </div>
             </div>
           </div>
           <section className='lib-dropdown text-black' name="libraries" id="libraries">

@@ -32,10 +32,6 @@ function Results({ searchParams }) {
   })
 
   const toggleLike = async (bookId) => {
-    // setLikePref((prev) => ({
-    //   ...prev,
-    //   [bookId]: prev[bookId] === 'like' ? null : 'like',
-    // }));
 
     try {
       const updatedPref = likePref[bookId] === 'like' ? null : 'like';
@@ -70,10 +66,6 @@ function Results({ searchParams }) {
   };
 
   const toggleDislike = async (bookId) => {
-    // setLikePref((prev) => ({
-    //   ...prev,
-    //   [bookId]: prev[bookId] === 'dislike' ? null : 'dislike',
-    // }));
     try {
       const updatedPref = likePref[bookId] === 'dislike' ? null : 'dislike';
       setLikePref((prev) => ({
@@ -95,10 +87,10 @@ function Results({ searchParams }) {
 
       const data = await res.json();
       if (!data.success) {
-        console.error('Failed to update like status');
+        console.error('Failed to update dislike status');
       }
     } catch (err) {
-      console.error('Error liking the book:', err);
+      console.error('Error disliking the book:', err);
     }
   };
 
