@@ -39,6 +39,9 @@ export async function GET(req) {
             bookMap[book._id.toString()] = {
                 id: book._id,
                 imgUrl: book.imgUrl,
+                title: book.title,
+                author: book.author,
+                genre: book.genre[1]
             };
         });
 
