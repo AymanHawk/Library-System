@@ -67,8 +67,13 @@ function Lists() {
               </h1>
               <a href="#" className="text-white text-[10px] sm:text-sm md:text-base norm:text-lg lg:text-xl">See All</a>
             </div>
-            <div className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28  bg-white">
-              Books
+            <div className='flex'>
+              {bookList.readBooks.map((book) => (
+                <div key={book.id} className=''>
+                  <Image src={book.imgUrl} alt={book.id} width={50} height={60} className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28" />
+                </div>
+              ))
+              }
             </div>
           </div>
         </div>
@@ -80,8 +85,13 @@ function Lists() {
               </h1>
               <a href="#" className="text-white text-[10px] sm:text-sm md:text-base norm:text-lg lg:text-xl">See All</a>
             </div>
-            <div className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28  bg-white">
-              Books
+            <div className='flex'>
+              {bookList.readBooks.map((book) => (
+                <div key={book.id} className=''>
+                  <Image src={book.imgUrl} alt={book.id} width={50} height={60} className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28" />
+                </div>
+              ))
+              }
             </div>
           </div>
         </div>
