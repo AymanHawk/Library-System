@@ -112,6 +112,7 @@ function Results({ searchParams }) {
       }
       if (list === 'Finished') { newList = 'readBooks' }
       else if (list === 'To-Read') { newList = 'toReadBooks' }
+      else if(list === 'Add to List' || null) {newList = 'remove'}
 
 
       const res = await fetch('/api/bookList/read', {
@@ -123,13 +124,13 @@ function Results({ searchParams }) {
       });
 
       const data = await res.json();
-      console.log(data);
       if (data.success) {
         setDropTextState((prev) => ({
           ...prev,
           [bookId]: list,
         }));
         setUserBookLists(data.bookList);
+        toggleDrop(bookId);
       }
     } catch (err) {
       console.log(err);
@@ -246,7 +247,7 @@ function Results({ searchParams }) {
                       <ul className='text-white text-center'>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className={dropTextState[book._id] === 'Finished' ? `hidden` : `` + ` border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Finished</li>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className={dropTextState[book._id] === 'To-Read' ? `hidden` : `` + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>To-Read</li>
-                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Add to List') }} className={(dropTextState[book._id] === 'Finished' || dropTextState[book._id] === 'To-Read') ? ` ` : `hidden` + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Remove</li>
+                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Add to List') }} className={((dropTextState[book._id] === 'Finished' || dropTextState[book._id] === 'To-Read') ? ` ` : `hidden`) + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Remove</li>
                         {/* <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className='border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full'>Finished</li>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className='border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg  norm:text-2xl md:text-xl text-sm xs:text-[12px] p-2 w-full'>To-Read</li> */}
                       </ul>

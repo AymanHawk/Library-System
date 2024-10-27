@@ -1,6 +1,7 @@
 import { connect } from '../../../../lib/dbConnection/mongoose';
 import User from '../../../../lib/models/users';
 import Book from '../../../../lib/models/books'
+import { subStat, addStat } from '../../../../lib/actions/book';
 
 export async function POST(req) {
 
@@ -64,83 +65,11 @@ export async function POST(req) {
 
 
         const listSet = new Set(user.bookList[prefList]);
-        const subStat = () => {
-            statGenre.forEach(genre => {
-                const userGenStat = statExist.likedBooks.genreRead.find(g => g.genre === genre);
-                if (userGenStat) {
-                    userGenStat.count = userGenStat.count - 1;
-                    if (userGenStat.count <= 0) {
-                        userGenStat.count = 0;
-                    }
-                } else {
-                    statExist.likedBooks.genreRead.push({ genre, count: 0 });
-                }
-            })
-            statTheme.forEach(theme => {
-                const userThemeStat = statExist.likedBooks.themeRead.find(t => t.theme === theme);
-                if (userThemeStat) {
-                    userThemeStat.count = userThemeStat.count - 1;
-                    if (userThemeStat.count <= 0) {
-                        userThemeStat.count = 0;
-                    }
-                } else {
-                    statExist.likedBooks.themeRead.push({ theme, count: 0 });
-                }
-            })
-            statPace.forEach(pace => {
-                const userPaceStat = statExist.likedBooks.paceRead.find(p => p.pace === pace);
-                if (userPaceStat) {
-                    userPaceStat.count = userPaceStat.count - 1;
-                    if (userPaceStat.count <= 0) {
-                        userPaceStat.count = 0;
-                    }
-                } else {
-                    statExist.likedBooks.paceRead.push({ pace, count: 0 });
-                }
-            })
-            statExist.likedBooks.pagesRead = (statExist.likedBooks.pagesRead || 0) - statPage;
-            if (statExist.likedBooks.pagesRead < 0) {
-                statExist.likedBooks.pagesRead = 0;
-            }
-            statExist.likedBooks.booksRead = (statExist.likedBooks.booksRead || 0) - 1;
-            if (statExist.likedBooks.booksRead <= 0) {
-                statExist.likedBooks.booksRead = 0;
-            }
-        }
-
-        const addStat = () => {
-            statGenre.forEach(genre => {
-                const userGenStat = statExist.likedBooks.genreRead.find(g => g.genre === genre);
-                if (userGenStat) {
-                    userGenStat.count = userGenStat.count + 1;
-                } else {
-                    statExist.likedBooks.genreRead.push({ genre, count: 1 });
-                }
-            })
-            statTheme.forEach(theme => {
-                const userThemeStat = statExist.likedBooks.themeRead.find(t => t.theme === theme);
-                if (userThemeStat) {
-                    userThemeStat.count = userThemeStat.count + 1;
-                } else {
-                    statExist.likedBooks.themeRead.push({ theme, count: 1 });
-                }
-            })
-            statPace.forEach(pace => {
-                const userPaceStat = statExist.likedBooks.paceRead.find(p => p.pace === pace);
-                if (userPaceStat) {
-                    userPaceStat.count = userPaceStat.count + 1;
-                } else {
-                    statExist.likedBooks.paceRead.push({ pace, count: 1 });
-                }
-            })
-            statExist.likedBooks.pagesRead = (statExist.likedBooks.pagesRead || 0) + statPage;
-            statExist.likedBooks.booksRead = (statExist.likedBooks.booksRead || 0) + 1;
-        }
 
         if (listSet.has(bookId)) {
             user.bookList[prefList] = user.bookList[prefList].filter(id => id.toString() !== bookId);
             if (prefList === 'likedBooks') {
-                subStat();
+                subStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
             }
         } else {
             for (const list of ['likedBooks', 'dislikedBooks']) {
@@ -148,13 +77,13 @@ export async function POST(req) {
             }
             user.bookList[prefList].push(bookId);
             if (prefList === 'likedBooks') {
-                addStat();
+                addStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
             } else if( prefList === 'dislikedBooks'){
-                subStat();
+                subStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
             }
         }
-
         await user.save();
+
 
         return new Response(JSON.stringify({ success: true, bookList: user.bookList }), {
             status: 200,

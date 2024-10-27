@@ -24,8 +24,10 @@ const userSchema = new mongoose.Schema({
         default: ' '
     },
     address: {
-        type: String,
-        default: ' '
+        street: { type: String, default: '' },
+        city: { type: String, default: '' },
+        state: { type: String, default: '' },
+        zip: { type: Number }
     },
     bookList: {
         recomendation: { type: [String], default: [] },
@@ -65,9 +67,10 @@ const userSchema = new mongoose.Schema({
                     count: { type: Number, default: 0 },
                     _id: false
                 }]
-            }, 
+            },
             toReadBooks: {
                 booksRead: { type: Number, default: 0 },
+                pagesRead: { type: Number, default: 0 },
                 genreRead: [{
                     genre: { type: String },
                     count: { type: Number, default: 0 },
@@ -122,7 +125,7 @@ const userSchema = new mongoose.Schema({
                     _id: false
                 }]
             },
-            totalOrder: {type: Number, default: 0},
+            totalOrder: { type: Number, default: 0 },
             _id: false
         }]
     }

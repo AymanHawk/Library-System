@@ -1,5 +1,7 @@
 import { connect } from '../../../../lib/dbConnection/mongoose';
+import Book from '../../../../lib/models/books';
 import User from '../../../../lib/models/users';
+import { subStat, addStat } from '../../../../lib/actions/book';
 
 export async function GET(req) {
     try {
@@ -39,14 +41,41 @@ export async function POST(req) {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
+        
 
         const user = await User.findOne({ authId: userId });
+        const book = await Book.findById(bookId);
 
         if (!user) {
             return new Response(JSON.stringify({ success: false, message: 'User not found' }), {
                 status: 404,
                 headers: { 'Content-Type': 'application/json' },
             });
+        }
+
+        if (!book) {
+            return new Response(JSON.stringify({ success: false, message: 'User not found' }), {
+                status: 404,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
+        const dateToday = new Date();
+        const month = dateToday.getMonth() + 1;
+        const year = dateToday.getFullYear();
+
+        const statGenre = book.genre.slice(0, 3);
+        const statPage = parseInt(book.length.split(' ')[0]) || 0;
+        const statTheme = Object.entries(book.reviewData.theme).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([key, value]) => key);
+        const statPace = Object.entries(book.reviewData.pace).slice(0, 1).map(([key, value]) => key);
+
+        let statExist = user.stats.monthly.find(entry => entry.year === year && entry.month === month);
+        if (!statExist) {
+            statExist = {
+                year,
+                month,
+            }
+            user.stats.monthly.push(statExist);
         }
 
         user.bookList.readBooks = user.bookList.readBooks || [];
@@ -60,12 +89,43 @@ export async function POST(req) {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
             });
+        } else {
+            if (newList === 'readBooks'){
+                console.log('getting into the readBooks')
+                if(user.bookList.toReadBooks.includes(bookId)){
+                    user.bookList.toReadBooks = user.bookList.toReadBooks.filter((id) => id.toString() !== bookId);
+                    subStat(statExist.toReadBooks, statGenre, statPace, statTheme, statPage);
+                    console.log('filtering and removing stat')
+                }
+            } else if(newList === 'toReadBooks') {
+                console.log('getting into the toreadBooks')
+                if(user.bookList.readBooks.includes(bookId)){
+                    console.log('starting filtering and removing stat')
+                    user.bookList.readBooks = user.bookList.readBooks.filter((id) => id.toString() !== bookId);
+                    console.log('starting removing stat')
+                    subStat(statExist.readBooks, statGenre, statPace, statTheme, statPage);
+                    console.log('filtering and removing stat')
+                }
+                console.log('getting out the toreadBooks')
+            } else if (newList === 'remove') {
+                for (const list of ['readBooks', 'toReadBooks']) {
+                    if(user.bookList[list].includes(bookId)){
+                        user.bookList[list] = user.bookList[list].filter((id) => id.toString() !== bookId);
+                        subStat(statExist[list], statGenre, statPace, statTheme, statPage);
+                    }
+                }
+            } else {
+                return new Response(JSON.stringify({ success: false, message: 'No list inserted' }), {
+                    status: 404,
+                    headers: { 'Content-Type': 'application/json' },
+                });
+            }
         }
 
-        for (const list of ['readBooks', 'toReadBooks']) {
-            user.bookList[list] = user.bookList[list].filter((id) => id.toString() !== bookId);
+        if(newList!=='remove'){
+            user.bookList[newList].push(bookId);
+            addStat(statExist[newList], statGenre, statPace, statTheme, statPage);
         }
-        user.bookList[newList].push(bookId);
         await user.save();
 
         return new Response(JSON.stringify({ success: true, bookList: user.bookList }), {
