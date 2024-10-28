@@ -24,10 +24,16 @@ export const yearPipeline = (userId, year, list) => [
         '$group': {
             '_id': '$_id',
             'totalBooks': {
-                '$sum': '$books'
+                '$push': {
+                    'month': '$month',
+                    'count': '$books'
+                }
             },
             'totalPages': {
-                '$sum': '$pages'
+                '$push': {
+                    'month': '$month',
+                    'count': '$pages'
+                }
             },
             'genres': {
                 '$push': '$genre'

@@ -6,7 +6,10 @@ import { useUser } from '@clerk/nextjs';
 import drop from "../../../../images/dropdown.png"
 import Image from 'next/image';
 import BubbleChart from '../statsComponents/BubbleCharts';
-
+import PieChart from '../statsComponents/PieChart';
+import DonutChart from '../statsComponents/DonutChart';
+import RadialBarChart from '../statsComponents/RadialBarChart';
+import LineChart from '../statsComponents/LineChart'
 
 function Stats() {
   const pathname = usePathname();
@@ -26,6 +29,12 @@ function Stats() {
   const [monthNum, setMonthNum] = useState(null);
   const [bookList, setBookList] = useState(null);
   const [themeData, setThemeData] = useState([]);
+  const [genreData, setGenreData] = useState([]);
+  const [paceData, setPaceData] = useState([]);
+  const [monthPageData, setMonthPageData] = useState(null);
+  const [yearPageData, setYearPageData] = useState([]);
+  const [monthBookData, setMonthBookData] = useState(null);
+  const [yearBookData, setYearBookData] = useState([]);
 
   const toggleListDrop = () => {
     setListDrop(!listDrop);
@@ -141,11 +150,20 @@ function Stats() {
   useEffect(() => {
     console.log(stats);
     if (month === 'Whole Year') {
-      setThemeData(stats.length > 0 ? stats[0].totalTheme: []);
+      setThemeData(stats.length > 0 ? stats[0].totalTheme : []);
+      setGenreData(stats.length > 0 ? stats[0].totalGenre : []);
+      setPaceData(stats.length > 0 ? stats[0].totalPace : []);
+      setYearBookData(stats.length > 0 ? stats[0].totalBooks : []);
+      setYearPageData(stats.length > 0 ? stats[0].totalPages : []);
     } else {
       setThemeData(stats.themeRead);
+      setGenreData(stats.genreRead);
+      setPaceData(stats.paceRead);
+      setMonthBookData(stats.booksRead);
+      setMonthPageData(stats.pagesRead);
     }
-  }, [stats])
+  }, [stats]);
+
 
 
 
@@ -202,11 +220,99 @@ function Stats() {
         <div>{
           stats.length === 0 ? <div>no data</div> :
             <div>
-              {themeData && themeData.length > 0 ? (
-                <BubbleChart themeData={themeData} />
-              ) : (
-                <div>No data available</div>
-              )}
+              <div>
+                {themeData && themeData.length > 0 ? (
+                  <div>
+                    <BubbleChart themeData={themeData} />
+                    Themes
+                  </div>
+                ) : (
+                  <div>No Data Available</div>
+                )}
+              </div>
+              <div>
+                {genreData && genreData.length > 0 ? (
+                  <div>
+                    <PieChart genreData={genreData} />
+                    Genres
+                  </div>
+                ) : (
+                  <div>
+                    No Data Available
+                  </div>
+                )}
+              </div>
+              <div>
+                {paceData && paceData.length > 0 ? (
+                  <div>
+                    <DonutChart paceData={paceData} />
+                    Pace
+                  </div>
+                ) : (
+                  <div>
+                    No Data Available
+                  </div>
+                )}
+              </div>
+              <div>
+                {month === 'Whole Year' ? (
+                  <div>
+                    <div>
+                      {yearPageData ? (
+                        <div>
+                          <LineChart monthData={yearPageData} />
+                          Page
+                        </div>
+                      ) : (
+                        <div>
+                          No Data Available
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      {yearBookData ? (
+                        <div>
+                          <LineChart monthData={yearBookData} />
+                          Book
+                        </div>
+                      ) : (
+                        <div>
+                          No Data Available
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div>
+                      {monthPageData ? (
+                        <div>
+                          <RadialBarChart avg={2000} dataCall={monthPageData} call={'Pages'} />
+                          Page
+                        </div>
+                      ) : (
+                        <div>
+                          No Data Available
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      {monthBookData ? (
+                        <div>
+                          <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
+                          Book
+                        </div>
+                      ) : (
+                        <div>
+                          No Data Available
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+
+                }
+              </div>
             </div>
         }
         </div>

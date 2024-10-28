@@ -27,7 +27,6 @@ export async function GET(req) {
           )
 
         const stat = monthlyStat ? (monthlyStat[list] || []) : [];
-        console.log(stat)
 
         return new Response(JSON.stringify(stat), { status: 200 });
 

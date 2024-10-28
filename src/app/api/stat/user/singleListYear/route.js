@@ -24,8 +24,6 @@ export async function GET(req) {
             return NextResponse.json({ error: 'User stats not found' }, { status: 404 });
         }
 
-        console.log(userYearStat);
-
         return new Response(JSON.stringify(userYearStat), { status: 200 });
 
     } catch (err) {
