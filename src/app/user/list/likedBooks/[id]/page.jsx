@@ -41,7 +41,7 @@ function likedBooks() {
       <UserNavbar />
       <div className="">
         <h1 className="mb-[10px] lg:ml-[100px] text-primary text-[43px]">Liked Books</h1>
-        <div className="lg:ml-[100px] flex flex-row flex-wrap justify-start gap-6">
+        <div className="lg:ml-[20px] flex flex-row flex-wrap justify-start gap-6">
           <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
             {list.map((book) => (
               <div
