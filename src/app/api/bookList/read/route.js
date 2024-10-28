@@ -61,7 +61,7 @@ export async function POST(req) {
         }
 
         const dateToday = new Date();
-        const month = dateToday.getMonth() + 1;
+        const month = dateToday.getMonth()+1;
         const year = dateToday.getFullYear();
 
         const statGenre = book.genre.slice(0, 3);
@@ -74,8 +74,37 @@ export async function POST(req) {
             statExist = {
                 year,
                 month,
+                readBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: []
+                  },
+                  toReadBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: [],
+                  },
+                  likedBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: []
+                  },
+                  rentedBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: []
+                  },
+                  totalOrder: 0
+                
             }
-            user.stats.monthly.push(statExist);
         }
 
         user.bookList.readBooks = user.bookList.readBooks || [];
@@ -91,22 +120,15 @@ export async function POST(req) {
             });
         } else {
             if (newList === 'readBooks'){
-                console.log('getting into the readBooks')
                 if(user.bookList.toReadBooks.includes(bookId)){
                     user.bookList.toReadBooks = user.bookList.toReadBooks.filter((id) => id.toString() !== bookId);
                     subStat(statExist.toReadBooks, statGenre, statPace, statTheme, statPage);
-                    console.log('filtering and removing stat')
                 }
             } else if(newList === 'toReadBooks') {
-                console.log('getting into the toreadBooks')
                 if(user.bookList.readBooks.includes(bookId)){
-                    console.log('starting filtering and removing stat')
                     user.bookList.readBooks = user.bookList.readBooks.filter((id) => id.toString() !== bookId);
-                    console.log('starting removing stat')
                     subStat(statExist.readBooks, statGenre, statPace, statTheme, statPage);
-                    console.log('filtering and removing stat')
                 }
-                console.log('getting out the toreadBooks')
             } else if (newList === 'remove') {
                 for (const list of ['readBooks', 'toReadBooks']) {
                     if(user.bookList[list].includes(bookId)){
@@ -126,6 +148,11 @@ export async function POST(req) {
             user.bookList[newList].push(bookId);
             addStat(statExist[newList], statGenre, statPace, statTheme, statPage);
         }
+
+        if(!user.stats.monthly.find(entry => entry.year === year && entry.month === month)){
+            user.stats.monthly.push(statExist);
+        }
+
         await user.save();
 
         return new Response(JSON.stringify({ success: true, bookList: user.bookList }), {

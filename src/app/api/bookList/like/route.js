@@ -49,15 +49,36 @@ export async function POST(req) {
             statExist = {
                 year,
                 month,
-                likedBooks: {
-                    pagesRead: 0,
+                readBooks: {
                     booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: []
+                  },
+                  toReadBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
                     genreRead: [],
                     themeRead: [],
                     paceRead: [],
-                },
+                  },
+                  likedBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: []
+                  },
+                  rentedBooks: {
+                    booksRead: 0,
+                    pagesRead: 0,
+                    genreRead: [],
+                    themeRead: [],
+                    paceRead: []
+                  },
+                  totalOrder: 0
             }
-            user.stats.monthly.push(statExist);
         }
 
         user.bookList.likedBooks = user.bookList.likedBooks || [];
@@ -81,6 +102,10 @@ export async function POST(req) {
             } else if( prefList === 'dislikedBooks'){
                 subStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
             }
+        }
+
+        if(!user.stats.monthly.find(entry => entry.year === year && entry.month === month)){
+            user.stats.monthly.push(statExist);
         }
         await user.save();
 

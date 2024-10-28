@@ -203,15 +203,15 @@ function Books() {
   }
 
   return (
-    <div className='2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[345px] xs:w-[250px] mx-auto mt-5'>
-      <div className='flex sm:justify-between justify-center flex-wrap items-center sm:px-2 2xl:h-[555px] xl:h-[475px] lg:h-[400px] norm:h-[475px] md:h-[360px] sm:h-[235px] '>
+    <div className='flex flex-col 2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[345px] xs:w-[250px] mx-auto mt-5'>
+      <div className='flex mb-5 sm:justify-between justify-center flex-wrap items-center sm:px-2 2xl:h-[555px] xl:h-[475px] lg:h-[400px] norm:h-[475px] md:h-[360px] sm:h-[235px] '>
         <div className='2xl:w-[350px] xl:w-[300px] lg:w-[250px] norm:w-[300px] md:w-[225px] sm:w-[150px] w-[300px] xs:w-[200px]'>
           <img src={book.imgUrl}
             alt='book image'
             className='w-full'
           />
         </div>
-        <div className='2xl:w-[625px] xl:w-[575px] lg:w-[450px] norm:w-[380px] md:w-[305px] sm:w-[250px] w-[325px] xs:w-[200px]'>
+        <div className='2xl:w-[625px] xl:w-[575px] lg:w-[450px] norm:w-[380px] md:w-[305px] sm:w-[250px] w-[325px] xs:w-[200px] 2xl:h-[555px] xl:h-[475px] lg:h-[400px] norm:h-[475px] md:h-[360px] sm:h-[235px] no-scrollbar overflow-y-scroll p-2'>
           <div className='text-primary 2xl:text-6xl xl:text-5xl lg:text-4xl norm:text-5xl md:text-3xl sm:text-2xl text-2xl xs:text-xl'>
             <h1>{book.title}</h1>
           </div>
