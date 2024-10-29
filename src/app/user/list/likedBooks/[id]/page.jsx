@@ -39,8 +39,8 @@ function likedBooks() {
   return (
     <div>
       <UserNavbar />
-      <div className="">
-        <h1 className="mb-[10px] lg:ml-[100px] text-primary text-[43px]">Liked Books</h1>
+      <div className="mx-auto">
+        <h1 className="mb-[10px] text-primary text-[43px]">Liked Books</h1>
         <div className="lg:ml-[20px] flex flex-row flex-wrap justify-start gap-6">
           <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
             {list.map((book) => (
@@ -48,7 +48,7 @@ function likedBooks() {
                 key={book.id}
                 className="flex flex-col lg:mb-[25px] w-[400px] h-[550px] xl:w-[270px] xl:h-[600px] lg:w-[300px] lg:h-[630px] md:w-[280px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
               >
-                <Image
+                <img
                   src={book.imgUrl}
                   alt={book.id}
                   width={50}
@@ -64,9 +64,9 @@ function likedBooks() {
                 <h3 className="text-[23px]">{book.author}</h3>
                 <h3 className="text-[23px] mb-[30px]">{book.genre}</h3>
                 <div className="h-full"></div>
-                <button className="text-center text-[20px] bg-secondary w-full p-2">
+                {/* <button className="text-center text-[20px] bg-secondary w-full p-2">
                   Remove
-                </button>
+                </button> */}
               </div>
             ))}
           </div>
