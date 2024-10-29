@@ -6,6 +6,8 @@ import like from "../../../images/like.png";
 import dislike from "../../../images/dislike.png";
 import activeLike from '../../../images/like_active.png'
 import activeDislike from '../../../images/dislike_active.png'
+import Loading from './loading';
+
 
 import dropdown from '../../../images/dd.png';
 import { useUser } from '@clerk/nextjs';
@@ -198,9 +200,9 @@ function Books() {
     return <div>Error: {error}</div>;
   }
 
-  if (!book) {
-    return <div>Loading ...</div>;
-  }
+if (!book) {
+    return <Loading />;
+}
 
   return (
     <div className='flex flex-col 2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[345px] xs:w-[250px] mx-auto mt-5'>
