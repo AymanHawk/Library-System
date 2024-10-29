@@ -10,6 +10,7 @@ import PieChart from '../statsComponents/PieChart';
 import DonutChart from '../statsComponents/DonutChart';
 import RadialBarChart from '../statsComponents/RadialBarChart';
 import LineChart from '../statsComponents/LineChart'
+import LineChartYear from '../statsComponents/LineChartYear'
 
 function Stats() {
   const pathname = usePathname();
@@ -17,7 +18,7 @@ function Stats() {
 
   const { isLoaded, user } = useUser();
   const [list, setList] = useState(null);
-  const [month, setMonth] = useState(null);
+  const [month, setMonth] = useState('Month');
   const [year, setYear] = useState('2024');
   const [listDrop, setListDrop] = useState(false);
   const [monthDrop, setMonthDrop] = useState(false);
@@ -33,8 +34,10 @@ function Stats() {
   const [paceData, setPaceData] = useState([]);
   const [monthPageData, setMonthPageData] = useState(null);
   const [yearPageData, setYearPageData] = useState([]);
+  const [allPageData, setAllPageData] = useState([]);
   const [monthBookData, setMonthBookData] = useState(null);
   const [yearBookData, setYearBookData] = useState([]);
+  const [allBookData, setAllBookData] = useState([]);
 
   const toggleListDrop = () => {
     setListDrop(!listDrop);
@@ -86,8 +89,6 @@ function Stats() {
   const getMonthStat = async () => {
     if (!monthNum || !list) return;
     try {
-
-      console.log(user.id, monthNum, year, list);
       const response = await fetch('/api/stat/user/singleListMonth', {
         method: 'GET',
         headers: {
@@ -110,7 +111,6 @@ function Stats() {
 
   const getYearStat = async () => {
     try {
-      console.log(user.id, year, list);
       const response = await fetch('/api/stat/user/singleListYear', {
         method: 'GET',
         headers: {
@@ -130,10 +130,30 @@ function Stats() {
     }
   }
 
+  const getAllTimeStat = async () => {
+    try {
+      const response = await fetch('/api/stat/user/singleListAllTime', {
+        method: 'GET',
+        headers: {
+          'userId': user.id,
+          'statList': bookList,
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get the All Time stat');
+      }
+      const data = await response.json();
+      setStats(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const getStats = () => {
     if (year === 'All Time') {
-      setMonth(null)
-      console.log('Have to make a route');
+      setMonth('Month')
+      getAllTimeStat();
     } else if (month === 'Whole Year') {
       getYearStat();
     } else {
@@ -144,17 +164,21 @@ function Stats() {
   useEffect(() => {
     if (list && year && month && isLoaded && user) {
       getStats();
-
     }
   }, [list, year, month, isLoaded, user])
   useEffect(() => {
-    console.log(stats);
-    if (month === 'Whole Year') {
+    if (month === 'Whole Year' || year === 'All Time') {
       setThemeData(stats.length > 0 ? stats[0].totalTheme : []);
       setGenreData(stats.length > 0 ? stats[0].totalGenre : []);
       setPaceData(stats.length > 0 ? stats[0].totalPace : []);
-      setYearBookData(stats.length > 0 ? stats[0].totalBooks : []);
-      setYearPageData(stats.length > 0 ? stats[0].totalPages : []);
+      if(month === 'Whole Year') {
+        setYearBookData(stats.length > 0 ? stats[0].totalBooks : []);
+        setYearPageData(stats.length > 0 ? stats[0].totalPages : []);
+      } else if (year === 'All Time') {
+        setAllBookData(stats.length > 0 ? stats[0].totalBooks : []);
+        setAllPageData(stats.length > 0 ? stats[0].totalPages : []);
+      }
+
     } else {
       setThemeData(stats.themeRead);
       setGenreData(stats.genreRead);
@@ -255,34 +279,7 @@ function Stats() {
                 )}
               </div>
               <div>
-                {month === 'Whole Year' ? (
-                  <div>
-                    <div>
-                      {yearPageData ? (
-                        <div>
-                          <LineChart monthData={yearPageData} />
-                          Page
-                        </div>
-                      ) : (
-                        <div>
-                          No Data Available
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      {yearBookData ? (
-                        <div>
-                          <LineChart monthData={yearBookData} />
-                          Book
-                        </div>
-                      ) : (
-                        <div>
-                          No Data Available
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
+                {(month !== 'Whole Year' && year !== 'All Time') ? (
                   <div>
                     <div>
                       {monthPageData ? (
@@ -309,6 +306,67 @@ function Stats() {
                       )}
                     </div>
                   </div>
+                ) : (
+                  <div>
+                    {year !== 'All Time' ? (
+                      <div>
+                        <div>
+                          {yearPageData ? (
+                            <div>
+                              <LineChart monthData={yearPageData} />
+                              Page
+                            </div>
+                          ) : (
+                            <div>
+                              No Data Available
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          {yearBookData ? (
+                            <div>
+                              <LineChart monthData={yearBookData} />
+                              Book
+                            </div>
+                          ) : (
+                            <div>
+                              No Data Available
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div>
+                          {yearPageData ? (
+                            <div>
+                              <LineChartYear yearData={allPageData} />
+                              Page
+                            </div>
+                          ) : (
+                            <div>
+                              No Data Available
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          {yearBookData ? (
+                            <div>
+                              <LineChartYear yearData={allBookData} />
+                              Book
+                            </div>
+                          ) : (
+                            <div>
+                              No Data Available
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+
+                    }
+                  </div>
+
                 )
 
                 }

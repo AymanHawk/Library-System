@@ -42,7 +42,7 @@ export async function POST(req) {
         const statGenre = book.genre.slice(0, 3);
         const statPage = parseInt(book.length.split(' ')[0]) || 0;
         const statTheme = Object.entries(book.reviewData.theme).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([key, value]) => key);
-        const statPace = Object.entries(book.reviewData.pace).slice(0, 1).map(([key, value]) => key);
+        const statPace = Object.entries(book.reviewData.pace).sort((a,b) => b[1] - a[1]).slice(0, 1).map(([key, value]) => key);
 
         let statExist = user.stats.monthly.find(entry => entry.year === year && entry.month === month);
         if (!statExist) {
