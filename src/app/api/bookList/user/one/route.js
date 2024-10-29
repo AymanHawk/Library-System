@@ -42,6 +42,9 @@ export async function GET(req) {
                 title: book.title,
                 author: book.author,
                 genre: book.genre[1],
+                title: book.title,
+                author: book.author,
+                genre: book.genre[1],
             };
         });
 
