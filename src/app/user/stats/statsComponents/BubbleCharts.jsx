@@ -110,7 +110,7 @@ const BubbleChart = ({ themeData }) => {
     };
 
     return (
-        <div className='md:w-[600px] mx-auto md:h-[300px] sm:w-[480px] h-[350px] w-[340px] xs:w-[250px]'>
+        <div className='md:w-[600px] mx-auto md:h-[400px] sm:w-[480px] h-[350px] w-[340px] xs:w-[250px]'>
             <Bubble data={data} options={options} />
         </div>
     )

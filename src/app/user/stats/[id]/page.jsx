@@ -42,6 +42,20 @@ function Stats() {
   const toggleListDrop = () => {
     setListDrop(!listDrop);
   }
+  const handleClickOutside = (event) => {
+    if (
+      (listRef.current && !listRef.current.contains(event.target))
+    ) {
+      setListDrop(false);
+    }
+    if (monthRef.current && !monthRef.current.contains(event.target)) {
+      setMonthDrop(false);
+    }
+    if (yearRef.current && !yearRef.current.contains(event.target)) {
+      setYearDrop(false);
+    }
+
+  }
 
   const handleListSelect = (list) => {
     setList(list);
@@ -175,6 +189,10 @@ function Stats() {
   useEffect(() => {
     if (list && year && month && isLoaded && user) {
       getStats();
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [list, year, month, isLoaded, user])
   useEffect(() => {

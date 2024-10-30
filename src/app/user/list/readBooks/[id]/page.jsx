@@ -2,13 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import { useRouterContext } from "../../../../../utils/RouterContext";
 import UserNavbar from "../../../../../components/UserNavbar";
 
 function readBooks() {
   const { user } = useUser();
   const [list, setList] = useState([]);
+  const pathname = usePathname()
+  const id = pathname.split('/').pop();
+  const router = useRouterContext();
 
+  const handleBookClick = (path) => {
+    router.push(path);
+  }
   useEffect(() => {
     const fetchList = async () => {
       try {
@@ -38,35 +44,30 @@ function readBooks() {
 
   return (
     <div>
-      <UserNavbar />
-      <div className="">
+      <UserNavbar userId={id} userPath={pathname} />
+      <div className="mx-auto 2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[350px] xs:w-[250px]">
         <h1 className="mb-[10px] text-primary text-[43px]">Read Books</h1>
         <div className="lg:ml-[20px] flex flex-row flex-wrap justify-start gap-6">
           <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
             {list.map((book) => (
               <div
                 key={book.id}
-                className="flex flex-col lg:mb-[25px] w-[400px] h-[550px] xl:w-[270px] xl:h-[600px] lg:w-[300px] lg:h-[630px] md:w-[280px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
+                className="flex flex-col 2xl:w-[256px] w-[250px] h-[550px] xl:w-[226px] xl:h-[600px] lg:w-[220px] norm:w-[210px] lg:h-[630px] md:w-[250px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
               >
-                <img 
+                <img
                   src={book.imgUrl}
                   alt={book.id}
                   width={50}
                   height={60}
-                  className="xl:w-[250px] xl:h-[350px] lg:w-[250px] lg:h-[350px] md:w-[260px] md:h-[350px] w-[200px] h-[300px]"
+                  className="w-full xl:h-[350px] lg:h-[350px] md:h-[350px] h-[300px]"
                 />
-                <h2 className="text-primary text-[32px]">
-                  {book.title.length > 20
-                    ? `${book.title.slice(0, 20)}...`
+                <h2 onClick={() => handleBookClick(`/books/${book.id}`)} className="text-primary cursor-pointer text-[32px]">
+                  {book.title.length > 40
+                    ? `${book.title.slice(0, 40)}...`
                     : book.title}
                 </h2>
-                <div className="h-full"></div>
                 <h3 className="text-[23px]">{book.author}</h3>
-                <h3 className="text-[23px] mb-[30px]">{book.genre}</h3>
-                <div className="h-full"></div>
-                {/* <button className="text-center text-[20px] bg-secondary w-full p-2">
-                  Remove
-                </button> */}
+                <h3 className="text-[23px] capitalize">{book.genre}</h3>
               </div>
             ))}
           </div>

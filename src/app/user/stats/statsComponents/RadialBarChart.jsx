@@ -55,6 +55,12 @@ const RadialBarChart = ({avg, dataCall, call}) => {
                 titleColor: 'white',
                 bodyColor: 'white',
             },
+            datalabels: {
+                color: 'white',
+                formatter: (value) => {
+                    return value;
+                },
+            },
         },
     }
 

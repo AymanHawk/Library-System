@@ -1,7 +1,7 @@
 import { connect } from '../../../../lib/dbConnection/mongoose';
 import Book from '../../../../lib/models/books';
 import User from '../../../../lib/models/users';
-import { subStat, addStat } from '../../../../lib/actions/book';
+import { subStat, addStat, subBookStat, addBookStat } from '../../../../lib/actions/book';
 
 export async function GET(req) {
     try {
@@ -107,6 +107,17 @@ export async function POST(req) {
             }
         }
 
+        let bookStatExist = book.stats.monthly.find(entry => entry.year === year && entry.month === month)
+        if(!bookStatExist) {
+            bookStatExist = {
+                year,
+                month,
+                userRead: 0,
+                userLiked: 0,
+                userRented: 0,
+            }
+        }
+
         user.bookList.readBooks = user.bookList.readBooks || [];
         user.bookList.toReadBooks = user.bookList.toReadBooks || [];
 
@@ -128,6 +139,7 @@ export async function POST(req) {
                 if(user.bookList.readBooks.includes(bookId)){
                     user.bookList.readBooks = user.bookList.readBooks.filter((id) => id.toString() !== bookId);
                     subStat(statExist.readBooks, statGenre, statPace, statTheme, statPage);
+                    subBookStat(bookStatExist, 'userRead');
                 }
             } else if (newList === 'remove') {
                 for (const list of ['readBooks', 'toReadBooks']) {
@@ -136,6 +148,7 @@ export async function POST(req) {
                         subStat(statExist[list], statGenre, statPace, statTheme, statPage);
                     }
                 }
+                subBookStat(bookStatExist, 'userRead');
             } else {
                 return new Response(JSON.stringify({ success: false, message: 'No list inserted' }), {
                     status: 404,
@@ -147,13 +160,20 @@ export async function POST(req) {
         if(newList!=='remove'){
             user.bookList[newList].push(bookId);
             addStat(statExist[newList], statGenre, statPace, statTheme, statPage);
+            if(newList === 'readBooks') {
+                addBookStat(bookStatExist, 'userRead');
+            }
         }
 
         if(!user.stats.monthly.find(entry => entry.year === year && entry.month === month)){
             user.stats.monthly.push(statExist);
         }
+        if(!book.stats.monthly.find(entry => entry.year === year && entry.month === month)){
+            book.stats.monthly.push(bookStatExist);
+        }
 
         await user.save();
+        await book.save();
 
         return new Response(JSON.stringify({ success: true, bookList: user.bookList }), {
             status: 200,

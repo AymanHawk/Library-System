@@ -11,6 +11,10 @@ export async function GET() {
             return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
         }
 
+        const dateToday = new Date();
+        const month = dateToday.getMonth() + 1;
+        const year = dateToday.getFullYear();
+
         const likedBooks = await db.collection('books').aggregate([
             {
                 '$match': {
