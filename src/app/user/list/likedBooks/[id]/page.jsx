@@ -4,6 +4,8 @@ import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import UserNavbar from "../../../../../components/UserNavbar";
 import { useRouterContext } from "../../../../../utils/RouterContext";
+import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
+
 
 function likedBooks() {
   const { user } = useUser();
@@ -11,11 +13,13 @@ function likedBooks() {
   const pathname = usePathname()
   const id = pathname.split('/').pop();
   const router = useRouterContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 15;
+  const [totalCount, setTotalCount] = useState(0);
 
   const handleBookClick = (path) => {
     router.push(path);
   }
-
   useEffect(() => {
     const fetchList = async () => {
       try {
@@ -24,6 +28,8 @@ function likedBooks() {
           headers: {
             userId: user.id,
             reqList: "likedBooks",
+            limit: limit,
+            page: currentPage
           },
         });
 
@@ -33,6 +39,7 @@ function likedBooks() {
 
         const data = await response.json();
         setList(Object.values(data.list));
+        setTotalCount(data.totalCount);
       } catch (err) {
         console.log(err);
       }
@@ -41,7 +48,7 @@ function likedBooks() {
     if (user && user.id) {
       fetchList();
     }
-  }, [user]);
+  }, [user, currentPage]);
 
   return (
     <div>
@@ -74,6 +81,12 @@ function likedBooks() {
           </div>
         </div>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalCount={totalCount}
+        limit={limit}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }
