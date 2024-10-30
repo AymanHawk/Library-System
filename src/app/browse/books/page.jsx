@@ -2,6 +2,8 @@ import React from "react";
 import logo from "../../../images/the_shelves_bookshelf.png";
 import dropdown from "../../../images/dropdown.png";
 import Image from "next/image";
+import BrowseNavbar from "../../../components/BrowsePageNavBar";
+
 
 function Books() {
   return (
@@ -21,9 +23,8 @@ function Books() {
           />
         </div>
       </div>
-      <h2 className=" ml-[10%] mt-[5%] text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl border-2 border-primary rounded-lg inline-block p-2 pr-[5%] pl-[5%]">
-        Filter
-      </h2>
+      <BrowseNavbar />
+
       <div className="mt-[5%] ml-[10vw] text-white sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
         <h1>Popular</h1>
         <div>books</div>

@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
-import { useRouterContext } from "../../../../../utils/RouterContext";
 import UserNavbar from "../../../../../components/UserNavbar";
+import { useRouterContext } from "../../../../../utils/RouterContext";
 import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
 
-function readBooks() {
+
+function toReadBooks() {
   const { user } = useUser();
   const [list, setList] = useState([]);
   const pathname = usePathname()
@@ -26,7 +27,7 @@ function readBooks() {
           method: "GET",
           headers: {
             userId: user.id,
-            reqList: "readBooks",
+            reqList: "toReadBooks",
             limit: limit,
             page: currentPage
           },
@@ -53,7 +54,7 @@ function readBooks() {
     <div>
       <UserNavbar userId={id} userPath={pathname} />
       <div className="mx-auto 2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[350px] xs:w-[250px]">
-        <h1 className="mb-[10px] text-primary text-[43px]">Read Books</h1>
+        <h1 className="mb-[10px] text-primary text-[43px]">To-Read Books</h1>
         <div className="lg:ml-[20px] flex flex-row flex-wrap justify-start gap-6">
           <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
             {list.map((book) => (
@@ -90,4 +91,4 @@ function readBooks() {
   );
 }
 
-export default readBooks;
+export default toReadBooks;
