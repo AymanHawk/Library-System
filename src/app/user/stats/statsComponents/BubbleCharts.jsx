@@ -80,10 +80,19 @@ const BubbleChart = ({ themeData }) => {
             }
         },
         plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    color: 'white',
+                },
+            },
             tooltip: {
                 callbacks: {
                     label: (context) => `${context.raw.theme}: ${Math.round(context.raw.r / maxRadius * maxCount)}`, // Display theme name and count in tooltip
                 },
+                backgroundColor: 'rgba(0, 0, 0, 1)',
+                titleColor: 'white',
+                bodyColor: 'white',
             },
             datalabels: {
                 color: 'white',
@@ -101,7 +110,7 @@ const BubbleChart = ({ themeData }) => {
     };
 
     return (
-        <div style={{ width: "600px", height: "400px" }}>
+        <div className='md:w-[600px] mx-auto md:h-[300px] sm:w-[480px] h-[350px] w-[340px] xs:w-[250px]'>
             <Bubble data={data} options={options} />
         </div>
     )

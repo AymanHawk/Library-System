@@ -60,7 +60,7 @@ const DonutChart = ({paceData}) => {
     };
 
     return (
-        <div style={{ width: '600px', height: '400px' }}>
+        <div className='sm:h-[400px] sm:w-[400px] w-[340px] xs:w-[250px]'>
             <Doughnut data={data} options={options} />
         </div>
     );

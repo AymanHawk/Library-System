@@ -3,7 +3,7 @@ import React, { use, useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation';
 import UserNavbar from "../../../../components/UserNavbar";
 import { useUser } from '@clerk/nextjs';
-import drop from "../../../../images/dropdown.png"
+import drop from "../../../../images/drop-white.png"
 import Image from 'next/image';
 import BubbleChart from '../statsComponents/BubbleCharts';
 import PieChart from '../statsComponents/PieChart';
@@ -53,7 +53,12 @@ function Stats() {
     setYear(year);
     setYearDrop(false);
   }
-
+  const months = {
+    'January': '1', 'February': '2', 'March': '3',
+    'April': '4', 'May': '5', 'June': '6',
+    'July': '7', 'August': '8', 'September': '9',
+    'October': '10', 'November': '11', 'December': '12'
+  };
 
 
   const handleMonthSelect = (month) => {
@@ -61,6 +66,12 @@ function Stats() {
     setMonthDrop(false);
     setMonthNum(month === 'Whole Year' ? null : monthToNum(month));
   }
+
+  const monthsName = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
   const monthToNum = (month) => {
     const months = {
       'January': '1', 'February': '2', 'March': '3',
@@ -171,7 +182,7 @@ function Stats() {
       setThemeData(stats.length > 0 ? stats[0].totalTheme : []);
       setGenreData(stats.length > 0 ? stats[0].totalGenre : []);
       setPaceData(stats.length > 0 ? stats[0].totalPace : []);
-      if(month === 'Whole Year') {
+      if (month === 'Whole Year') {
         setYearBookData(stats.length > 0 ? stats[0].totalBooks : []);
         setYearPageData(stats.length > 0 ? stats[0].totalPages : []);
       } else if (year === 'All Time') {
@@ -195,82 +206,90 @@ function Stats() {
     <div>
       <UserNavbar userId={id} userPath={pathname} />
       <div className='flex flex-col'>
-        <div className='mx-auto flex flex-row gap-4'>
-          <div className='flex items-center gap-3'>
-            <span>View Stats: </span>
-            <span onClick={toggleListDrop} ref={listRef} className='flex text-nowrap relative bg-secondary text-white w-[100px] p-2 h-[50px] justify-between items-center'>{list || 'List'} <Image src={drop} alt='dropdown' height={15} width={10} />
-              <ul className={(listDrop ? `` : `hidden`) + ` text-nowrap absolute bg-secondary mt-[160px] h-[135px] overflow-y-auto no-scrollbar`}>
-                <li onClick={() => handleListSelect('Read Books')}>Read Books</li>
-                <li onClick={() => handleListSelect('To-Read Books')}>To-Read Books</li>
-                <li onClick={() => handleListSelect('Liked Books')}>Liked Books</li>
-                <li onClick={() => handleListSelect('Rented Books')}>Rented Books</li>
+        <div className='mx-auto flex flex-row gap-4 flex-wrap justify-center items-center 2xl:text-4xl xl:text-3xl lg:text-2xl norm:text-xl sm:text-xl'>
+          <span className='text-primary'>View Stats for: </span>
+          <span onClick={toggleListDrop} ref={listRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+            {list || 'List'}
+            <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
+            <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
+            <ul className={(listDrop ? `` : `hidden`) + ` text-nowrap absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+              <li onClick={() => handleListSelect('Read Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Read Books</li>
+              <li onClick={() => handleListSelect('To-Read Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>To-Read Books</li>
+              <li onClick={() => handleListSelect('Liked Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Liked Books</li>
+              <li onClick={() => handleListSelect('Rented Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Rented Books</li>
+            </ul>
+          </span>
+
+          <div className='flex sm:flex-row flex-col items-center gap-4'>
+            <span onClick={toggleYearDrop} ref={yearRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+              {year || 'Year'}
+              <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
+              <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
+              <ul className={(yearDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+                <li onClick={() => hangleYearSelect('All Time')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>All Time</li>
+                <li onClick={() => hangleYearSelect('2024')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2024</li>
+                <li onClick={() => hangleYearSelect('2023')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2023</li>
+                <li onClick={() => hangleYearSelect('2022')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2022</li>
+                <li onClick={() => hangleYearSelect('2021')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2021</li>
+                <li onClick={() => hangleYearSelect('2020')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2020</li>
+                <li onClick={() => hangleYearSelect('2019')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2019</li>
+                <li onClick={() => hangleYearSelect('2018')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2018</li>
+                <li onClick={() => hangleYearSelect('2017')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2017</li>
               </ul>
             </span>
-          </div>
-          <div className='flex items-center gap-4'>
-            <span onClick={toggleYearDrop} ref={yearRef} className='flex relative bg-secondary text-white w-[100px] p-2 h-[50px] justify-between items-center'>{year || 'Year'} <Image src={drop} alt='dropdown' height={15} width={10} />
-              <ul className={(yearDrop ? `` : `hidden`) + ` absolute bg-secondary mt-[160px] h-[135px] overflow-y-auto no-scrollbar`}>
-                <li onClick={() => hangleYearSelect('All Time')}>All Time</li>
-                <li onClick={() => hangleYearSelect('2024')}>2024</li>
-                <li onClick={() => hangleYearSelect('2023')}>2023</li>
-                <li onClick={() => hangleYearSelect('2022')}>2022</li>
-                <li onClick={() => hangleYearSelect('2021')}>2021</li>
-                <li onClick={() => hangleYearSelect('2020')}>2020</li>
-                <li onClick={() => hangleYearSelect('2019')}>2019</li>
-                <li onClick={() => hangleYearSelect('2018')}>2018</li>
-                <li onClick={() => hangleYearSelect('2017')}>2017</li>
-              </ul>
-            </span>
-            <span onClick={toggleMonthDrop} ref={monthRef} className='flex bg-secondary text-white w-[100px] p-2 h-[50px] justify-between items-center'>{month || 'Month'} <Image src={drop} alt='dropdown' height={15} width={10} />
-              <ul className={(monthDrop ? `` : `hidden`) + ` absolute bg-secondary mt-[160px] h-[135px] overflow-y-auto no-scrollbar`}>
-                <li onClick={() => handleMonthSelect('Whole Year')}>Whole Year</li>
-                <li onClick={() => handleMonthSelect('January')}>January</li>
-                <li onClick={() => handleMonthSelect('Feburary')}>Feburary</li>
-                <li onClick={() => handleMonthSelect('March')}>March</li>
-                <li onClick={() => handleMonthSelect('April')}>April</li>
-                <li onClick={() => handleMonthSelect('May')}>May</li>
-                <li onClick={() => handleMonthSelect('June')}>June</li>
-                <li onClick={() => handleMonthSelect('July')}>July</li>
-                <li onClick={() => handleMonthSelect('August')}>August</li>
-                <li onClick={() => handleMonthSelect('September')}>September</li>
-                <li onClick={() => handleMonthSelect('October')}>October</li>
-                <li onClick={() => handleMonthSelect('November')}>November</li>
-                <li onClick={() => handleMonthSelect('December')}>December</li>
+            <span onClick={toggleMonthDrop} ref={monthRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+              {month || 'Month'}
+              <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
+              <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
+              <ul className={(monthDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+                <li onClick={() => handleMonthSelect('Whole Year')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Whole Year</li>
+                <li onClick={() => handleMonthSelect('January')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>January</li>
+                <li onClick={() => handleMonthSelect('Feburary')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Feburary</li>
+                <li onClick={() => handleMonthSelect('March')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>March</li>
+                <li onClick={() => handleMonthSelect('April')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>April</li>
+                <li onClick={() => handleMonthSelect('May')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>May</li>
+                <li onClick={() => handleMonthSelect('June')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>June</li>
+                <li onClick={() => handleMonthSelect('July')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>July</li>
+                <li onClick={() => handleMonthSelect('August')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>August</li>
+                <li onClick={() => handleMonthSelect('September')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>September</li>
+                <li onClick={() => handleMonthSelect('October')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>October</li>
+                <li onClick={() => handleMonthSelect('November')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>November</li>
+                <li onClick={() => handleMonthSelect('December')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>December</li>
               </ul>
             </span>
           </div>
         </div>
-        <hr className='my-5 w-[80%] mx-auto' />
+        <hr className='my-5 w-[80%] mx-auto border-primary' />
         <div>{
-          stats.length === 0 ? <div>no data</div> :
-            <div>
+          stats.length === 0 ? <div>no data(Make a empty stats page)</div> :
+            <div className='flex flex-wrap justify-center items-center text-center'>
+              <div>
+                {genreData && genreData.length > 0 ? (
+                  <div>
+                    <PieChart genreData={genreData} />
+                    Genres Distribution
+                  </div>
+                ) : (
+                  <div>
+                    No Data Available(Make a loading page/component/empty)
+                  </div>
+                )}
+              </div>
               <div>
                 {themeData && themeData.length > 0 ? (
-                  <div>
+                  <div className=''>
                     <BubbleChart themeData={themeData} />
-                    Themes
+                    Themes Distibution
                   </div>
                 ) : (
                   <div>No Data Available</div>
                 )}
               </div>
               <div>
-                {genreData && genreData.length > 0 ? (
-                  <div>
-                    <PieChart genreData={genreData} />
-                    Genres
-                  </div>
-                ) : (
-                  <div>
-                    No Data Available
-                  </div>
-                )}
-              </div>
-              <div>
                 {paceData && paceData.length > 0 ? (
                   <div>
                     <DonutChart paceData={paceData} />
-                    Pace
+                    Pace Distribution
                   </div>
                 ) : (
                   <div>
@@ -280,12 +299,12 @@ function Stats() {
               </div>
               <div>
                 {(month !== 'Whole Year' && year !== 'All Time') ? (
-                  <div>
+                  <div className='flex flex-row justify-center flex-wrap w-full'>
                     <div>
                       {monthPageData ? (
                         <div>
                           <RadialBarChart avg={2000} dataCall={monthPageData} call={'Pages'} />
-                          Page
+                          {list} Page vs Average
                         </div>
                       ) : (
                         <div>
@@ -297,7 +316,7 @@ function Stats() {
                       {monthBookData ? (
                         <div>
                           <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
-                          Book
+                          {list} vs Average
                         </div>
                       ) : (
                         <div>
@@ -309,12 +328,22 @@ function Stats() {
                 ) : (
                   <div>
                     {year !== 'All Time' ? (
-                      <div>
+                      <div className='flex flex-row justify-center flex-wrap w-full'>
                         <div>
                           {yearPageData ? (
                             <div>
                               <LineChart monthData={yearPageData} />
-                              Page
+                              <div>
+                                <span className='text-primary text-xl'>Top Reading Months - Pages</span>
+                                <ul className='flex justify-start flex-col'>
+                                  {yearPageData.sort((a, b) => b.count - a.count).slice(0, 3).map((entry, index) => (
+                                    <li className='text-left text-xl' key={index}>
+                                      {index + 1}) {monthsName[entry.month - 1]}
+                                    </li>
+                                  ))
+                                  }
+                                </ul>
+                              </div>
                             </div>
                           ) : (
                             <div>
@@ -326,7 +355,17 @@ function Stats() {
                           {yearBookData ? (
                             <div>
                               <LineChart monthData={yearBookData} />
-                              Book
+                              <div>
+                                <span className='text-primary text-xl'>Top Reading Months - Books</span>
+                                <ul className='flex justify-start flex-col'>
+                                  {yearBookData.sort((a, b) => b.count - a.count).slice(0, 3).map((entry, index) => (
+                                    <li className='text-left text-xl' key={index}>
+                                      {index + 1}) {monthsName[entry.month - 1]}
+                                    </li>
+                                  ))
+                                  }
+                                </ul>
+                              </div>
                             </div>
                           ) : (
                             <div>
@@ -336,12 +375,22 @@ function Stats() {
                         </div>
                       </div>
                     ) : (
-                      <div>
+                      <div className='flex flex-row justify-center flex-wrap w-full'>
                         <div>
                           {yearPageData ? (
                             <div>
                               <LineChartYear yearData={allPageData} />
-                              Page
+                              <div>
+                                <span className='text-primary text-xl'>Top Reading Years - Pages</span>
+                                <ul className='flex justify-start flex-col'>
+                                  {allPageData.sort((a, b) => b.count - a.count).slice(0, 3).map((entry, index) => (
+                                    <li className='text-left text-xl' key={index}>
+                                      {index + 1}) {entry.year}
+                                    </li>
+                                  ))
+                                  }
+                                </ul>
+                              </div>
                             </div>
                           ) : (
                             <div>
@@ -353,7 +402,17 @@ function Stats() {
                           {yearBookData ? (
                             <div>
                               <LineChartYear yearData={allBookData} />
-                              Book
+                              <div>
+                                <span className='text-primary text-xl'>Top Reading Years - Books</span>
+                                <ul className='flex justify-start flex-col'>
+                                  {allBookData.sort((a, b) => b.count - a.count).slice(0, 3).map((entry, index) => (
+                                    <li className='text-left text-xl' key={index}>
+                                      {index + 1}) {entry.year}
+                                    </li>
+                                  ))
+                                  }
+                                </ul>
+                              </div>
                             </div>
                           ) : (
                             <div>
