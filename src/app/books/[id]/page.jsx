@@ -6,7 +6,10 @@ import like from "../../../images/like.png";
 import dislike from "../../../images/dislike.png";
 import activeLike from '../../../images/like_active.png'
 import activeDislike from '../../../images/dislike_active.png'
+import rated from '../../../images/rated_star.png'
+import unrated from '../../../images/unrated_star.png'
 import Loading from './loading';
+import { useRouterContext } from '../../../utils/RouterContext';
 
 
 import dropdown from '../../../images/dd.png';
@@ -24,11 +27,17 @@ function Books() {
     readBooks: [],
     toReadBooks: [],
   })
+  const router = useRouterContext();
+  const [bookReview, setBookReview] = useState([]);
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewDescription, setReviewDescription] = useState('');
+  const [reviewRating, setReviewRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
   const [likePref, setLikePref] = useState();
-  
+
   const largeDropRef = useRef(null); // Ref for large screen dropdown
   const smallDropRef = useRef(null);
-  
+
 
   const handleClickOutside = (event) => {
     if (
@@ -39,6 +48,9 @@ function Books() {
     }
   }
 
+  const handleLinkClick = (path) => {
+    router.push(path)
+  }
 
   const toggleLike = async () => {
     try {
@@ -69,9 +81,85 @@ function Books() {
     } catch (err) {
       console.error('Error liking the book:', err);
     }
-
-
   }
+
+  const getBookReview = async () => {
+    try {
+      const res = await fetch('/api/bookReview', {
+        method: 'GET',
+        headers: {
+          'bookId': id,
+          'limit': 5,
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to get review")
+      }
+
+      const data = await res.json();
+      setBookReview(data.bookReview);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleRatingClick = (index) => {
+    setReviewRating(index + 1);
+  }
+
+  const handleMouseEnter = (index) => {
+    setHoverRating(index + 1);
+  }
+
+  const handleMouseLeave = () => {
+    setHoverRating(0);
+  }
+
+  const postBookReview = async () => {
+
+    console.log(id);
+    try {
+      const userId = user.id;
+      const bookId = id
+
+      if (bookId) {
+        const res = await fetch('/api/bookReview', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: reviewTitle,
+            description: reviewDescription,
+            rating: reviewRating,
+            userId: userId,
+            bookId: bookId,
+          })
+        })
+
+        if (!res.ok) {
+          console.error('Failed to post a review', res.statusText);
+          return;
+        }
+
+        const data = await res.json();
+        if (!data.success) {
+          console.error('API response indicates failure to post a review');
+        }
+      }
+
+
+    } catch (err) {
+      console.log(err);
+    }
+    setReviewDescription('');
+    setReviewTitle('');
+    setReviewRating(0);
+    setHoverRating(0);
+    await getBookReview();
+  }
+
   const toggleDislike = async () => {
     try {
       setLikePref((prev) => {
@@ -126,10 +214,14 @@ function Books() {
             setBook(data);
             if (user && user.id) {
               checkUserBookLists();
+              getBookReview();
+
             }
           }
         })
-        .catch((err) => setError('Error', err))
+        .catch((err) => setError('Error', err));
+
+
     }
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -200,9 +292,9 @@ function Books() {
     return <div>Error: {error}</div>;
   }
 
-if (!book) {
+  if (!book) {
     return <Loading />;
-}
+  }
 
   return (
     <div className='flex flex-col 2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[345px] xs:w-[250px] mx-auto mt-5'>
@@ -373,7 +465,7 @@ if (!book) {
             Add to Cart
           </button>
         </div>
-        <hr className='sm:hidden block my-5 w-[80%] mx-auto'/>
+        <hr className='sm:hidden block my-5 w-[80%] mx-auto' />
         <div className='2xl:w-[400px] xl:w-[375px] lg:w-[300px] norm:w-[350px] md:w-[275px] sm:w-[150px] w-[300px] xs:w-[200px]'>
           <h2 className='text-primary font-bold 2xl:text-5xl xl:text-4xl lg:text-3xl norm:text-4xl md:text-3xl sm:text-2xl text-3xl'>Feel</h2>
           <ul className='flex flex-col justify-around 2xl:text-3xl xl:text-2xl lg:text-xl norm:text-2xl md:text-xl sm:text-lg text-xl'>
@@ -387,7 +479,7 @@ if (!book) {
               ))}
           </ul>
         </div>
-        <hr className='lg:hidden block my-5 w-[80%] mx-auto'/>
+        <hr className='lg:hidden block my-5 w-[80%] mx-auto' />
         <div className='2xl:w-[400px] xl:w-[375px] lg:w-[300px] norm:w-[350px] md:w-[275px] sm:w-[215px] w-[160px] xs:w-[200px]' >
           <h2 className='text-primary font-bold 2xl:text-5xl xl:text-4xl lg:text-3xl norm:text-4xl md:text-3xl sm:text-2xl text-3xl mb-5'>Tags</h2>
           <div className='flex flex-wrap gap-2 justify-evenly'>
@@ -399,7 +491,7 @@ if (!book) {
             }
           </div>
         </div>
-        <hr className='hidden xs:block my-5 w-[80%] mx-auto'/>
+        <hr className='hidden xs:block my-5 w-[80%] mx-auto' />
         <div className='2xl:w-[400px] xl:w-[375px] lg:w-[300px] norm:w-[350px] md:w-[275px] sm:w-[215px] w-[160px] xs:w-[200px]'>
           <h2 className='text-primary font-bold 2xl:text-5xl xl:text-4xl lg:text-3xl norm:text-4xl md:text-3xl sm:text-2xl text-3xl mb-5'>Pace</h2>
           <ul className='flex justify-evenly flex-col gap-5'>
@@ -414,15 +506,105 @@ if (!book) {
           </ul>
         </div>
       </div>
-      <hr className=' my-5 w-[80%] mx-auto'/>
+      <hr className=' my-5 w-[80%] mx-auto' />
       <div className='flex flex-col w-11/12 mx-auto mt-5 mb-10 gap-4'>
         <div className='flex justify-between items-end'>
           <h3 className='text-primary text-left content-end xs:text-sm text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Reviews</h3>
-          <h3 className='text-primary text-right xs:text-sm text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl'>Leave a Review</h3>
+          <h3 className='text-primary text-right xs:text-sm text-xl font-bold md:text-2xl lg:text-4xl xl:text-5xl sm:block hidden'>Leave a Review</h3>
         </div>
-        <div className='flex justify-between'>
-          <div className='h-48 w-[55%] lg:w-[65%] border-[1px] border-secondary border-solid rounded-md'></div>
-          <div className='h-48 w-[40%] lg:w-[30%] border-[1px] border-secondary border-solid rounded-md'></div>
+        <div className='flex justify-between sm:flex-row flex-col'>
+          <div className='min-h-48 sm:w-[55%] lg:w-[65%] w-[99%] border-[1px] border-secondary border-solid rounded-md p-2'>
+            {bookReview && bookReview.length > 0 ? (
+              <div className='no-scrollbar overflow-y-auto h-60'>
+                {bookReview.map((review) => (
+                  <div className='border-b-[1px] border-primary p-2' key={review._id}>
+                    <div className='flex justify-between'>
+                      <div className='flex gap-2 items-center justify-center'>
+                        <h2 className='text-primary capitalize'>{review.authorId.username}</h2>
+                        {
+                          Array.from({ length: review.rating }, (_,index) => (
+                            <div key={index}>
+                              <Image
+                                src={rated}
+                                alt="star"
+                                width={15}
+                                height={15}
+                              />
+                            </div>
+                          ))
+                        }
+                      </div>
+                      <h2>{new Date(review.createdAt).toLocaleDateString()}</h2>
+                    </div>
+                    <h2 className='text-secondary text-xl'>{review.title}</h2>
+                    <h2>{review.description}</h2>
+                  </div>
+                ))}
+                {bookReview.length > 4 ? (
+                  <div>
+                    <h2 className='text-center pt-2 text-white cursor-pointer hover:text-secondary' onClick={()=>{handleLinkClick(`/books/reviews/${id}`)}}>View More Reviews</h2>
+                  </div>
+                ) : (
+                  <div>
+                  </div>
+                )
+
+                }
+              </div>
+            ) : (
+              <div>No Review</div>
+            )}
+          </div>
+          <h3 className='text-primary text-left xs:text-sm text-xl my-2 font-bold md:text-2xl lg:text-4xl xl:text-5xl sm:hidden block'>Leave a Review</h3>
+          <div className=' sm:w-[40%] w-[99%] lg:w-[30%] border-[1px] border-secondary border-solid rounded-md flex flex-col p-4 justify-evenly'>
+            <label htmlFor="title" className='text-primary ml-1'>
+              Title
+            </label>
+            <input
+              type="text"
+              value={reviewTitle}
+              onChange={(e) => setReviewTitle(e.target.value)}
+              placeholder='Title' id='title'
+              className='outline-none bg-background text-white placeholder:text-[#8a8a8a] border-primary border-[1px] p-1 rounded-md' />
+            <label htmlFor="description" className='text-primary ml-1'>
+              Description
+            </label>
+            <textarea
+              placeholder='Description'
+              value={reviewDescription}
+              id='description'
+              onChange={(e) => setReviewDescription(e.target.value)}
+              className='h-[100px] no-scrollbar outline-none bg-background text-white placeholder:text-[#8a8a8a] border-primary border-[1px] p-1 rounded-md' />
+            <div className='flex justify-between flex-wrap'>
+              <div>
+                <label htmlFor="rating" className='text-primary ml-1'>
+                  Rating
+                </label>
+                <div className='flex'>
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleRatingClick(index)}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
+                      className='cursor-pointer'
+                    >
+                      <Image
+                        src={index < (hoverRating || reviewRating) ? rated : unrated}
+                        alt="star"
+                        width={25}
+                        height={25}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <button onClick={postBookReview} className='py-1 px-5 bg-secondary outline-none rounded-md mt-3'>
+                Submit
+              </button>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
