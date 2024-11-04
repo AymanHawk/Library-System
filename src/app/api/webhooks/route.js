@@ -106,7 +106,7 @@ export async function POST(req) {
     }
   }
 
-  if (eventType === 'organization.udated') {
+  if (eventType === 'organization.updated') {
     const {id, logo_url, name} = evt?.data;
     try{
       await updateLibrary(id, logo_url, name);
