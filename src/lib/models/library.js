@@ -1,5 +1,16 @@
 import mongoose from 'mongoose';
 
+const memberSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        required: true,
+    }
+}, { _id: false }); // Prevents creation of an _id for each member
+
 const libSchema = new mongoose.Schema({
     authId: {
         type: String,
@@ -23,14 +34,14 @@ const libSchema = new mongoose.Schema({
         default: ' '
     },
     bookStock: {
-        type: String,
+        type: String, 
         default: null
     },
-    authorizedUsers:{
-        type: [String],
-        defaylt: []
+    members: {
+        type: [memberSchema], 
+        default: []
     }
-}, {timeStamps: true})
+}, { timestamps: true }); 
 
 const Library = mongoose.models.Library || mongoose.model('Library', libSchema);
 

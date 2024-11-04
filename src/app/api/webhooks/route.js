@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers';
 import {createUser, updateUser, deleteUser } from '../../../lib/actions/user'
+import { createLibrary, deleteLibrary, updateLibrary } from '../../../lib/actions/library';
 
 export async function POST(req) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
@@ -55,6 +56,7 @@ export async function POST(req) {
   console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
   console.log('Webhook body:', body);
 
+  //user events
   if (eventType === 'user.created') {
     const {id, image_url, username, first_name, last_name, email_addresses} = evt?.data;
     try{
@@ -90,6 +92,111 @@ export async function POST(req) {
     }
   }
 
+
+  //organization events
+  if (eventType === 'organization.created') {
+    const {id, logo_url, name} = evt?.data;
+    try{
+      await createLibrary(id, logo_url, name);
+
+      return new Response('Library is created', {status: 200});
+    }catch(error){
+      console.log('Error Creating Library:', error)
+      return new Response('Error Occured', {status: 400});
+    }
+  }
+
+  if (eventType === 'organization.udated') {
+    const {id, logo_url, name} = evt?.data;
+    try{
+      await updateLibrary(id, logo_url, name);
+
+      return new Response('Library is created', {status: 200});
+    }catch(error){
+      console.log('Error Creating Library:', error)
+      return new Response('Error Occured', {status: 400});
+    }
+  }
+
+  if(eventType === 'organization.deleted' ){
+    const {id} = evt?.data;
+    try {
+      await deleteLibrary(id);
+      return new Response('Library is Deleted', {status: 200});
+    }catch(error){
+      console.log('Error Deleting Library:', error)
+      return new Response('Error Occured', {status: 400});
+    }
+  }
+
+  
+
+  //handle adding a member to an organization
+   //org membership events (add users to a library organization)
+
+  if (eventType === 'organizationMembership.created') {
+    const {organization, public_user_data, role } = evt?.data;
+    const { user_id } = public_user_data;
+
+    try {
+        await updateLibrary(
+            organization.id, 
+            organization.logo_url,
+            organization.name,
+            { $push: { members: { userId: user_id, role } } } // Add new member along with role
+        );
+        return new Response('Organization member is added', { status: 200 });
+    } catch (error) {
+        console.log('Error adding organization member:', error);
+        return new Response('Error Occurred', { status: 400 });
+    }
+}
+
+if (eventType === 'organizationMembership.deleted') {
+  const {organization, public_user_data } = evt?.data;
+  const { user_id } = public_user_data;
+
+  try {
+      await updateLibrary(
+          organization.id, 
+          organization.logo_url,
+          organization.name,
+          { $pull: { members: { userId: user_id } } } 
+      );
+      
+      return new Response('Organization member is removed', { status: 200 });
+  } catch (error) {
+      console.log('Error removing organization member:', error);
+      return new Response('Error Occurred', { status: 400 });
+  }
+}
+
+if (eventType === 'organizationMembership.updated') {
+  const {organization, public_user_data, role } = evt?.data;
+  const { user_id } = public_user_data;
+
+  try {
+      await updateLibrary(
+          organization.id, 
+          organization.logo_url,
+          organization.name,
+          {
+              $set: {
+                  'members.$[elem].role': role // Update the role of the member in the member array
+              }
+          },
+          { arrayFilters: [{ 'elem.userId': user_id }] } // Filter to match the specific member
+      );
+
+      return new Response('Organization member role is updated', { status: 200 });
+  } catch (error) {
+      console.log('Error updating organization member role:', error);
+      return new Response('Error Occurred', { status: 400 });
+  }
+}
+
+
+ 
 
   return new Response('', { status: 200 });
 }
