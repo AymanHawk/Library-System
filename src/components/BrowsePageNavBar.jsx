@@ -16,10 +16,10 @@ export default function BrowserNavbar() {
   return (
     <div>
       <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-start hidden">
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("home")}>Home</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("fiction")}>Fiction</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("popular")}>Non-Fiction</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("inyourarea")}>
+        <button className="sm:mr-6 mr-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("home")}>Home</button>
+        <button className="sm:mr-6 mr-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("fiction")}>Fiction</button>
+        <button className="sm:mr-6 mr-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("popular")}>Non-Fiction</button>
+        <button className="sm:mr-6 mr-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("inyourarea")}>
           In Your Area
         </button>
         <a href="" className="mr-6 p-2 hover:bg-primary w-full hover:text-black">

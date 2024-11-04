@@ -34,7 +34,10 @@ export default function Fiction() {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-center lg:justify-start ml-auto mr-auto">
+      <h1 className="ml-[10%] mt-[4%] sm:mt-[2%] text-white text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl">
+        Fiction
+      </h1>
+      <div className="flex flex-wrap justify-center lg:justify-start sm:ml-[8%] sm:mr-[8%] ml-[4%] mr-[4%]">
         {readBooks.map((book) => (
           <div
             onClick={() => handleBookClick(`/books/${book._id}`)}
@@ -46,7 +49,7 @@ export default function Fiction() {
               alt={book._id}
               width={50}
               height={60}
-              className="lg:w-36 lg:h-52 md:w-32 md:h-48 sm:w-32 sm:h-48 w-28 h-40 md:m-4 m-2"
+              className="lg:w-36 lg:h-52 md:w-32 md:h-48 sm:w-32 sm:h-48 w-40 h-60 md:m-4 m-2"
             />
           </div>
         ))}

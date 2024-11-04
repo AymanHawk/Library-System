@@ -54,6 +54,7 @@ export default function Home() {
           </div>
         ))}
       </div>
+      <h2 className="ml-[10%]  sm:mt-[2%] text-white text-1xl sm:text-1xl md:text-2xl lg:text-2xl xl:text-2xl">See More</h2>
       <div>
         <h1 className="ml-[10%] mt-[4%] mb-[2%] sm:mt-[2%] text-white text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl">
         Liked Books
@@ -75,6 +76,7 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <h2 className="ml-[10%]  sm:mt-[2%] text-white text-1xl sm:text-1xl md:text-2xl lg:text-2xl xl:text-2xl">See More</h2>
       </div>
       <div>
         <h1 className="ml-[10%] mt-[4%] mb-[2%] sm:mt-[2%] text-white text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl">Most Rented Books</h1>
@@ -95,6 +97,7 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <h2 className="ml-[10%]  sm:mt-[2%] text-white text-1xl sm:text-1xl md:text-2xl lg:text-2xl xl:text-2xl">See More</h2>
       </div>
     </div>
   );
