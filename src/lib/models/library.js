@@ -17,10 +17,10 @@ const libSchema = new mongoose.Schema({
         required: true, 
         unique: true,
     },
-    email: {
-        type: String,
-        required: true,
-    },
+    // email: {
+    //     type: String,
+    //     required: true,
+    // },
     name: {
         type: String,
         default: ' '
