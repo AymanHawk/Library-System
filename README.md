@@ -1,29 +1,39 @@
-# Library System
+<div align = "center">
+  <h1>Senior Project 2024<br> 
+  <strong><em>The Shelves</em></strong></h1>
+ <p> <img src = "https://github.com/user-attachments/assets/b172f601-02dc-41ab-a560-8481e284722d" width = "1184" height = "243" style="vertical-align: middle;"> </p>
+  <h3>User Manual</h3>
+</div>
 
-Get started by initializing the project:
-
-Clone the repo:
-```git
-git clone https://github.com/AymanHawk/Library-System.git
+# Getting Started on the Code
+1. Open Visual Studio
+2. Select ```Clone a repository```
+3. Enter the link under ```Repository location: ```
 ```
-CD to the root dir:
-```bash
-cd Library-System
+https://github.com/AymanHawk/Library-System.git
 ```
-Install packages and run the dev server:
-```npm
+4. Path name should autofill, if not, enter the path name at the end, ```Library-System``` and hit clone.
+5. Install and run the packages in the terminal:
+```
 npm install
 npm run dev
 ```
+# Next Steps
+1. http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
+# Credits
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+<h3><strong>Team Members: </strong></h3>
+<p></p>Kaitlyn Andor</p>
+<p>Rishi Patel</p>
+<p>Ayman Haque</p>
+<p>Bhavpreet Singh</p>
+<p>Manpreet Singh</p>
+<p>Joanna Sroka</p>
 
+## Learn More
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
@@ -31,8 +41,7 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
+## Vercel
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
