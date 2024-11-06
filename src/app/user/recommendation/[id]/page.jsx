@@ -2,6 +2,7 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import UserNavbar from "../../../../components/UserNavbar";
+import { X } from "lucide-react";
 
 export default function Recomendations() {
   const pathname = usePathname();
@@ -40,19 +41,81 @@ export default function Recomendations() {
 }
 
 function Survey() {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <div>
       <p>
         Use Shelves™ Recommendation Guru <i>Hermes</i> to curate book
         recommendations just for you
       </p>
-      <button
-        className="px-6 py-2 bg-black text-white rounded-lg font-bold transform hover:-translate-y-1 transition duration-400"
-        onClick={""}
-      >
-        Start Servey
-      </button>
-      create options for users to select their fav genres, themes, specific books, etc
+      <div className="p-4">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        >
+          Open Modal
+        </button>
+
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Hermes Survey"
+        >
+          <p>
+            Help Hermes make specially handpicked recommendations by completing
+            the survey!
+          </p>
+          <div className="mt-4 flex justify-end space-x-2">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="rounded-md border px-4 py-2 hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+              Confirm
+            </button>
+          </div>
+        </Modal>
+      </div>
+      <br />
+      create options for users to select their fav genres, themes, specific
+      books, etc
     </div>
   );
 }
+
+const Modal = ({ isOpen, onClose, title, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <div className="relative z-50 w-full max-w-lg rounded-lg bg-[#1F1C1C] shadow-lg">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b p-4">
+          <h2 className="text-lg font-semibold">{title}</h2>
+          <button
+            onClick={onClose}
+            className="rounded-full p-1 hover:bg-gray-100"
+          >
+            <X className="h-5 w-5 text-gray-500" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-4">{children}</div>
+      </div>
+    </div>
+  );
+};
