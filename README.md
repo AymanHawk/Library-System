@@ -12,6 +12,10 @@
  ```
 https://nodejs.org/en
 ```
+- [x] Install Git
+```
+https://git-scm.com/downloads
+```
 # Getting Started on Visual Studio
 1. Open your prefered IDE 
 2. Select ```Clone a repository```
@@ -62,3 +66,4 @@ The URL for the project should come up as ```http://localhost:3000```
 ```https://code.visualstudio.com/```
 ```https://nodejs.org/en```
 ```https://www.mongodb.com/try/download/community```
+```https://git-scm.com/downloads```
