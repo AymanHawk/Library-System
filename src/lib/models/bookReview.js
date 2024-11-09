@@ -25,11 +25,11 @@ const bookReviewSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-      },
-      updatedAt: {
+    },
+    updatedAt: {
         type: Date,
         default: Date.now,
-      },
+    },
 })
 
 const BookReview = mongoose.models.BookReview || mongoose.model('BookReview', bookReviewSchema);

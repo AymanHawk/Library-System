@@ -18,7 +18,7 @@ function Preferences() {
 
   const changeAddress = async () => {
     try {
-      const res = await fetch('/api/pref', {
+      const res = await fetch('/api/address', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function Preferences() {
 
   const getAddress = async () => {
     try {
-      const res = await fetch('/api/pref', {
+      const res = await fetch('/api/address', {
         method: 'GET',
         headers: {
           'userId': user.id
