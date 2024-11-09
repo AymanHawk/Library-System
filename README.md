@@ -5,22 +5,61 @@
   <h3>User Manual</h3>
 </div>
 
-# Getting Started on the Code
+
+---------
+# Requirments
+- [x] Install Visual Studio
+```
+https://code.visualstudio.com/
+```
+- [x] Install Node.js
+ ```
+https://nodejs.org/en
+```
+- [x] Install MongoDB
+```
+https://www.mongodb.com/try/download/community
+```
+# Getting Started on Visual Studio
 1. Open Visual Studio
 2. Select ```Clone a repository```
 3. Enter the link under ```Repository location: ```
 ```
 https://github.com/AymanHawk/Library-System.git
 ```
-4. Path name should autofill, if not, enter the path name at the end, ```Library-System``` and hit clone.
-5. Install and run the packages in the terminal:
-```
+4. Path name should autofill, if not, enter the path name at the end of your folder path, ```Library-System``` and hit clone.
+5. To check if the repository and packaged were cloned:
+Use terminal commands ```ls``` and ```cd Library-System```
+
+# Next Steps:
+- [x] Vercel
+- [x] Clerk
+- [x] React
+* Ensure that you are installing packages in your \Library-System> path:
+```bash
 npm install
+```
+Make sure to update dependencies:
+```bash
+npm update
+```
+Install MongoDB:
+```bash
+npm install mongodb
+```
+Install Vercel:
+```bash
+npm i -g vercel
+```
+Install React:
+```bash
+npm install next react react-dom
+```
+To run the project:
+```bash
 npm run dev
 ```
-# Next Steps
-1. http://localhost:3000
-
+The URL for the project should come up as ```http://localhost:3000```
 
 # Credits
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
@@ -33,6 +72,15 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 <p>Manpreet Singh</p>
 <p>Joanna Sroka</p>
 
+# Tech Used
+* Visual Studio
+* Node.js
+* MongoDB
+* Clerk
+* React
+* Vercel
+* Figma
+--------
 ## Learn More
 To learn more about Next.js, take a look at the following resources:
 
@@ -45,3 +93,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Links
+```https://code.visualstudio.com/```
+```https://nodejs.org/en```
+```https://www.mongodb.com/try/download/community```
