@@ -1,25 +1,49 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import UserNavbar from "../../../../components/UserNavbar";
 import { X } from "lucide-react";
 
-export default function Recomendations() {
+export default function Recommendations() {
   const pathname = usePathname();
   const id = pathname.split("/").pop();
+  const [recommendations, setRecommendations] = useState([]);
+
+  async function getRecommendations() {
+    const userInput = "I enjoy lighthearted books that are medium-paced and fall into manga and romance.";
+    const weights = [1.5, 1.0, 0.5]; // @katie-andor @fangedShadow what weights should we use?
+
+    try {
+      const response = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInput, weights })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Recommendations:', data.recommendations);
+        setRecommendations(data.recommendations);
+      } else {
+        console.error('Error fetching recommendations:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   return (
     <div>
       <UserNavbar userId={id} userPath={pathname} />
       <div className="mx-20">
-        <div className=" border-secondary rounded-md border-2 p-3 mb-10">
+        <div className="border-secondary rounded-md border-2 p-3 mb-10">
           <div className="flex flex-col items-start">
             <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
               <Survey />
             </h1>
           </div>
         </div>
-        <div className=" border-secondary rounded-md border-2 p-3 mb-10">
+        <div className="border-secondary rounded-md border-2 p-3 mb-10">
           <div className="flex flex-col items-start">
             <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
               Based on recent Reads
@@ -27,7 +51,7 @@ export default function Recomendations() {
             <div className="w-[10%] h-48 bg-white">Books</div>
           </div>
         </div>
-        <div className=" border-secondary rounded-md border-2 p-3 mb-10">
+        <div className="border-secondary rounded-md border-2 p-3 mb-10">
           <div className="flex flex-col items-start">
             <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl">
               Genre Picks
@@ -35,6 +59,24 @@ export default function Recomendations() {
             <div className="w-[10%] h-48 bg-white">Books</div>
           </div>
         </div>
+        <button
+          onClick={getRecommendations}
+          className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        >
+          Get Recommendations
+        </button>
+        {recommendations.length > 0 && (
+          <div className="mt-4">
+            <h2 className="text-white text-lg">Recommended Books:</h2>
+            <ul>
+              {recommendations.map((rec, index) => (
+                <li key={index} className="text-white">
+                  {rec.title} (ID: {rec._id})
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -82,9 +124,6 @@ function Survey() {
           </div>
         </Modal>
       </div>
-      <br />
-      create options for users to select their fav genres, themes, specific
-      books, etc
     </div>
   );
 }
@@ -94,15 +133,12 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative z-50 w-full max-w-lg rounded-lg bg-[#1F1C1C] shadow-lg">
-        {/* Header */}
         <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-lg font-semibold">{title}</h2>
           <button
@@ -113,7 +149,6 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="p-4">{children}</div>
       </div>
     </div>

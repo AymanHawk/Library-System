@@ -19,6 +19,7 @@ dependencies:
       - transformers
       - datasets
       - accelerate
+      - numpy
   - pytorch
   - torchvision
   - torchaudio

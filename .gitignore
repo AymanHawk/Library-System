@@ -56,6 +56,9 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
+
+src/data/models
+
 #amplify-do-not-edit-end
 
 src/data/bk.json
