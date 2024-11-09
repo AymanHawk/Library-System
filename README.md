@@ -13,7 +13,7 @@
 https://nodejs.org/en
 ```
 # Getting Started on Visual Studio
-1. Open Visual Studio
+1. Open your preffered IDE 
 2. Select ```Clone a repository```
 3. Enter the link under ```Repository location: ```
 ```
