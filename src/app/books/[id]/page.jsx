@@ -35,7 +35,7 @@ function Books() {
   const [hoverRating, setHoverRating] = useState(0);
   const [likePref, setLikePref] = useState();
 
-  const largeDropRef = useRef(null); // Ref for large screen dropdown
+  const largeDropRef = useRef(null); 
   const smallDropRef = useRef(null);
 
 
