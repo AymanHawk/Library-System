@@ -8,17 +8,9 @@
 
 ---------
 # Requirments
-- [x] Install Visual Studio
-```
-https://code.visualstudio.com/
-```
 - [x] Install Node.js
  ```
 https://nodejs.org/en
-```
-- [x] Install MongoDB
-```
-https://www.mongodb.com/try/download/community
 ```
 # Getting Started on Visual Studio
 1. Open Visual Studio
