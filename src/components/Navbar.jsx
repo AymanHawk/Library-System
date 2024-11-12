@@ -6,30 +6,31 @@ import search from '../images/search.png'
 import dashboard from '../images/dashboard.png'
 import cart from '../images/cart.png'
 import preferences from '../images/preferences.png'
-import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, useUser, useOrganizationList } from '@clerk/nextjs'
+import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, useUser, useOrganizationList, useOrganization } from '@clerk/nextjs'
 import { useRouterContext } from "../utils/RouterContext";
 
 
 export default function Navbar() {
     const router = useRouterContext();
+    const { organization } = useOrganization();
     const { user, isLoaded, isSignedIn } = useUser();
     const { isLoaded: orgsLoaded, userMemberships } = useOrganizationList({
         userMemberships: {
-          infinite: true,
+            infinite: true,
         },
-      });
+    });
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
 
     const handleDashboardRedirect = () => {
         if (user) {
-        router.push(`/user/dashboard/${user.id}`);
+            router.push(`/user/dashboard/${user.id}`);
         }
     };
 
     const handlePreferencesRedirect = () => {
-        if(user) {
+        if (user) {
             router.push(`/user/profile/preferences/${user.id}`)
         }
     }
@@ -74,7 +75,7 @@ export default function Navbar() {
     }
 
     const handleEnter = (e) => {
-        if(e.key === 'Enter'){
+        if (e.key === 'Enter') {
             router.push(`/browse/books/search/results?search=${encodeURIComponent(query)}`)
             setIsFocus(false)
             setQuery('');
@@ -87,10 +88,14 @@ export default function Navbar() {
         router.push(path);
     }
 
+    const handleLogoClick = () => {
+        router.push('/')
+    }
+
     useEffect(() => {
-        if(isLoaded && isSignedIn) {
+        if (isLoaded && isSignedIn) {
             const hasRefreshed = sessionStorage.getItem('hasRefreshed');
-            if(!hasRefreshed) {
+            if (!hasRefreshed) {
                 sessionStorage.setItem('hasRefreshed', 'true')
                 window.location.reload()
             }
@@ -100,9 +105,9 @@ export default function Navbar() {
     return (
         <nav>
             <div className='nav-logo'>
-                <a href="/">
+                <div onClick={() => handleLogoClick}>
                     <Image src={logo} alt='logo' />
-                </a>
+                </div>
             </div>
             <div className='nav-search-bar relative'>
                 <div className='nav-search'>
@@ -130,10 +135,10 @@ export default function Navbar() {
                             </div>
 
                         ))
-                        
+
                         }
                         <div className='text-center py-2 '>
-                            <span className='cursor-pointer hover:text-secondary'  onClick={handleLinkClick}>View All The Books</span>
+                            <span className='cursor-pointer hover:text-secondary' onClick={handleLinkClick}>View All The Books</span>
                         </div>
                     </div>
                 }
@@ -144,24 +149,30 @@ export default function Navbar() {
                 <Image src={cart} alt='cart' className='w-[75%] max-w-[36px]' />
             </div>
             <div className='nav-user p-1'>
-                <SignedIn>
-                    <UserButton>
-                        <UserButton.MenuItems>
-                            <UserButton.Action
-                                label="Dashboard"
-                                labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
-                                onClick={handleDashboardRedirect}
-                            />
-                        </UserButton.MenuItems>
-                        <UserButton.MenuItems>
-                            <UserButton.Action
-                                label="Preferences"
-                                labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
-                                onClick={handlePreferencesRedirect}
-                            />
-                        </UserButton.MenuItems>
-                    </UserButton>
-                </SignedIn>
+                {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
+                    <div className='bg-background rounded-md'>
+                        <OrganizationSwitcher hidePersonal={true} />
+                    </div>
+                ) : (
+                    <SignedIn>
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Action
+                                    label="Dashboard"
+                                    labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                                    onClick={handleDashboardRedirect}
+                                />
+                            </UserButton.MenuItems>
+                            <UserButton.MenuItems>
+                                <UserButton.Action
+                                    label="Preferences"
+                                    labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
+                                    onClick={handlePreferencesRedirect}
+                                />
+                            </UserButton.MenuItems>
+                        </UserButton>
+                    </SignedIn>
+                )}
                 <SignedOut>
                     <SignInButton>
                         <button className='text-lg'>Sign In</button>
@@ -169,12 +180,14 @@ export default function Navbar() {
                 </SignedOut>
             </div>
 
-
-                {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 && (
-        <ul>
-          <OrganizationSwitcher hidePersonal={true} />
-        </ul>
-      )}
+            {/* 
+            {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
+                <ul>
+                    <OrganizationSwitcher hidePersonal={true} />
+                </ul>
+            ) : (
+                <div>user</div>
+            )} */}
 
         </nav>
     )

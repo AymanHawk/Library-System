@@ -4,8 +4,7 @@ import React from 'react'
 import { useRouterContext } from '../../../../utils/RouterContext';
 import LibNavbar from '../../../../components/LibNavbar';
 
-
-function orderId() {
+function Books() {
 
   const pathname = usePathname();
   const id = pathname.split('/').pop();
@@ -14,8 +13,10 @@ function orderId() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      orderId</div>
+
+      Books
+    </div>
   )
 }
 
-export default orderId
+export default Books
