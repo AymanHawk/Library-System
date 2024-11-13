@@ -5,7 +5,6 @@ export default function Loading() {
         <div className="bg-loading h-8 w-3/4 my-2 md:my-10 ml-5 rounded-md"></div>
 
         <div className="flex flex-wrap lg:justify-between justify-center">
-          
           {[...Array(6)].map((_, index) => (
             <div
               key={index}
