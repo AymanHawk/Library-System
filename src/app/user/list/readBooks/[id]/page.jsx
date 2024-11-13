@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useRouterContext } from "../../../../../utils/RouterContext";
 import UserNavbar from "../../../../../components/UserNavbar";
 import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
+import Loading from "./loading"
 
 function readBooks() {
   const { user } = useUser();
@@ -15,12 +16,14 @@ function readBooks() {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 15;
   const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(true)
 
   const handleBookClick = (path) => {
     router.push(path);
   }
   useEffect(() => {
     const fetchList = async () => {
+      setLoading(true);
       try {
         const response = await fetch("/api/bookList/user/one", {
           method: "GET",
@@ -41,6 +44,8 @@ function readBooks() {
         setTotalCount(data.totalCount);
       } catch (err) {
         console.log(err);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -48,6 +53,12 @@ function readBooks() {
       fetchList();
     }
   }, [user, currentPage]);
+
+  if (loading) {
+    return <Loading count={totalCount > 0 ? totalCount : limit} />;
+  }
+
+ 
 
   return (
     <div>
