@@ -1,9 +1,77 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import edit from '../../../../../images/edit-pen.png'
+import drop from '../../../../../images/drop-white.png'
+import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
+import Error from 'next/error'
 
 
 function Preferences() {
+
+  const [stAdd, setStAdd] = useState();
+  const [cityAdd, setCityAdd] = useState();
+  const [stateAdd, setStateAdd] = useState();
+  const [zipAdd, setZipAdd] = useState();
+  const { user } = useUser();
+
+
+  const changeAddress = async () => {
+    try {
+      const res = await fetch('/api/address', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }, 
+        body: JSON.stringify({
+          userId: user.id,
+          street: stAdd,
+          state: stateAdd,
+          city: cityAdd,
+          zip: zipAdd
+        }),
+      });
+
+      const data = await res.json();
+      if(!data.success){
+        console.error('Failed to update the Address');
+      }
+    } catch (err) {
+      console.error('Error changing address:', err);
+    }
+  }
+
+  const getAddress = async () => {
+    try {
+      const res = await fetch('/api/address', {
+        method: 'GET',
+        headers: {
+          'userId': user.id
+        }
+      })
+
+      if (!res.ok) {
+        throw new Error('Error getting the user Address')
+      }
+
+      const data = await res.json();
+      setCityAdd(data.address.city);
+      setStAdd(data.address.street);
+      setZipAdd(data.address.zip);
+      setStateAdd(data.address.state);
+
+    } catch (err) {
+      console.log("Error getting address", err);
+    }
+  }
+
+  useEffect(() => {
+    if (user && user.id) {
+      getAddress();
+    }
+  }, []);
+
+
   return (
     <div className='2xl:w-[1400px] xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto'>
       <h1 className='text-2xl text-White'>
@@ -35,22 +103,25 @@ function Preferences() {
               <div className='flex items-end mb-5'>
                 <div className='flex flex-col'>
                   Street Address
-                  <input type="text" className='outline-none bg-secondary p-1 w-[400px]' />
+                  <input type="text" className='outline-none bg-secondary p-1 w-[427px]' value={stAdd} onChange={(e) => { setStAdd(e.target.value) }} />
                 </div>
-                <Image src={edit} alt='edit' width={32} height={32} />
+                <Image src={edit} alt='edit' width={32} height={32} onClick={changeAddress}/>
               </div>
               <div className='flex justify-start gap-3'>
                 <div className='flex flex-col'>
                   City
-                  <input type="text" className='outline-none bg-secondary p-1 w-[200px]' />
+                  <input type="text" className='outline-none bg-secondary p-1 w-[200px]' value={cityAdd} onChange={(e) => { setCityAdd(e.target.value) }} />
                 </div>
                 <div className='flex flex-col'>
                   State
-                  <input type="text" className='outline-none bg-secondary p-1 w-[60px]' />
+                  <div className='w-[120px] flex items-center bg-secondary'>
+                    <input type="text" className='outline-none bg-secondary p-1 w-[90px] border-r-[1px]' value={stateAdd} onChange={(e) => { setStateAdd(e.target.value) }} />
+                    <Image src={drop} alt='dropdown' className='bg-secondary mx-auto ' width={15} height={15} />
+                  </div>
                 </div>
                 <div className='flex flex-col'>
                   Zip
-                  <input type="text" className='outline-none bg-secondary p-1 w-[115px]' />
+                  <input type="text" className='outline-none bg-secondary p-1 w-[115px]' value={zipAdd} onChange={(e) => { setZipAdd(e.target.value) }} />
                 </div>
               </div>
             </div>

@@ -10,6 +10,7 @@ import rated from '../../../images/rated_star.png'
 import unrated from '../../../images/unrated_star.png'
 import Loading from './loading';
 import { useRouterContext } from '../../../utils/RouterContext';
+import zipcodes from 'zipcodes';
 
 
 import dropdown from '../../../images/dd.png';
@@ -35,9 +36,113 @@ function Books() {
   const [hoverRating, setHoverRating] = useState(0);
   const [likePref, setLikePref] = useState();
 
-  const largeDropRef = useRef(null); // Ref for large screen dropdown
+  const largeDropRef = useRef(null);
   const smallDropRef = useRef(null);
 
+  const [zip, setZip] = useState(null);
+  const [zipList, setZipList] = useState([]);
+  const [libraries, setLibraries] = useState([]);
+
+  const getZipNearby = async () => {
+    if (user) {
+      try {
+        const res = await fetch('/api/address', {
+          method: 'GET',
+          headers: {
+            'userId': user.id
+          }
+        })
+
+        if (!res.ok) {
+          throw new Error('Error getting the user Address')
+        }
+
+        const data = await res.json();
+        console.log(data.address.zip);
+
+
+        if (!data.address.zip) {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+                const { latitude, longitude } = position.coords;
+                try {
+                  const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                  const data = await res.json();
+                  console.log(data);
+                  const userZipCode = data.address.postcode;
+                  console.log(userZipCode);
+                  setZip(userZipCode);
+                } catch (err) {
+                  console.log('Failed to retrieve zip code.');
+                }
+              },
+            )
+          }
+        }
+
+        setZip(data.address.zip)
+
+      } catch (err) {
+        console.log("Error getting address", err);
+      }
+    }
+
+    if (!user) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+              const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+              const data = await res.json();
+              console.log(data);
+              const userZipCode = data.address.postcode;
+              console.log(userZipCode);
+              setZip(userZipCode);
+            } catch (err) {
+              console.log('Failed to retrieve zip code.');
+            }
+          },
+        )
+      }
+    }
+  }
+
+
+  const getLib = async () => {
+    try {
+      const res = await fetch('/api/library', {
+        method: 'GET',
+        headers: {
+          'zips': zipList
+        }
+      })
+
+      if (!res.ok) {
+        throw new Error('Error getting the user Address')
+      }
+
+      const data = await res.json();
+      setLibraries(data.libs);
+    } catch (err) {
+      console.log("Error getting library", err);
+    }
+  }
+
+  useEffect(() => {
+    if (zipList) {
+      getLib();
+    }
+  }, [zipList])
+
+  useEffect(() => {
+    if (zip) {
+      const nearby = zipcodes.radius(zip, 5);
+      setZipList(nearby);
+      console.log(nearby);
+    }
+  }, [zip])
 
   const handleClickOutside = (event) => {
     if (
@@ -355,8 +460,33 @@ function Books() {
             </div>
           </div>
           <div className='h-[50px] bg-primary rounded-md flex items-center justify-center'>
-            <section className='2xl:text-4xl xl:text-3xl lg:text-2xl text-black' name="libraries" id="libraries">
+            <section
+              onClick={
+                () => getZipNearby()
+              }
+              className='2xl:text-4xl cursor-pointer relative xl:text-3xl lg:text-2xl text-black'
+              name="libraries"
+              id="libraries">
               Libraries
+              <div className='absolute bg-background text-primary'>
+                {!libraries ? (
+                  <ul>
+                    <li>Lib 1</li>
+                    <li>Lib 2</li>
+                  </ul>
+                ) : (
+                  <ul>
+                    {
+                      libraries.map((lib) => (
+                        <li key={lib._id}>{lib.name}</li>
+                      ))
+                    }
+                  </ul>
+                )
+
+                }
+
+              </div>
             </section>
           </div>
           <div className='my-3 text-primary font-bold 2xl:text-3xl xl:text-2xl lg:text-lg'>
@@ -522,7 +652,7 @@ function Books() {
                       <div className='flex gap-2 items-center justify-center'>
                         <h2 className='text-primary capitalize'>{review.authorId.username}</h2>
                         {
-                          Array.from({ length: review.rating }, (_,index) => (
+                          Array.from({ length: review.rating }, (_, index) => (
                             <div key={index}>
                               <Image
                                 src={rated}
@@ -542,7 +672,7 @@ function Books() {
                 ))}
                 {bookReview.length > 4 ? (
                   <div>
-                    <h2 className='text-center pt-2 text-white cursor-pointer hover:text-secondary' onClick={()=>{handleLinkClick(`/books/reviews/${id}`)}}>View More Reviews</h2>
+                    <h2 className='text-center pt-2 text-white cursor-pointer hover:text-secondary' onClick={() => { handleLinkClick(`/books/reviews/${id}`) }}>View More Reviews</h2>
                   </div>
                 ) : (
                   <div>

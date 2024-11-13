@@ -79,7 +79,6 @@ export async function GET(req) {
         .limit(parseInt(limit))
         .populate('authorId', 'username')
 
-        console.log(bookTitle);
         return new Response(JSON.stringify({ bookReview, totalCount, bookTitle}), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
