@@ -5,13 +5,21 @@ import Home from "./Home.jsx";
 import Fiction from "./Fiction.jsx";
 import NonFiction from "./NonFiction.jsx";
 import InYourArea from "./InYourArea.jsx";
+import { useRouterContext } from "../utils/RouterContext.jsx";
 
 export default function BrowserNavbar() {
   const [activeTab, setActiveTab] = useState("home");
+  const router = useRouterContext();
+
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  const handlePathClick = (path) => {
+    router.push(path);
+  }
+
 
   return (
     <div>
@@ -19,14 +27,8 @@ export default function BrowserNavbar() {
         <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("home")}>Home</button>
         <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("fiction")}>Fiction</button>
         <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("popular")}>Non-Fiction</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("inyourarea")}>
-          In Your Area
-        </button>
-        <a href="" className="mr-6 p-2 hover:bg-primary w-full hover:text-black">
-          <button>
-            Custom
-          </button>
-        </a>
+        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("inyourarea")}>In Your Area</button>
+        <button onClick={()=> handlePathClick("/browse/books/search")}>Custom</button>
       </div>
 
       <div className="tab-content">

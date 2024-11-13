@@ -4,11 +4,16 @@ import "./globals.css";
 import Navbar from "../components/Navbar.jsx"
 import { ClerkProvider } from '@clerk/nextjs'
 import { RouterProvider } from "../utils/RouterContext.jsx";
+import { usePathname } from "next/navigation";
 
 
 
 
 export default function RootLayout({ children }) {
+
+  const pathname = usePathname();
+
+  const hideUserNav = pathname.startsWith('/library');
 
   return (
     <ClerkProvider
@@ -28,7 +33,7 @@ export default function RootLayout({ children }) {
       <RouterProvider>
        <html lang="en">
           <body className="bg-background p-5 text-white">
-            <Navbar />
+            {!hideUserNav && <Navbar />}
             {children}
           </body>
         </html>
