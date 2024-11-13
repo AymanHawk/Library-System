@@ -24,7 +24,7 @@ export default function Loading() {
             <div className="cursor-default flex justify-start items-center h-max 2xl:w-[225px] xl:w-[200px] lg:w-[150px] ">
               <section className=" h-[45px] 2xl:w-[175px] xl:w-[150px] lg:w-[105px] 2xl:text-2xl xl:text-xl lg:text-base content-center my-auto text-center animate-pulse bg-loading"></section>
               <section className=" h-[45px] w-[45px] flex items-center justify-end bg-loading">
-                {/* Placeholder for loading icon */}
+                
                 <div className="mx-auto relative animate-pulse bg-loading">
                   
                 </div>
@@ -36,7 +36,7 @@ export default function Loading() {
               </section>
             </div>
             <div className="flex flex-nowrap xl:w-[100px] xl:gap-2 w-[90px]bg-gray-400 ">
-              {/* Placeholders for like and dislike buttons */}
+              
               <div className="cursor-default">
                 <div className="animate-pulse h-10 w-10 bg-loading rounded-full"></div>
               </div>
@@ -105,14 +105,14 @@ export default function Loading() {
       <div className="w-[80%] h-1  mx-auto my-5 animate-pulse "></div>
       <div className="flex justify-around flex-wrap">
         <div className="norm:w-[350px] md:w-[275px] sm:w-[275px] w-[300px] xs:w-[250px] 2xl:h-[550px]  animate-pulse rounded-md">
-          {/* Skeleton for the heading */}
+          
           <h2 className="text-transparent font-bold bg-loading rounded-md 2xl:text-5xl xl:text-4xl lg:text-3xl norm:text-4xl md:text-3xl sm:text-2xl text-3xl h-10 mb-4"></h2>
 
-          {/* Skeleton for the list */}
+          
           <ul className="flex flex-col justify-around">
             {Array.from({ length: 9 }).map((_, index) => (
               <li key={index} className="flex justify-between mb-2">
-                {/* Skeleton for each list item */}
+                
                 <span className="font-bold bg-loading rounded-md h-10 w-3/5"></span>
                 <span className="bg-loading rounded-md h-10 w-1/4"></span>
               </li>
@@ -125,13 +125,13 @@ export default function Loading() {
 
 
           <div className="flex flex-wrap gap-2 justify-evenly">
-            {/* Placeholder for tags */}
+            
             {Array.from({ length: 7 }).map((_, index) => (
               <div
                 className="bg-loading rounded-3xl capitalize p-4 2xl:text-4xl xl:text-3xl lg:text-2xl norm:text-3xl md:text-2xl sm:text-xl text-lg animate-pulse  h-16 w-40"
                 key={index}
               >
-                {/* Placeholder text could be added here if needed */}
+                
                 <span className="rounded-3xl 2xl:w-[200px] xl:w-[180px] lg:w-[160px] norm:w-[170px] md:w-[160px] sm:w-[150px] w-[140px] xs:w-[150px] h-14  animate-pulse"></span>
               </div>
             ))}
@@ -139,17 +139,17 @@ export default function Loading() {
         </div>
 
         <div className="2xl:w-[400px] xl:w-[375px] lg:w-[300px] norm:w-[350px] md:w-[275px] sm:w-[215px] w-[160px] xs:w-[200px]  animate-pulse rounded-md p-4 ">
-          {/* Header placeholder */}
+          
           <h2 className="text-transparent font-bold bg-loading rounded-md 2xl:text-5xl xl:text-4xl lg:text-3xl norm:text-4xl md:text-3xl sm:text-2xl text-3xl h-10 mb-4 -mt-4"></h2>
 
-          {/* Placeholder for loading tags */}
+          
           <ul className="flex flex-col gap-4">
             {Array.from({ length: 3 }).map((_, index) => (
               <li className="flex justify-between items-center" key={index}>
-                {/* Tag text skeleton */}
+                
                 <span className="bg-loading rounded-3xl 2xl:w-[200px] xl:w-[180px] lg:w-[160px] norm:w-[170px] md:w-[160px] sm:w-[150px] w-[140px] xs:w-[150px] h-14 animate-pulse"></span>
 
-                {/* Number skeleton */}
+                
                 <span className="bg-loading rounded-md animate-pulse h-8 w-14"></span>
               </li>
             ))}
