@@ -25,11 +25,11 @@ function Books() {
           Filter
         </div>
         <div className='flex gap-2'>
-          <div className='bg-secondary cursor-pointer' onClick={() => handleRouteClick(`/library/inventory/addBook/${id}`)}>
-            upload single book
+          <div className='bg-secondary cursor-pointer px-8 py-2 rounded-md' onClick={() => handleRouteClick(`/library/inventory/addBook/${id}`)}>
+            Upload Single Book
           </div>
-          <div className='bg-secondary cursor-pointer' onClick={() => handleRouteClick(`/library/inventory/addMultipleBook/${id}`)}>
-            upload multiple book
+          <div className='bg-secondary cursor-pointer px-8 py-2 rounded-md' onClick={() => handleRouteClick(`/library/inventory/addMultipleBook/${id}`)}>
+            Upload Multiple Books
           </div>
         </div>
       </div>
