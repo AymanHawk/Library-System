@@ -69,7 +69,8 @@ const bookSchema = new mongoose.Schema({
             month: { type: Number },
             userRead: { type: Number, default: 0 },
             userLiked: { type: Number, default: 0 },
-            userRented: { type: Number, default: 0 }
+            userRented: { type: Number, default: 0 },
+            _id: false
         }]
     }
 })

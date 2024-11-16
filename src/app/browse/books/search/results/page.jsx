@@ -8,14 +8,18 @@ import dislike from '../../../../../images/dislike.png'
 import activeLike from '../../../../../images/like_active.png'
 import activeDislike from '../../../../../images/dislike_active.png'
 import { useUser } from '@clerk/nextjs';
+import { useRouterContext } from '../../../../../utils/RouterContext.jsx';
+import Loading from './loading';
 
 
 
 function Results({ searchParams }) {
   const searchQuery = searchParams?.search;
+  const router = useRouterContext();
   const [results, setResults] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const limit = 10;
   const [dropState, setDropState] = useState({});
   const [dropTextState, setDropTextState] = useState({});
@@ -146,9 +150,14 @@ function Results({ searchParams }) {
     }
   };
 
+  const handleBookClick = (path) => {
+    router.push(path);
+  }
+
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`/api/search?query=${encodeURIComponent(searchQuery)}&page=${currentPage}&limit=${limit}`);
         const { books, totalCount } = await res.json();
@@ -156,6 +165,8 @@ function Results({ searchParams }) {
         setTotalCount(totalCount);
       } catch (err) {
         console.error(err)
+      }finally{
+        setLoading(false);
       }
 
 
@@ -210,7 +221,9 @@ function Results({ searchParams }) {
 
   }, [user])
 
-
+  if (loading) {  
+    return <Loading/>;
+  }
 
   return (
     <div className='2xl:w-[1300px] xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto' >
@@ -223,9 +236,9 @@ function Results({ searchParams }) {
             </div>
             <div className='flex 2xl:w-[425px] xl:w-[400px] lg:w-[325px] norm:w-[500px] md:w-[400px] sm:w-[300px] w-[230px] xs:w-[215px] flex-col justify-between'>
               <div className='2xl:h-[250px] xl:h-[225px] lg:h-[180px] norm:h-[275px] md:h-[225px] sm:h-[165px] h-[150px] xs:h-[100px]'>
-                <a href={`/books/${book._id}`} className='text-primary text-wrap 2xl:text-4xl xl:text-3xl lg:text-xl norm:text-4xl md:text-3xl sm:text-lg text-base xs:text-sm'>{
+                <h1 onClick={() => handleBookClick(`/books/${book._id}`)} className='text-primary cursor-pointer text-wrap 2xl:text-4xl xl:text-3xl lg:text-xl norm:text-4xl md:text-3xl sm:text-lg text-base xs:text-sm'>{
                   book.title.length > 40 ? `${book.title.slice(0, 40)}...` : book.title
-                }</a>
+                }</h1>
                 <h3 className='text-primary 2xl:text-2xl xl:text-2xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px]'>{book.author}</h3>
                 <h4 className='2xl:text-xl xl:text-lg lg:text-base norm:text-xl md:text-lg sm:text-sm text-[12px] xs:text-[10px]'>{book.isbn}</h4>
                 <h4 className='2xl:text-xl xl:text-lg lg:text-base norm:text-xl md:text-lg sm:text-sm text-[12px] xs:text-[10px] capitalize'>{book.genre[0]}, {book.genre[1]}, {book.genre[2]}, {book.genre[(book.genre.length - 1)]}</h4>
@@ -248,8 +261,6 @@ function Results({ searchParams }) {
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className={dropTextState[book._id] === 'Finished' ? `hidden` : `` + ` border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Finished</li>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className={dropTextState[book._id] === 'To-Read' ? `hidden` : `` + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>To-Read</li>
                         <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Add to List') }} className={((dropTextState[book._id] === 'Finished' || dropTextState[book._id] === 'To-Read') ? ` ` : `hidden`) + ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`}>Remove</li>
-                        {/* <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'Finished') }} className='border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full'>Finished</li>
-                        <li onClick={(e) => { e.stopPropagation(); handleTextChange(book._id, 'To-Read') }} className='border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg  norm:text-2xl md:text-xl text-sm xs:text-[12px] p-2 w-full'>To-Read</li> */}
                       </ul>
                     </section>
                   </section>

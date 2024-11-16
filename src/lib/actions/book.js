@@ -70,3 +70,14 @@ export const addStat = (list, genreStat, paceStat, themeStat, pageStat) => {
     list.pagesRead = (list.pagesRead || 0) + pageStat;
     list.booksRead = (list.booksRead || 0) + 1;
 }
+
+export const addBookStat = (list, type) => {
+    list[type] = (list[type] || 0) + 1;
+}
+
+export const subBookStat = (list, type) => {
+    list[type] = (list[type]-1)
+    if(list[type]<0){
+        list[type] = 0;
+    }
+}

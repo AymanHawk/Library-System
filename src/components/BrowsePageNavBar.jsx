@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import Home from "./Home.jsx";
 import Fiction from "./Fiction.jsx";
-import Popular from "./Popular.jsx";
+import NonFiction from "./NonFiction.jsx";
 import InYourArea from "./InYourArea.jsx";
 
 export default function BrowserNavbar() {
@@ -18,7 +18,7 @@ export default function BrowserNavbar() {
       <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-start hidden">
         <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("home")}>Home</button>
         <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("fiction")}>Fiction</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("popular")}>Popular</button>
+        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("popular")}>Non-Fiction</button>
         <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("inyourarea")}>
           In Your Area
         </button>
@@ -44,7 +44,7 @@ export default function BrowserNavbar() {
 
         {activeTab === "popular" && (
           <div>
-            <Popular />
+            <NonFiction />
           </div>
         )}
 
