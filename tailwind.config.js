@@ -28,6 +28,7 @@ module.exports = {
         background: "#1E1C1C",
         primary: "#DCE75C",
         secondary: "#5D68B0",
+        loading: "#272525",
       },
       extend: {
         animation: {
@@ -45,7 +46,8 @@ module.exports = {
       colors: {
         'background' : '#1E1C1C',
         'primary': '#DCE75C',
-        'secondary': '#5D68B0'
+        'secondary': '#5D68B0',
+        'loading': '#272525'
       }
     },
   },
