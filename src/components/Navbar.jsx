@@ -105,7 +105,7 @@ export default function Navbar() {
     return (
         <nav>
             <div className='nav-logo'>
-                <div onClick={() => handleLogoClick}>
+                <div onClick={() => {handleLogoClick()}} className='cursor-pointer'>
                     <Image src={logo} alt='logo' />
                 </div>
             </div>
@@ -179,16 +179,9 @@ export default function Navbar() {
                     </SignInButton>
                 </SignedOut>
             </div>
-
-            {/* 
-            {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
-                <ul>
-                    <OrganizationSwitcher hidePersonal={true} />
-                </ul>
-            ) : (
-                <div>user</div>
-            )} */}
-
+            {/* <div>
+                <UserButton></UserButton>
+            </div> */}
         </nav>
     )
 }

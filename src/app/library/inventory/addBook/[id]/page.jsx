@@ -28,9 +28,6 @@ function AddBook() {
     router.push(path);
   };
 
-  const closePopUp = () => {
-    setPopUp(false);
-  };
 
   const onAddClick = async () => {
     try {
@@ -258,7 +255,7 @@ function AddBook() {
 
             <div className="col-span-2">
               <textarea
-                className="m-0.5 w-full text-background bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[90px]"
+                className="m-0.5 w-full  bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[90px]"
                 value={desc}
                 name="description"
                 id="description"
@@ -271,12 +268,12 @@ function AddBook() {
       </div>
       <div className="flex justify-between mx-[8%] mt-4">
         <div
-          className="border-primary border-2 cursor-pointer rounded-md rounded-lg px-8 sm:px-14 py-2 text-primary text-[20px]"
+          className="border-primary border-2 cursor-pointer rounded-lg px-8 sm:px-14 py-2 text-primary text-[20px]"
           onClick={() => handleRouterClick(`/library/inventory/${id}`)}
         >
           Back
         </div>
-        <div className="bg-secondary cursor-pointer cursor-pointer rounded-md rounded-lg px-8 sm:px-14 py-2 text-white text-[20px]" onClick={onAddClick}>
+        <div className="bg-secondary cursor-pointer rounded-lg px-8 sm:px-14 py-2 text-white text-[20px]" onClick={onAddClick}>
           Upload
         </div>
       </div>
