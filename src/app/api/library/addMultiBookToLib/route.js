@@ -21,7 +21,11 @@ export async function GET(req) {
             .select('title author imgUrl isbn _id genre format length language');
         const result = bookArray.map(book => {
             const dbBook = foundBooks.find(dbBook => dbBook.isbn === parseInt(book.isbn));
-            return dbBook ? dbBook.toObject() : book;
+            if(dbBook) {
+                return { ...dbBook.toObject(), editable: false};
+            } else {
+                return { ...book, editable: true};
+            }
         })
 
         console.log(result)
@@ -67,11 +71,10 @@ export async function POST(req) {
             }
             const bookIsbn = parseInt(isbn);
             const publisher = book.publisher || "Not found"
-            const desc = "N/A"
-            const length = "N/A"
-            const img = "N/A";
+            const desc = book.desc || "N/A"
+            const length = book.length || "N/A"
+            const img = book.imgSrc || "N/A";
             let existingBook = await Book.findOne({ isbn: bookIsbn });
-            // console.log(existingBook);
             if (!existingBook) {
                 const newBook = new Book({
                     title: title,
