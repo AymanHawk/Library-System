@@ -34,7 +34,7 @@ function Books() {
   const [reviewDescription, setReviewDescription] = useState('');
   const [reviewRating, setReviewRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [likePref, setLikePref] = useState();
+  const [likePref, setLikePref] = useState(null);
 
   const largeDropRef = useRef(null);
   const smallDropRef = useRef(null);
@@ -161,7 +161,7 @@ function Books() {
     try {
       setLikePref((prev) => {
         (
-          prev === 'like' ? setLikePref(null) : setLikePref('like')
+          prev === 'like' ? null : 'like'
         )
       })
       const userId = user.id;
@@ -269,7 +269,7 @@ function Books() {
     try {
       setLikePref((prev) => {
         (
-          prev === 'dislike' ? setLikePref(null) : setLikePref('dislike')
+          prev === 'dislike' ? null : 'dislike'
         )
       })
       const userId = user.id;
@@ -335,7 +335,7 @@ function Books() {
     }
 
 
-  }, [id, user])
+  }, [id, user, likePref])
 
   const checkUserBookLists = async () => {
     if (user && user.id) {
@@ -441,12 +441,12 @@ function Books() {
               </section>
             </div>
             <div className="flex flex-nowrap xl:w-[100px] xl:gap-2 w-[90px]">
-              <div onClick={toggleLike}>
+              <div onClick={toggleLike} className='cursor-pointer'>
                 {
                   likePref === 'like' ?
                     <Image src={activeLike} alt='like active' width={45} height={45} className='md:w-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
                     :
-                    <Image src={like} alt='active' width={45} height={45} className='md:w-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
+                    <Image src={like} alt='like' width={45} height={45} className='md:w-[45px] sm:w-[35px] w-[25px] xs:w-[25px]' />
                 }
               </div>
               <div onClick={toggleDislike}>

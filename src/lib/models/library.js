@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { type } from 'os';
 
 const libSchema = new mongoose.Schema({
     authId: {
@@ -45,7 +46,7 @@ const libSchema = new mongoose.Schema({
             },
             _id: false,
         }], 
-        
+    userAcc: {type: [String], default: []}
 }, { timestamps: true }); 
 
 const Library = mongoose.models.Library || mongoose.model('Library', libSchema);
