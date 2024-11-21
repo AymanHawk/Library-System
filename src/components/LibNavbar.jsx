@@ -48,7 +48,7 @@ function LibNavbar({ libId, libPath }) {
                     </button>
                 ))}
             </div>
-            <div className="border-primary border-[1px] bg-background rounded-md w-9/12 mx-auto flex flex-col p-1 mb-5 sm:hidden">
+            <div className="border-primary border-[1px] bg-background rounded-md w-[70%] mx-auto flex flex-col p-1 sm:hidden">
                 <div className="flex justify-end m-1 mb-2">
                     <button className="relative h-6 w-8" onClick={toggleSwitch}>
                         {/* <div className="border-primary border-b-[2px] w-8 mb-2"></div> */}

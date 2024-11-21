@@ -131,14 +131,15 @@ function AddBook() {
         <div
           className={
             (popUp ? "" : "hidden ") +
-            ` absolute bg-background border-secondary border-[1px] p-10 ml-40`
+            ` absolute fixed top-0 left-[-150px] sm:left-[-80px] md:left-[-40px] bg-background border-secondary border-[1px] p-10 ml-40`
           }
         >
           <div>
             <Image
+            className="absolute top-2 left-2"
               src={cross}
-              height={25}
-              width={25}
+              height={30}
+              width={30}
               alt="cross"
               onClick={() => {
                 setPopUp(false);
@@ -149,7 +150,7 @@ function AddBook() {
             <div>
               {result.map((book) => (
                 <div key={book._id}>
-                  <label htmlFor={`book${book._id}`}>{book.title}</label>
+                  <label htmlFor={`book${book._id}`} className="text-[24px] mr-2">{book.title}</label>
                   <input
                     type="radio"
                     name="book"
@@ -161,11 +162,11 @@ function AddBook() {
                   />
                 </div>
               ))}
-              <div className="bg-secondary" onClick={handleAddExistBook}>
-                add selected book
+              <div className="bg-secondary mt-4 mb-2 text-center text-[20px] rounded-md py-2" onClick={handleAddExistBook}>
+                Add Selected Book
               </div>
-              <div className="bg-secondary" onClick={handleNewBook}>
-                add the inputed book
+              <div className="bg-secondary text-center text-[20px] rounded-md py-2" onClick={handleNewBook}>
+                Add Uploaded Book
               </div>
             </div>
           ) : (
