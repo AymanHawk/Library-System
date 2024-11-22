@@ -5,6 +5,7 @@ import { useRouterContext } from "../../../../utils/RouterContext";
 import LibNavbar from "../../../../components/LibNavbar";
 import Pagination from "../../../browse/books/search/results/Pagination.jsx";
 import dropyellow from "../../../../images/drop-yellow.png";
+import nobookcover from "../../../../images/no_cover_available.png";
 import Image from "next/image";
 
 function Books() {
@@ -101,57 +102,51 @@ function Books() {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 mr-8 ml-8 mt-6 gap-4">
-        <div className="flex flex-row">
-          <div className="w-[220px] h-[300px] bg-primary mr-4"></div>
-          <div className="flex flex-col">
-            <h1 className="text-[36px] text-primary">The Yellow Wallpaper</h1>
-            <h2 className="text-[24px] text-primary">
-              Charlotte Perkins Gillman
-            </h2>
-            <div className="mt-4 w-[90px] h-[40px] bg-secondary text-center py-2 flex flex-row justify-between px-4 rounded-md">
-              <p>-</p>
-              <p>2</p>
-              <p>+</p>
-            </div>
-          </div>
-        </div>
-        <div className="w-[220px] h-[300px] bg-primary"></div>
-      </div>
-      <div>
-        {stock.length > 0 ? (
-          <div>
+
+      {stock.length > 0 ? (
+        <div>
+          <div className="grid grid-cols-3 mr-8 ml-8 mt-6 gap-6">
             {stock.map((book) => (
-              <div key={book.id}>
-                <div>{book.title}</div>
-                <div>
-                  <span
-                    className="bg-secondary cursor-pointer"
-                    onClick={() => updateStock("-", book.id)}
-                  >
-                    -
-                  </span>
-                  {book.amount}
-                  <span
-                    className="bg-secondary cursor-pointer"
-                    onClick={() => updateStock("+", book.id)}
-                  >
-                    +
-                  </span>
+              <div key={book.id} className="flex flex-row">
+                <img
+                  className="w-[280px] h-[300px] bg-primary mr-4"
+                  src={book.imgUrl ? book.imgUrl : nobookcover}
+                  alt={`${book.title} cover`}
+                />
+                <div className="flex flex-col">
+                  <div className="text-[35px] text-primary">{book.title}</div>
+                  <div className="text-[25px] text-primary mb-8">
+                    {book.author}
+                  </div>
+                  <div className="bg-secondary w-[90px] h-[40px] text-center py-2 flex flex-row items-center justify-between px-4 rounded-md text-[20px]">
+                    <span
+                      className="bg-secondary cursor-pointer"
+                      onClick={() => updateStock("-", book.id)}
+                    >
+                      -
+                    </span>
+                    {book.amount}
+                    <span
+                      className="bg-secondary cursor-pointer"
+                      onClick={() => updateStock("+", book.id)}
+                    >
+                      +
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalCount}
-              limit={limit}
-              setCurrentPage={setCurrentPage}
-            />
           </div>
-        ) : (
-          <div></div>
-        )}
-      </div>
+          <Pagination
+            currentPage={currentPage}
+            totalCount={totalCount}
+            limit={limit}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
