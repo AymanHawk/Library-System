@@ -80,7 +80,7 @@ function Books() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      <div className="text-center">Search bar</div>
+      {/* <div className="text-center">Search bar</div>
       <div className="flex justify-between mr-8 ml-8">
         <div className="border-primary border-[1px] px-10 py-0 cursor-pointer rounded-md text-center text-primary text-[24px]">
           Filter
@@ -105,12 +105,12 @@ function Books() {
 
       {stock.length > 0 ? (
         <div>
-          <div className="grid grid-cols-3 mr-8 ml-8 mt-6 gap-6">
+          <div className="grid grid-cols-3 mr-8 ml-8 mt-6 gap-6 aspect-w-7 aspect-h-10">
             {stock.map((book) => (
               <div key={book.id} className="flex flex-row">
                 <img
                   className="w-[280px] h-[300px] bg-primary mr-4"
-                  src={book.imgUrl ? book.imgUrl : nobookcover}
+                  src={book.imgUrl}
                   alt={`${book.title} cover`}
                 />
                 <div className="flex flex-col">
@@ -146,7 +146,7 @@ function Books() {
         </div>
       ) : (
         <div></div>
-      )}
+      )} */}
     </div>
   );
 }
