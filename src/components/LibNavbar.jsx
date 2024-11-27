@@ -37,7 +37,7 @@ function LibNavbar({ libId, libPath }) {
   };
 
   return (
-    <nav className="flex items-center">
+    <nav className="flex sm:items-center items-start">
       <div className="nav-logo">
         <div onClick={() => handleRoutes("/")}>
           <Image src={logo} alt="logo" />

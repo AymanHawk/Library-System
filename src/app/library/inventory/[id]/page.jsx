@@ -80,14 +80,14 @@ function Books() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      {/* <div className="text-center">Search bar</div>
-      <div className="flex justify-between mr-8 ml-8">
-        <div className="border-primary border-[1px] px-10 py-0 cursor-pointer rounded-md text-center text-primary text-[24px]">
+      <div className="text-center">Search bar</div>
+      <div className="flex flex-wrap justify-between mr-8 ml-8">
+        <div className="border-primary border-[1px] px-10 py-0 cursor-pointer rounded-md text-center text-primary text-[24px] mb-4 sm:mb-0">
           Filter
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <div
-            className="bg-secondary cursor-pointer px-8 py-2 rounded-md"
+            className="bg-secondary cursor-pointer px-8 py-2 rounded-md "
             onClick={() => handleRouteClick(`/library/inventory/addBook/${id}`)}
           >
             Upload Single Book
@@ -105,17 +105,23 @@ function Books() {
 
       {stock.length > 0 ? (
         <div>
-          <div className="grid grid-cols-3 mr-8 ml-8 mt-6 gap-6 aspect-w-7 aspect-h-10">
+          <div className="flex flex-row flex-wrap mr-8 ml-8 mt-6 justify-start sm:justify-center md:justify-evenly lg:justify-start">
             {stock.map((book) => (
-              <div key={book.id} className="flex flex-row">
+              <div
+                key={book.id}
+                className="flex flex-row w-[80%] sm:w-[400px] md:w-[360px] lg:w-[420px] sm:h-[400px] h-[250px]"
+              >
                 <img
-                  className="w-[280px] h-[300px] bg-primary mr-4"
-                  src={book.imgUrl}
+                  className="w-full  lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                  src={book.imgUrl !== "N/A" ? book.imgUrl : nobookcover}
                   alt={`${book.title} cover`}
                 />
-                <div className="flex flex-col">
-                  <div className="text-[35px] text-primary">{book.title}</div>
-                  <div className="text-[25px] text-primary mb-8">
+
+                <div className="flex flex-col h-[400px] w-[400px]">
+                  <div className="text-primary cursor-pointer text-[22px] sm:text-[32px]">
+                    {book.title}
+                  </div>
+                  <div className="text-primary mb-8 text-[18px] sm:text-[23px]">
                     {book.author}
                   </div>
                   <div className="bg-secondary w-[90px] h-[40px] text-center py-2 flex flex-row items-center justify-between px-4 rounded-md text-[20px]">
@@ -146,7 +152,7 @@ function Books() {
         </div>
       ) : (
         <div></div>
-      )} */}
+      )}
     </div>
   );
 }
