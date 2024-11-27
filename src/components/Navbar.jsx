@@ -35,6 +35,10 @@ export default function Navbar() {
         }
     }
 
+    const handleLinkCartClick = () => {
+        router.push('/cart')
+    }
+
     const handleFocus = () => {
         setIsFocus(true);
     }
@@ -145,7 +149,7 @@ export default function Navbar() {
 
 
             </div>
-            <div className='h-12 w-[8%] flex justify-center items-center xs:h-9 bg-primary rounded-md'>
+            <div onClick={handleLinkCartClick} className='h-12 w-[8%] flex justify-center items-center xs:h-9 cursor-pointer bg-primary rounded-md'>
                 <Image src={cart} alt='cart' className='w-[75%] max-w-[36px]' />
             </div>
             <div className='nav-user p-1'>

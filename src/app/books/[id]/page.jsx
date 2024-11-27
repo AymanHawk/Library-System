@@ -42,6 +42,57 @@ function Books() {
   const [zip, setZip] = useState(null);
   const [zipList, setZipList] = useState([]);
   const [libraries, setLibraries] = useState([]);
+  const [libTopDrop, setLibTopDrop] = useState(false);
+  const [libLowDrop, setLibLowDrop] = useState(false);
+  const topLibDropRef = useRef(null);
+  const lowLibDropRef = useRef(null);
+  const [selectLib, setSelectLib] = useState('Libraries');
+  const [libId, setLibId] = useState('');
+
+
+  const handleCartClick = async () => {
+    if(selectLib !== 'Libraries' || libId !== '') {
+      try {
+        const res = await fetch('/api/addToCart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: user.id,
+            libId: libId,
+            bookId: id
+          })
+        })
+
+        if (!res.ok) {
+          console.error('Failed to post a review', res.statusText);
+          return;
+        }
+
+        const data = await res.json();
+        console.log(data)
+        if (!data.success) {
+          console.error('API response indicates failure to post a review');
+        }
+
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      console.log('select a Library')
+    }
+
+  }
+
+  const libChange = (name, id) => {
+    setSelectLib(name);
+    setLibId(id);
+  }
+
+  useEffect(() => {
+    console.log("Selected Library:", selectLib);
+  }, [selectLib]);
 
   const getZipNearby = async () => {
     if (user) {
@@ -82,6 +133,8 @@ function Books() {
         }
 
         setZip(data.address.zip)
+        setLibTopDrop(!libTopDrop)
+        setLibLowDrop(!libLowDrop)
 
       } catch (err) {
         console.log("Error getting address", err);
@@ -115,7 +168,8 @@ function Books() {
       const res = await fetch('/api/library', {
         method: 'GET',
         headers: {
-          'zips': zipList
+          'zips': zipList,
+          'bookId': id,
         }
       })
 
@@ -124,6 +178,7 @@ function Books() {
       }
 
       const data = await res.json();
+      console.log(data);
       setLibraries(data.libs);
     } catch (err) {
       console.log("Error getting library", err);
@@ -147,9 +202,13 @@ function Books() {
   const handleClickOutside = (event) => {
     if (
       (largeDropRef.current && !largeDropRef.current.contains(event.target)) &&
-      (smallDropRef.current && !smallDropRef.current.contains(event.target))
+      (smallDropRef.current && !smallDropRef.current.contains(event.target)) &&
+      (topLibDropRef.current && !topLibDropRef.current.contains(event.target)) &&
+      (lowLibDropRef.current && !lowLibDropRef.current.contains(event.target))
     ) {
       setDrop(false);
+      setLibTopDrop(false);
+      setLibLowDrop(false);
     }
   }
 
@@ -329,13 +388,14 @@ function Books() {
 
     }
 
+  }, [id, user, likePref])
+
+  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-
-
-  }, [id, user, likePref])
+  }, [])
 
   const checkUserBookLists = async () => {
     if (user && user.id) {
@@ -461,33 +521,37 @@ function Books() {
           </div>
           <div className='h-[50px] bg-primary rounded-md flex items-center justify-center'>
             <section
+              className='2xl:text-4xl cursor-pointer relative xl:text-3xl lg:text-2xl text-black'
               onClick={
                 () => getZipNearby()
               }
-              className='2xl:text-4xl cursor-pointer relative xl:text-3xl lg:text-2xl text-black'
+              ref={topLibDropRef}
               name="libraries"
               id="libraries">
-              Libraries
-              <div className='absolute bg-background text-primary'>
-                {!libraries ? (
+              {selectLib}
+              <div className={(libTopDrop ? ' ' : 'hidden') + ` absolute bg-secondary text-primary `}>
+                {!libraries || libraries.length <= 0 ? (
                   <ul>
-                    <li>Lib 1</li>
-                    <li>Lib 2</li>
+                    <li>Book is not Avaible near your Area</li>
                   </ul>
                 ) : (
                   <ul>
                     {
                       libraries.map((lib) => (
-                        <li key={lib._id}>{lib.name}</li>
+                        <li
+                          key={lib._id}
+                          onClick={() => {libChange(lib.name, lib._id)}}
+                          className='bg-secondary cursor-pointer w-full'>
+                          {lib.name}
+                        </li>
                       ))
                     }
                   </ul>
                 )
-
                 }
-
               </div>
             </section>
+
           </div>
           <div className='my-3 text-primary font-bold 2xl:text-3xl xl:text-2xl lg:text-lg'>
             <div className='flex justify-between'>
@@ -515,7 +579,7 @@ function Books() {
               <div className='text-right text-white font-normal'>{new Date(book.publishDate).toDateString()}</div>
             </div>
           </div>
-          <button className='bg-secondary w-full py-2 rounded-md text-2xl'>
+          <button className='bg-secondary w-full py-2 rounded-md text-2xl' onClick={handleCartClick}>
             Add to Cart
           </button>
         </div>
@@ -561,9 +625,33 @@ function Books() {
             </div>
           </div>
           <div className='h-[50px] bg-primary rounded-md flex items-center justify-center'>
-            <section className='norm:text-4xl md:text-3xl sm:text-2xl text-3xl xs:text-2xl text-black' name="libraries" id="libraries">
+            <section className='norm:text-4xl md:text-3xl sm:text-2xl text-3xl xs:text-2xl text-black'
+              onClick={
+                () => getZipNearby()
+              }
+              ref={lowLibDropRef}
+              name="libraries"
+              id="libraries">
               Libraries
             </section>
+            <div className={(libLowDrop ? ' ' : 'hidden') + ` absolute bg-secondary text-primary mt-[100px]`}>
+              {!libraries || libraries.length <= 0 ? (
+                <ul>
+                  <li>Book is not Avaible near your Area</li>
+                </ul>
+              ) : (
+                <ul>
+                  {
+                    libraries.map((lib) => (
+                      <li key={lib._id} className='bg-secondary w-full'>{lib.name}</li>
+                    ))
+                  }
+                </ul>
+              )
+
+              }
+
+            </div>
           </div>
           <div className='my-3 text-primary font-bold 2xl:text-3xl xl:text-2xl lg:text-lg sm:text-base text-lg'>
             <div className='flex justify-between'>

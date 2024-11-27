@@ -45,6 +45,19 @@ const userSchema = new mongoose.Schema({
         dislikedPace: { type: [String], default: [] },
         dislikedTheme: { type: [String], default: [] },
     },
+    cart: [{
+        bookId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Book',
+            required: true,
+        }, 
+        libId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Library',
+            required: true,
+        }, 
+
+    }],
     stats: {
         monthly: [{
             year: { type: Number },

@@ -1,7 +1,7 @@
 'use client'
-import React from "react";
+import React from 'react'
 
-function Checkout() {
+function Cart() {
   return (
     <div className="flex flex-row flex-wrap justify-between m-6">
       <div className="border-secondary rounded-[5px] border-2 p-2 w-[48%] min-w-[300px] mb-6">
@@ -9,12 +9,7 @@ function Checkout() {
         <div className="flex flex-col">
           <div className="flex flex-row justify-between items-start">
             <div className="flex flex-row">
-              <div className="mr-4 ml-4 mb-4 bg-white xl:w-[180px] xl:h-[220px] lg:w-[250px] lg:h-[350px] md:w-[260px] md:h-[350px] w-[200px] h-[300px]"></div>
-              <div className="flex flex-col">
-                <h2 className="text-primary text-[32px]">One Piece</h2>
-                <h3 className="text-white text-[22px]">Eiichiro Oda</h3>
-                <h4 className="text-white text-[22px]">Manga</h4>
-              </div>
+              
             </div>
             <input
               type="checkbox"
@@ -76,4 +71,4 @@ function Checkout() {
   );
 }
 
-export default Checkout;
+export default Cart
