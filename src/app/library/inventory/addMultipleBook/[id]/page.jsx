@@ -197,25 +197,18 @@ function StockEdit() {
     <div>
       <LibNavbar libId={id} libPath={`/library/inventory/${id}`} />
       <div>
-        <h2>Book info</h2>
-        <div className="cursor-pointer">
-          <input
-            type="file"
-            name="csv"
-            id="csv"
-            onChange={handleFileChange}
-            className="bg-secondary file:bg-secondary file:border-none file:cursor-pointer"
-          />
+      <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[500px]">
+          <h2 className="text-[34px] text-primary text-center sm:ml-4 mt-2">Book Info</h2>
+          <div className=' cursor-pointer'>
+            <input type="file" name="csv" id="csv" onChange={handleFileChange} className='bg-secondary file:bg-secondary file:border-none file:cursor-pointer mb-4 ml-2' />
+          </div>
         </div>
       </div>
-      <div className="flex gap-2">
-        <div
-          className="border-primary border-[1px] cursor-pointer rounded-md"
-          onClick={() => handleRouterClick(`/library/inventory/${id}`)}
-        >
-          back
+      <div className="flex justify-between mx-[8%] mt-4">
+        <div className="border-primary border-2 cursor-pointer rounded-lg px-8 sm:px-14 py-2 text-primary text-[20px]" onClick={() => handleRouterClick(`/library/inventory/${id}`)}>
+          Back
         </div>
-        <div className="bg-secondary" onClick={checkBooks}>
+        <div className="bg-secondary cursor-pointer rounded-lg px-8 sm:px-14 py-2 text-white text-[20px]" onClick={checkBooks}>
           Upload
         </div>
       </div>

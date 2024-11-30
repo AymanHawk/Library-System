@@ -168,136 +168,135 @@ function AddBook() {
  };
 
 
- return (
-   <div>
-     <LibNavbar libId={id} libPath={`/library/inventory/${id}`} />
-     <div className="relative">
-       <div
-         className={
-           (popUp ? "" : "hidden ") +
-           ` absolute bg-background border-secondary border-[1px] p-10 ml-40`
-         }
-       >
-         <div>
-           <Image
-             src={cross}
-             height={25}
-             width={25}
-             alt="cross"
-             onClick={() => {
-               setPopUp(false);
-             }}
-           />
-         </div>
-         {result && result.length > 0 ? (
-           <div>
-             {result.map((book) => (
-               <div key={book._id}>
-                 <label htmlFor={`book${book._id}`}>{book.title}</label>
-                 <input
-                   type="radio"
-                   name="book"
-                   onChange={(e) => {
-                     setSelectedExistingBook(e.target.value);
-                   }}
-                   value={`${book._id}`}
-                   id={`book${book._id}`}
-                 />
-               </div>
-             ))}
-             <div className="bg-secondary" onClick={handleAddExistBook}>
-               add selected book
-             </div>
-             <div className="bg-secondary" onClick={handleNewBook}>
-               add the inputed book
-             </div>
-           </div>
-         ) : (
-           <div>
-             empty no
-             <div className="bg-secondary" onClick={handleNewBook}>
-               add book
-             </div>
-           </div>
-         )}
-       </div>
-       <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[80%]">
-         <div className="text-[34px] text-primary text-center sm:ml-4 mt-2">
-           Book Information
-         </div>
-         <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 text-background">
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={title}
-             placeholder="Title"
-             onChange={(e) => setTitle(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={author}
-             placeholder="Author(s)"
-             onChange={(e) => setAuthor(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={publisher}
-             placeholder="Publisher"
-             onChange={(e) => setPublisher(e.target.value)}
-           />
-           <input
-             type="date"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={date}
-             placeholder="Publish Date"
-             onChange={(e) => setDate(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={isbn}
-             placeholder="ISBN"
-             onChange={(e) => setIsbn(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={lang}
-             placeholder="Language"
-             onChange={(e) => setLang(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={length}
-             placeholder="Length"
-             onChange={(e) => setLength(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={format}
-             placeholder="Format"
-             onChange={(e) => setFormat(e.target.value)}
-           />
-           <input
-             type="text"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             value={genre}
-             placeholder="Genre"
-             onChange={(e) => setGenre(e.target.value)}
-           />
-
-
-        
-           <input
-             type="file"
-             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-             onChange={handleImageUpload}
-           />
-
+  return (
+    <div>
+      <LibNavbar libId={id} libPath={`/library/inventory/${id}`} />
+      <div className="relative">
+        <div
+          className={
+            (popUp ? "" : "hidden ") +
+            ` absolute fixed top-0 left-[-150px] sm:left-[-80px] md:left-[-40px] bg-background border-secondary border-[1px] p-10 ml-40`
+          }
+        >
+          <div>
+            <Image
+            className="absolute top-2 left-2"
+              src={cross}
+              height={30}
+              width={30}
+              alt="cross"
+              onClick={() => {
+                setPopUp(false);
+              }}
+            />
+          </div>
+          {result && result.length > 0 ? (
+            <div>
+              {result.map((book) => (
+                <div key={book._id}>
+                  <label htmlFor={`book${book._id}`} className="text-[24px] mr-2">{book.title}</label>
+                  <input
+                    type="radio"
+                    name="book"
+                    onChange={(e) => {
+                      setSelectedExistingBook(e.target.value);
+                    }}
+                    value={`${book._id}`}
+                    id={`book${book._id}`}
+                  />
+                </div>
+              ))}
+              <div className="bg-secondary mt-4 mb-2 text-center text-[20px] rounded-md py-2" onClick={handleAddExistBook}>
+                Add Selected Book
+              </div>
+              <div className="bg-secondary text-center text-[20px] rounded-md py-2" onClick={handleNewBook}>
+                Add Uploaded Book
+              </div>
+            </div>
+          ) : (
+            <div>
+              empty no
+              <div className="bg-secondary" onClick={handleNewBook}>
+                add book
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[80%]">
+          <div className="text-[34px] text-primary text-center sm:ml-4 mt-2">
+            Book Information
+          </div>
+          <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 text-background">
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={title}
+              placeholder="Title"
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={author}
+              placeholder="Author(s)"
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={publisher}
+              placeholder="Publisher"
+              onChange={(e) => setPublisher(e.target.value)}
+            />
+            <input
+              type="date"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={date}
+              placeholder="Publish Date"
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={isbn}
+              placeholder="ISBN"
+              onChange={(e) => setIsbn(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={lang}
+              placeholder="Language"
+              onChange={(e) => setLang(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={length}
+              placeholder="Length"
+              onChange={(e) => setLength(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={format}
+              placeholder="Format"
+              onChange={(e) => setFormat(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={genre}
+              placeholder="Genre"
+              onChange={(e) => setGenre(e.target.value)}
+            />
+            <input
+              type="file"
+              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              value={imgSrc}
+              placeholder="Image"
+              onChange={(e) => setImg(e.target.value)}
+            />
 
            <div className="col-span-2">
              <textarea
