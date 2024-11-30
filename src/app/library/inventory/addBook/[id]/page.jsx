@@ -34,8 +34,6 @@ function AddBook() {
  const handleImageUpload = async (event) => {
    const file = event.target.files[0];
    if (!file) return;
-
-
    const formData = new FormData();
    const cloudUrl = process.env.NEXT_PUBLIC_CLOUDINARY_LINK
    formData.append("file", file);
@@ -79,7 +77,6 @@ function AddBook() {
      if (!res.ok) {
        throw new Error("Error getting the user lib");
      }
-
 
      const data = await res.json();
      console.log(data);
@@ -291,13 +288,12 @@ function AddBook() {
               onChange={(e) => setGenre(e.target.value)}
               
            />
-            <input
-              type="file"
-              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-              value={imgSrc}
-              placeholder="Image"
-              onChange={(E) => {handleImageUpload(E)}}
-            />
+
+           <input
+             type="file"
+             className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+             onChange={handleImageUpload}
+           />
 
            <div className="col-span-2">
              <textarea
