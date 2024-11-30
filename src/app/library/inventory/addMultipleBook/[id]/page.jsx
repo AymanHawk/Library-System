@@ -151,7 +151,6 @@ function StockEdit() {
       const booksToUpdate = result.map((book) => {
         const imgFile = imageFiles[book.isbn];
         if (imgFile) {
-          
           return uploadImageToCloudinary(imgFile).then((imageUrl) => {
             if (imageUrl) {
               return { ...book, imgSrc: imageUrl }; 
