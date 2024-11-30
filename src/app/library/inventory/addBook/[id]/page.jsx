@@ -289,13 +289,14 @@ function AddBook() {
               value={genre}
               placeholder="Genre"
               onChange={(e) => setGenre(e.target.value)}
-            />
+              
+           />
             <input
               type="file"
               className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
               value={imgSrc}
               placeholder="Image"
-              onChange={(e) => setImg(e.target.value)}
+              onChange={(E) => {handleImageUpload(E)}}
             />
 
            <div className="col-span-2">

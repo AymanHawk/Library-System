@@ -18,6 +18,7 @@ function StockEdit() {
   const [editingBook, setEditingBook] = useState(null);
   const [imageFiles, setImageFiles] = useState({}); 
 
+  
   const handleEdit = (isbn, field, value) => {
     setEditValue((prev) => ({
       ...prev,
