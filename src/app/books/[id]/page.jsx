@@ -490,7 +490,7 @@ function Books() {
             >
               <section className='bg-secondary hover:bg-[#4f5aa3] text-white font-normal h-[45px] 2xl:w-[175px] xl:w-[150px] lg:w-[105px] 2xl:text-2xl xl:text-xl lg:text-base content-center my-auto text-center'>{dropText}</section>
               <section className='bg-secondary hover:bg-[#4f5aa3] h-[45px] w-[45px] flex items-center  justify-end border-l-2 '>
-                <Image src={dropdown} alt='dd' className='mx-auto relative' width={30} height={25} unoptimized />
+                <Image src={dropdown} alt='dd' className='mx-auto relative' width={30} height={25} quality={100} />
                 <section className={`bg-secondary ${drop ? '' : 'hidden'} z-10 absolute 2xl:w-[150px] xl:w-[125px] lg:w-[95px] 2xl:text-2xl xl:text-xl lg:text-base 2xl:mt-[142px] xl:mt-[134px] lg:mt-[127px] text-center`}>
                   <ul className='text-white'>
                     <li onClick={() => handleTextChange('Finished')} className={dropText === 'Finished' ? `hidden` : `` + ` border-y-2 hover:bg-[#4f5aa3] p-2 w-full`}>Finished</li>

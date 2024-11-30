@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useRouterContext } from "../../../../../utils/RouterContext";
 import UserNavbar from "../../../../../components/UserNavbar";
 import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
+import Image from "next/image";
 
 function readBooks() {
   const { user } = useUser();
@@ -61,7 +62,7 @@ function readBooks() {
                 key={book.id}
                 className="flex flex-col 2xl:w-[256px] w-[250px] h-[550px] xl:w-[226px] xl:h-[600px] lg:w-[220px] norm:w-[210px] lg:h-[630px] md:w-[250px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
               >
-                <img
+                <Image
                   src={book.imgUrl}
                   alt={book.id}
                   width={50}
