@@ -175,7 +175,7 @@ function AddBook() {
         <div
           className={
             (popUp ? "" : "hidden ") +
-            ` absolute fixed top-0 left-[-150px] sm:left-[-80px] md:left-[-40px] bg-background border-secondary border-[1px] p-10 ml-40`
+            ` absolute top-0 left-[-150px] sm:left-[-80px] md:left-[-40px] bg-background border-secondary border-[1px] p-10 ml-40`
           }
         >
           <div>

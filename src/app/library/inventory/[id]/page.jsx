@@ -111,11 +111,19 @@ function Books() {
                 key={book.id}
                 className="flex flex-row w-[80%] sm:w-[400px] md:w-[360px] lg:w-[420px] sm:h-[400px] h-[250px]"
               >
-                <img
-                  className="w-full  lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
-                  src={book.imgUrl !== "N/A" ? book.imgUrl : nobookcover}
-                  alt={`${book.title} cover`}
-                />
+                {(book.imgUrl !== 'N/A') ? (
+                  <img
+                    className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                    src={book.imgUrl}
+                    alt={`${book.title} cover`}
+                  />
+                ) : (
+                  <Image
+                    className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                    src={nobookcover}
+                    alt={`${book.title} cover`}
+                  />
+                )}
 
                 <div className="flex flex-col h-[400px] w-[400px]">
                   <div className="text-primary cursor-pointer text-[22px] sm:text-[32px]">
