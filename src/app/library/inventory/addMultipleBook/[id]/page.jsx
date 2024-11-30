@@ -127,11 +127,12 @@ function StockEdit() {
   
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
+    const cloudUrl = process.env.NEXT_PUBLIC_CLOUDINARY_LINK
     formData.append("file", file);
     formData.append("upload_preset", "book_image");
     
     try {
-      const response = await fetch("https://api.cloudinary.com/v1_1/dou1i4rdx/image/upload", {
+      const response = await fetch(cloudUrl, {
         method: "POST",
         body: formData,
       });

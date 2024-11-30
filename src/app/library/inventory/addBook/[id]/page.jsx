@@ -37,11 +37,12 @@ function AddBook() {
 
 
    const formData = new FormData();
+   const cloudUrl = process.env.NEXT_PUBLIC_CLOUDINARY_LINK
    formData.append("file", file);
    formData.append("upload_preset", "book_image");
    try {
      const response = await fetch(
-       `https://api.cloudinary.com/v1_1/dou1i4rdx/image/upload`,
+       cloudUrl,
        {
          method: "POST",
          body: formData,
@@ -51,7 +52,7 @@ function AddBook() {
 
      const data = await response.json();
      if (data.secure_url) {
-       setImg(data.secure_url); //cloudinary image  url
+       setImg(data.secure_url); 
      } else {
        console.error("Error uploading to Cloudinary", data);
      }
@@ -290,7 +291,7 @@ function AddBook() {
            />
 
 
-           {/* Cloudinary Image Upload where it happems*/}
+        
            <input
              type="file"
              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
