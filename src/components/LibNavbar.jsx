@@ -82,7 +82,7 @@ function LibNavbar({ libId, libPath }) {
                                 Dashboard
                             </div>
                             <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/profile/${organization.id}`) }}>
-                                Perferences
+                                Preferences
                             </div>
                         </div>
                     </div>
