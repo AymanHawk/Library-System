@@ -288,6 +288,7 @@ function AddBook() {
              value={genre}
              placeholder="Genre"
              onChange={(e) => setGenre(e.target.value)}
+             
            />
 
 
