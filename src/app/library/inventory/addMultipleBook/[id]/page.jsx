@@ -177,7 +177,7 @@ function StockEdit() {
     <div>
       <LibNavbar libId={id} libPath={`/library/inventory/${id}`} />
       <div>
-      <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[80%]">
+      <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[500px]">
           <h2 className="text-[34px] text-primary text-center sm:ml-4 mt-2">Book Info</h2>
           <div className=' cursor-pointer'>
             <input type="file" name="csv" id="csv" onChange={handleFileChange} className='bg-secondary file:bg-secondary file:border-none file:cursor-pointer mb-4 ml-2' />
