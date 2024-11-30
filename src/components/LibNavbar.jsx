@@ -8,6 +8,7 @@ import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, us
 function LibNavbar({ libId, libPath }) {
 
     const [ham, setHam] = useState(true);
+    const { organization } = useOrganization();
     const router = useRouterContext();
     const routes = [
         { path: `/library/orders/${libId}`, label: 'Orders' },
@@ -74,9 +75,18 @@ function LibNavbar({ libId, libPath }) {
             </div>
             <div className='nav-user'>
                 {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
-                    <div className='bg-background rounded-md'>
-                        <OrganizationSwitcher hidePersonal={true} />
+                    <div className='bg-background rounded-md relative'>
+                        <div className='w-[100px] bg-background absolute'>
+                            <OrganizationSwitcher hidePersonal={true} />
+                            <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/inventory/${organization.id}`) }}>
+                                Dashboard
+                            </div>
+                            <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/profile/${organization.id}`) }}>
+                                Perferences
+                            </div>
+                        </div>
                     </div>
+
                 ) : (
                     <div></div>
                 )

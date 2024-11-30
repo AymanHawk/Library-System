@@ -21,11 +21,11 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    bookId: {
+    bookIds: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Book',
         required: true,
-    },
+    }],
     libId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Library',

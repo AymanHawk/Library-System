@@ -1,5 +1,4 @@
 import { connect } from "../../../lib/dbConnection/mongoose";
-import Library from "../../../lib/models/library";
 import User from "../../../lib/models/users";
 
 export async function POST(req) {

@@ -6,7 +6,7 @@ import search from '../images/search.png'
 import dashboard from '../images/dashboard.png'
 import cart from '../images/cart.png'
 import preferences from '../images/preferences.png'
-import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, useUser, useOrganizationList, useOrganization } from '@clerk/nextjs'
+import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, useUser, useOrganizationList, useOrganization, OrganizationList } from '@clerk/nextjs'
 import { useRouterContext } from "../utils/RouterContext";
 
 
@@ -36,7 +36,7 @@ export default function Navbar() {
     }
 
     const handleLinkCartClick = () => {
-        router.push('/cart')
+        router.push(`/user/orders/cart/${user.id}`)
     }
 
     const handleFocus = () => {
@@ -109,7 +109,7 @@ export default function Navbar() {
     return (
         <nav>
             <div className='nav-logo'>
-                <div onClick={() => {handleLogoClick()}} className='cursor-pointer'>
+                <div onClick={() => { handleLogoClick() }} className='cursor-pointer'>
                     <Image src={logo} alt='logo' />
                 </div>
             </div>
@@ -149,13 +149,24 @@ export default function Navbar() {
 
 
             </div>
-            <div onClick={handleLinkCartClick} className='h-12 w-[8%] flex justify-center items-center xs:h-9 cursor-pointer bg-primary rounded-md'>
-                <Image src={cart} alt='cart' className='w-[75%] max-w-[36px]' />
-            </div>
+            {user && (
+                <div onClick={handleLinkCartClick} className='h-12 w-[8%] flex justify-center items-center xs:h-9 cursor-pointer bg-primary rounded-md'>
+                    <Image src={cart} alt='cart' className='w-[75%] max-w-[36px]' />
+                </div>
+            )
+            }
             <div className='nav-user p-1'>
                 {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
-                    <div className='bg-background rounded-md'>
-                        <OrganizationSwitcher hidePersonal={true} />
+                    <div className='bg-background rounded-md relative'>
+                        <div className='w-[100px] bg-background absolute'>
+                            <OrganizationSwitcher hidePersonal={true} />
+                            <div className='bg-primary cursor-pointer' onClick={()=>{handleBookClick(`/library/inventory/${organization.id}`)}}> 
+                                Dashboard
+                            </div>
+                            <div className='bg-primary cursor-pointer' onClick={()=>{handleBookClick(`/library/profile/${organization.id}`)}}>
+                                Perferences
+                            </div>
+                        </div>
                     </div>
                 ) : (
                     <SignedIn>

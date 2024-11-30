@@ -51,7 +51,7 @@ function Books() {
 
 
   const handleCartClick = async () => {
-    if(selectLib !== 'Libraries' || libId !== '') {
+    if (selectLib !== 'Libraries' || libId !== '') {
       try {
         const res = await fetch('/api/addToCart', {
           method: 'POST',
@@ -540,7 +540,7 @@ function Books() {
                       libraries.map((lib) => (
                         <li
                           key={lib._id}
-                          onClick={() => {libChange(lib.name, lib._id)}}
+                          onClick={() => { libChange(lib.name, lib._id) }}
                           className='bg-secondary cursor-pointer w-full'>
                           {lib.name}
                         </li>
@@ -625,33 +625,38 @@ function Books() {
             </div>
           </div>
           <div className='h-[50px] bg-primary rounded-md flex items-center justify-center'>
-            <section className='norm:text-4xl md:text-3xl sm:text-2xl text-3xl xs:text-2xl text-black'
+            <section className='norm:text-4xl md:text-3xl sm:text-2xl cursor-pointer text-3xl xs:text-2xl text-black'
               onClick={
                 () => getZipNearby()
               }
               ref={lowLibDropRef}
               name="libraries"
               id="libraries">
-              Libraries
+              {selectLib}
+              <div className={(libLowDrop ? ' ' : 'hidden') + ` absolute bg-secondary text-primary mt-[10px]`}>
+                {!libraries || libraries.length <= 0 ? (
+                  <ul>
+                    <li>Book is not Avaible near your Area</li>
+                  </ul>
+                ) : (
+                  <ul>
+                    {
+                      libraries.map((lib) => (
+                        <li
+                          key={lib._id}
+                          onClick={() => { libChange(lib.name, lib._id) }}
+                          className='bg-secondary cursor-pointer w-full'>
+                          {lib.name}</li>
+                      ))
+                    }
+                  </ul>
+                )
+
+                }
+
+              </div>
             </section>
-            <div className={(libLowDrop ? ' ' : 'hidden') + ` absolute bg-secondary text-primary mt-[100px]`}>
-              {!libraries || libraries.length <= 0 ? (
-                <ul>
-                  <li>Book is not Avaible near your Area</li>
-                </ul>
-              ) : (
-                <ul>
-                  {
-                    libraries.map((lib) => (
-                      <li key={lib._id} className='bg-secondary w-full'>{lib.name}</li>
-                    ))
-                  }
-                </ul>
-              )
 
-              }
-
-            </div>
           </div>
           <div className='my-3 text-primary font-bold 2xl:text-3xl xl:text-2xl lg:text-lg sm:text-base text-lg'>
             <div className='flex justify-between'>
@@ -679,7 +684,7 @@ function Books() {
               <div className='text-right text-white font-normal'>{new Date(book.publishDate).toDateString()}</div>
             </div>
           </div>
-          <button className='bg-secondary w-full py-2 rounded-md text-2xl'>
+          <button className='bg-secondary w-full py-2 rounded-md text-2xl' onClick={handleCartClick}>
             Add to Cart
           </button>
         </div>

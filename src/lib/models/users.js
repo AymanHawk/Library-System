@@ -50,13 +50,20 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Book',
             required: true,
-        }, 
+        },
         libId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Library',
             required: true,
-        }, 
-
+        },
+    }],
+    libCards: [{
+        libId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Library',
+            required: true,
+        },
+        cardId: { type: String }
     }],
     stats: {
         monthly: [{
