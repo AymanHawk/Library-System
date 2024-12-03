@@ -25,8 +25,10 @@ export async function POST(req) {
 
             const bookIds = books.map((book) => book.bookInfo._id);
 
+            const delDate = new Date(dateToday.setDate(dateToday.getDate() + 4))
+
             const newOrder = new Order({
-                deliveryDate: (dateToday.getDate() + 4),
+                deliveryDate: delDate,
                 shippingAddress: {
                     street,
                     city,

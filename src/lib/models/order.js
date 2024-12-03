@@ -13,8 +13,8 @@ const orderSchema = new mongoose.Schema({
         zip: { type: Number }
     },
     orderStatus: {
-        type: Boolean,
-        default: false,
+        type: String,
+        default: 'prepare',
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

@@ -90,7 +90,6 @@ function AddBook() {
 
  const handleAddExistBook = async () => {
    try {
-     console.log(selectedExistingBook);
      let libId = id;
      let bookId = selectedExistingBook;
 

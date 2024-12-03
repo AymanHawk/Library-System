@@ -5,7 +5,7 @@ import { useRouterContext } from "../../../../../utils/RouterContext";
 
 function Checkout() {
 
-  const {user} = useUser();
+  const { user } = useUser();
   const router = useRouterContext();
   const [groupedBooks, setGroupedBooks] = useState([]);
   const [stAdd, setStAdd] = useState('');
@@ -40,13 +40,13 @@ function Checkout() {
   }
 
   const confirmOrder = async () => {
-    try{
+    try {
 
       const res = await fetch('/api/confirmOrder', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }, 
+        },
         body: JSON.stringify({
           userId: user.id,
           street: stAdd,
@@ -58,13 +58,12 @@ function Checkout() {
       })
 
       const data = await res.json();
-      if(!data.success){
+      if (!data.success) {
         console.error('Failed to update the Address');
       }
-      // else {
-      //     router.push(`/user/orders/${user.id}`)
-      // }
-    }catch (err) {
+
+      router.push(`/user/orders/${user.id}`)
+    } catch (err) {
       console.log("Error getting address", err);
     }
   }
