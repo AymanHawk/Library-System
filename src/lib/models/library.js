@@ -9,7 +9,7 @@ const libSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        default: '',
     },
     name: {
         type: String,
