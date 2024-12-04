@@ -1,15 +1,14 @@
-import clientPromise from "../../../../../lib/dbConnection/mongoDB";
+
+import clientPromise from "../../../../lib/dbConnection/mongoDB";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-
 export async function GET(req) {
     try {
-        const libId = req.headers.get('libId');
+        const userId = req.headers.get('userId');
         const limit = parseInt(req.headers.get('limit')) || 15;
         const page = parseInt(req.headers.get('page')) || 1;
-        console.log(libId)
-        if (!libId) {
+        if (!userId) {
             return new Response(JSON.stringify({ success: false, message: 'Missing data in request' }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json' },
@@ -20,13 +19,12 @@ export async function GET(req) {
         const db = client.db('lib');
         const skip = (page - 1) * limit;
 
-        const library = await db.collection('libraries').findOne({ authId: libId });
+        const user = await db.collection('users').findOne({ authId: userId });
         const orders = await db.collection('orders').aggregate(
             [
                 {
                     $match: {
-                        libId: new ObjectId(library._id),
-                        orderStatus: 'confirm'
+                        userId: new ObjectId(user._id),
                     }
                 },
                 {
@@ -80,14 +78,14 @@ export async function GET(req) {
                 },
                 {
                     $lookup: {
-                        from: "users",
-                        localField: "userId",
+                        from: "libraries",
+                        localField: "libId",
                         foreignField: "_id",
-                        as: "UserDetails"
+                        as: "LibDetails"
                     }
                 },
                 {
-                    $unwind: "$UserDetails"
+                    $unwind: "$LibDetails"
                 },
                 {
                     $project: {
@@ -100,53 +98,17 @@ export async function GET(req) {
                         fullfilledAt: "$fullfilledAt",
                         orderStatus: "$orderStatus",
                         books: "$books",
-                        userName: "$UserDetails.name"
+                        libName: "$LibDetails.name"
                     }
                 },
                 { $skip: skip },
                 { $limit: limit }
             ]
         ).toArray();
-
         const totalCount = orders.length;
 
         return NextResponse.json({ orders, totalCount }, { status: 200 });
 
-    } catch (error) {
-        return new Response(JSON.stringify({ success: false, error: error.message }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-        });
-    }
-}
-
-export async function POST(req) {
-    try {
-        const body = await req.json();
-        const { orderId } = body
-        const client = await clientPromise;
-        const db = client.db('lib');
-
-        console.log(orderId)
-        const order = await db.collection('orders').findOne({ _id: new ObjectId(orderId) });
-
-        console.log(order);
-        const result = await db.collection('orders').updateOne(
-            { _id: new ObjectId(orderId) },
-            {
-                $set: {
-                    orderStatus: 'confirm',
-                    fullfilledAt: new Date()
-                }
-            }
-        );
-
-        const updatedOrder = await db.collection('orders').findOne({ _id: new ObjectId(orderId) });
-
-        return new Response(JSON.stringify({ success: true, order: updatedOrder }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-        });
     } catch (error) {
         return new Response(JSON.stringify({ success: false, error: error.message }), {
             status: 500,

@@ -10,7 +10,10 @@ export async function GET(req) {
         const page = parseInt(req.headers.get('page')) || 1;
         console.log(libId)
         if (!libId) {
-            return NextResponse.json({ error: 'Missing libId' }, { status: 400 });
+            return new Response(JSON.stringify({ success: false, message: 'Missing data in request' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+            });
         }
 
         const client = await clientPromise;
@@ -75,6 +78,31 @@ export async function GET(req) {
                         }
                     }
                 },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "UserDetails"
+                    }
+                },
+                {
+                    $unwind: "$UserDetails"
+                },
+                {
+                    $project: {
+                        _id: "$_id",
+                        deliveryDate: "$deliveryDate",
+                        shippingAddress: "$shippingAddress",
+                        userId: "$userId",
+                        libId: "$libId",
+                        orderAt: "$orderAt",
+                        fullfilledAt: "$fullfilledAt",
+                        orderStatus: "$orderStatus",
+                        books: "$books",
+                        userName: "$UserDetails.name"
+                    }
+                },
                 { $skip: skip },
                 { $limit: limit }
             ]
@@ -85,7 +113,9 @@ export async function GET(req) {
         return NextResponse.json({ orders, totalCount }, { status: 200 });
 
     } catch (error) {
-        console.error('Database operation error:', error);
-        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        return new Response(JSON.stringify({ success: false, error: error.message }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
     }
 }

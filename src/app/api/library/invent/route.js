@@ -45,7 +45,6 @@ export async function GET(req) {
                 amount: stockEntry?.amount || 0,
             }
         })
-        console.log(bookMap);
 
         return new NextResponse(
             JSON.stringify({ stock: bookMap, totalCount }),
