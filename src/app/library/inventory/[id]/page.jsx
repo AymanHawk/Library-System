@@ -80,11 +80,7 @@ function Books() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      <div className="text-center">Search bar</div>
-      <div className="flex flex-wrap justify-between mr-8 ml-8">
-        <div className="border-primary border-[1px] px-10 py-0 cursor-pointer rounded-md text-center text-primary text-[24px] mb-4 sm:mb-0">
-          Filter
-        </div>
+      <div className="flex flex-wrap justify-between mr-8 ml-8 my-6">
         <div className="flex flex-wrap gap-2">
           <div
             className="bg-secondary cursor-pointer px-8 py-2 rounded-md "
