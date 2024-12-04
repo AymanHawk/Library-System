@@ -164,7 +164,7 @@ export default function Navbar() {
                                 Dashboard
                             </div>
                             <div className='bg-primary cursor-pointer' onClick={()=>{handleBookClick(`/library/profile/${organization.id}`)}}>
-                                Perferences
+                                Preferences
                             </div>
                         </div>
                     </div>

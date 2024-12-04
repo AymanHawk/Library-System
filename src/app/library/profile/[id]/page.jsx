@@ -5,9 +5,13 @@ import preferences from '../../../../images/preferences.png'
 import React from 'react'
 import { useRouterContext } from '../../../../utils/RouterContext'
 import Image from 'next/image'
+import LibNavbar from '../../../../components/LibNavbar'
+import { usePathname } from 'next/navigation'
 
 function Profile() {
 
+  const pathname = usePathname();
+  const id = pathname.split('/').pop();
   const router = useRouterContext();
   const { user } = useUser();
 
@@ -23,7 +27,9 @@ function Profile() {
     }
   }
   return (
-    <div>Profile
+    <div>
+      <LibNavbar libId={id} libPath={pathname} />
+      Profile
       <UserButton>
         <UserButton.MenuItems>
           <UserButton.Action

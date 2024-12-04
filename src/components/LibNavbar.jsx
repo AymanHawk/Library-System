@@ -107,6 +107,12 @@ function LibNavbar({ libId, libPath }) {
           userMemberships.data.length > 0 ? (
           <div className="bg-background rounded-md ">
             <OrganizationSwitcher hidePersonal={true} />
+            <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/inventory/${organization.id}`) }}>
+              Dashboard
+            </div>
+            <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/profile/${organization.id}`) }}>
+              Preferences
+            </div>
           </div>
         ) : (
           <div></div>
