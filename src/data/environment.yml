@@ -15,6 +15,7 @@ dependencies:
   - huggingface_hub
   - pip
   - faker
+  - flask
   - pip:
       - transformers
       - datasets
