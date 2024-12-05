@@ -310,13 +310,13 @@ function Search() {
   };
 
   const handleClickOutside = (event) => {
-    const isOuside = Object.keys(dropRefs.current).every(
+    const isOutside = Object.keys(dropRefs.current).every(
       (key) => !dropRefs.current[key]?.contains(event.target)
     );
-    if (isOuside) {
+    if (isOutside) {
       setDropState({});
     }
-
+  
     if (genreRef.current && !genreRef.current.contains(event.target)) {
       setGenreDrop(false);
     }
@@ -1002,12 +1002,12 @@ function Search() {
               >
                 <h3 className="text-xl relative">Themes</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
+                <div
                 className={
                   (themeDrop ? `` : `hidden`) +
                   ` flex flex-col gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
                 }
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
                   {filters.theme.map((t) => (
@@ -1045,6 +1045,8 @@ function Search() {
                   ))}
                 </div>
               </div>
+              </div>
+              
             </div>
             <div>
               <div
@@ -1054,12 +1056,12 @@ function Search() {
               >
                 <h3 className="text-xl relative">Paces</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
+                <div
                 className={
                   (paceDrop ? `` : `hidden`) +
                   ` flex flex-col gap-1 border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
                 }
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
                   {filters.pace.map((p) => (
@@ -1097,6 +1099,8 @@ function Search() {
                   ))}
                 </div>
               </div>
+              </div>
+              
             </div>
             <div>
               <div
@@ -1106,12 +1110,12 @@ function Search() {
               >
                 <h3 className="text-xl relative">Formats</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
+                <div
                 className={
                   (formatDrop ? `` : `hidden`) +
                   ` flex flex-col gap-1 border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
                 }
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
                   {filters.format.map((f) => (
@@ -1149,6 +1153,8 @@ function Search() {
                   ))}
                 </div>
               </div>
+              </div>
+              
             </div>
 
             <div>
@@ -1159,12 +1165,12 @@ function Search() {
               >
                 <h3 className="text-xl relative">Languages</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
+                <div
                 className={
                   (langDrop ? `` : `hidden`) +
                   ` flex flex-col gap-1 border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
                 }
+                onClick={(e) => e.stopPropagation()}
               >
                 <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
                   {filters.language.map((l) => (
@@ -1202,6 +1208,8 @@ function Search() {
                   ))}
                 </div>
               </div>
+              </div>
+              
             </div>
             <div>
               <h3 className="text-xl mb-1">Rating</h3>
