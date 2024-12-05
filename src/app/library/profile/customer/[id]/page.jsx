@@ -75,37 +75,40 @@ function Edit() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      customer Profile
-      <div>
-        <button className='bg-secondary' onClick={()=>{addMember(member, "+")}}>
-          Add Member
-        </button>
-        <input className='text-black' type="text" name="" id="" value={member} onChange={(e)=> {setMember(e.target.value)}}/>
+      <div className="border-solid border-2 border-secondary rounded-md mx-[350px] mt-10 h-[500px] flex flex-col">
+        <h1 className="text-primary text-[35px] mt-2 ml-6">Customer Profiles</h1>
+        <div className="mt-4 ">
+          <input className='ml-6 text-black h-full' type="text" name="" id="" value={member} onChange={(e)=> {setMember(e.target.value)}}/>
+          <button className='bg-secondary p-1 ml-2 rounded-md text-[17px]' onClick={()=>{addMember(member, "+")}}>
+            Add Member
+          </button>
+        </div>
+        {
+          (members && members.length > 0) ? (
+            <div>
+              {members.map(member => (
+                <div key={member.card} className="mt-8 ml-6 text-[18px]">
+                  {member.name}
+                  <button className='bg-secondary ml-2 p-1 rounded-md' onClick={()=>{addMember(member.card, '-')}}>
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>
+              No Members have accounts with the Site
+            </div>
+          )
+        }
+        <div className="flex flex-grow"></div>
+        <Pagination
+          currentPage={currentPage}
+          totalCount={totalCount}
+          limit={limit}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
-      {
-        (members && members.length > 0) ? (
-          <div>
-            {members.map(member => (
-              <div key={member.card}>
-                {member.name}
-                <button className='bg-secondary' onClick={()=>{addMember(member.card, '-')}}>
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div>
-            No Members have accounts with the Site
-          </div>
-        )
-      }
-      <Pagination
-        currentPage={currentPage}
-        totalCount={totalCount}
-        limit={limit}
-        setCurrentPage={setCurrentPage}
-      />
     </div>
   )
 }
