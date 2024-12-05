@@ -481,15 +481,20 @@ function Search() {
     <div className="2xl:w-[1400px] text-primary xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto">
       <h2 className="text-center text-4xl">Explore Books</h2>
       {/* Top Filter for when screen gets too small */}
-      <div className="2xl:w-[250px] text-primary xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] block sm:block md:block lg:hidden xl:hidden 2xl:hidden">
+      <div className="2xl:w-[250px] text-primary xl:w-[200px] lg:w-[200px] norm:w-[700px] md:w-[600px] block sm:block md:block lg:hidden xl:hidden 2xl:hidden">
         <h2 className="text-center text-2xl">Filters</h2>
         <div className="mb-5">
          <div className="flex flex-nowrap">
-           <div className="">
+           <div className=" norm: w-[350px]">
             
-            <div>
+
+            {/* Make the filter drop downs move all the way to the right of the div,
+            make the rating/publish area to all the way left of its div finish by today
+             */}
+
+            <div className="norm:w-[350px] flex flex-col">
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer justify-end"
                 onClick={handleGenreDrop}
                 ref={genreRef}
               >
@@ -541,7 +546,7 @@ function Search() {
             </div>
             <div>
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer justify-end"
                 onClick={handleThemeDrop}
                 ref={themeRef}
               >
@@ -593,7 +598,7 @@ function Search() {
             </div>
             <div>
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer justify-end"
                 onClick={handlePaceDrop}
                 ref={paceRef}
               >
@@ -647,7 +652,7 @@ function Search() {
           
            
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer justify-end"
                 onClick={handleFormatDrop}
                 ref={formatRef}
               >
@@ -699,7 +704,7 @@ function Search() {
            
             <div>
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer justify-end"
                 onClick={handleLangDrop}
                 ref={langRef}
               >
@@ -751,67 +756,68 @@ function Search() {
             </div>
             </div>
          
-          <div className="flex flex-wrap flex-row gap-6 ml-[30px] sm:ml-[100px] md:ml-[10vw] mb-4">
-          <div>
-            <h3 className="text-xl mb-1">Rating</h3>
-            <div className="flex flex-nowrap gap-4">
-              <input
-                type="number"
-                placeholder="Min"
-                onChange={(e) =>
-                  handleRatingChange(e.target.value, filters.rating[1])
-                }
-                className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-                max={5}
-                min={0}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                onChange={(e) =>
-                  handleRatingChange(filters.rating[0], e.target.value)
-                }
-                className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-                max={5}
-                min={0}
-              />
-            </div>
-          </div>
-          
+            <div className="flex flex-wrap flex-row gap-6 ml-[20px] mb-4 justify-start">
+  <div>
+    <h3 className="text-xl mb-1">Rating</h3>
+    <div className="flex flex-nowrap gap-4">
+      <input
+        type="number"
+        placeholder="Min"
+        onChange={(e) =>
+          handleRatingChange(e.target.value, filters.rating[1])
+        }
+        className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+        max={5}
+        min={0}
+      />
+      <input
+        type="number"
+        placeholder="Max"
+        onChange={(e) =>
+          handleRatingChange(filters.rating[0], e.target.value)
+        }
+        className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+        max={5}
+        min={0}
+      />
+    </div>
+  </div>
 
-          <div>
-            <h3 className="text-xl mb-1">Publish Date</h3>
-            <div className="flex flex-row gap-1 flex-wrap">
-              <input
-                type="date"
-                placeholder="Start date"
-                onChange={(e) =>
-                  handlePublishDateChange(
-                    e.target.value,
-                    filters.publishDate[1]
-                  )
-                }
-                className=" bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-              />
-              <input
-                type="date"
-                placeholder="End date"
-                onChange={(e) =>
-                  handlePublishDateChange(
-                    filters.publishDate[0],
-                    e.target.value
-                  )
-                }
-                className=" bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-              />
-            </div>
-          </div>
-          </div>
+  <div>
+    <h3 className="text-xl mb-1">Publish Date</h3>
+    <div className="flex flex-row gap-1 flex-wrap">
+      <input
+        type="date"
+        placeholder="Start date"
+        onChange={(e) =>
+          handlePublishDateChange(
+            e.target.value,
+            filters.publishDate[1]
+          )
+        }
+        className="bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+      />
+      <input
+        type="date"
+        placeholder="End date"
+        onChange={(e) =>
+          handlePublishDateChange(
+            filters.publishDate[0],
+            e.target.value
+          )
+        }
+        className="bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+      />
+    </div>
+  </div>
+</div>
+
+
           </div>
           <div>
             <button
               onClick={handleSubmit}
-              className="bg-secondary w-full rounded-md my-2 text-2xl text-white"
+              className="bg-secondary mx-auto block w-[250px] rounded-md my-2 text-2xl text-white"
             >
               Search
             </button>
