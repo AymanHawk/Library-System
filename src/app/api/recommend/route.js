@@ -8,7 +8,7 @@ export async function POST(req) {
             return NextResponse.json({ message: 'Invalid input' }, { status: 400 });
         }
 
-        const flaskUrl = 'http://127.0.0.1:3001/recommend'; 
+        const flaskUrl = 'https://bc14-173-52-101-213.ngrok-free.app/recommend';
         const flaskResponse = await fetch(flaskUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
