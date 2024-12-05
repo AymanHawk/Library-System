@@ -6,13 +6,15 @@ import search from '../images/search.png'
 import dashboard from '../images/dashboard.png'
 import cart from '../images/cart.png'
 import preferences from '../images/preferences.png'
-import { OrganizationSwitcher, SignInButton, SignedIn, SignedOut, UserButton, useUser, useOrganizationList, useOrganization, OrganizationList } from '@clerk/nextjs'
+import signOutIcon from '../images/signOut.png'
+import { OrganizationSwitcher, SignInButton, SignedIn, useClerk, SignedOut, UserButton, useUser, useOrganizationList, useOrganization, OrganizationList, SignOutButton } from '@clerk/nextjs'
 import { useRouterContext } from "../utils/RouterContext";
 
 
 export default function Navbar() {
     const router = useRouterContext();
     const { organization } = useOrganization();
+    const { signOut } = useClerk()
     const { user, isLoaded, isSignedIn } = useUser();
     const { isLoaded: orgsLoaded, userMemberships } = useOrganizationList({
         userMemberships: {
@@ -133,7 +135,6 @@ export default function Navbar() {
                                 <div className='flex flex-col pl-2'>
                                     <span className='font-bold'>{book.title}</span>
                                     <span className='font-light'>{book.author}</span>
-                                    {/* <span className='font-light'>{book._id}</span> */}
                                     <span className={`${book.isbn ? '' : 'hidden'} font-light`}>ISBN: {book.isbn} </span>
                                 </div>
                             </div>
@@ -155,62 +156,64 @@ export default function Navbar() {
                 </div>
             )
             }
-            {/* <div className='nav-user p-1'> */}
-                {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
-                    <div className='nav-user p-1'>
-                        <div className='bg-background rounded-md'>
-                            <OrganizationSwitcher hidePersonal={true}>
-                                <OrganizationSwitcher.OrganizationProfileLink
-                                    label="Dashboard"
-                                    url={`/library/inventory/${organization.id}`}
-                                    labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
-                                />
-                                <OrganizationSwitcher.OrganizationProfileLink
-                                    label="Preferences"
-                                    url={`/library/profile/${organization.id}`}
-                                    labelIcon={<Image src={preferences} alt="Dashboard Icon" width={20} height={20} />}
-                                />
-                            </OrganizationSwitcher>
-                            <SignedOut>
-                                <SignInButton>
-                                    <button className='text-lg'>Sign In</button>
-                                </SignInButton>
-                            </SignedOut>
-                        </div>
-                    </div>
-                ) : (
-                    <div className='nav-user2 p-1'>
-                        <SignedIn>
-                            <UserButton>
-                                <UserButton.MenuItems>
-                                    <UserButton.Action
-                                        label="Dashboard"
-                                        labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
-                                        onClick={handleDashboardRedirect}
-                                    />
-                                </UserButton.MenuItems>
-                                <UserButton.MenuItems>
-                                    <UserButton.Action
-                                        label="Preferences"
-                                        labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
-                                        onClick={handlePreferencesRedirect}
-                                    />
-                                </UserButton.MenuItems>
-                            </UserButton>
-                        </SignedIn>
+            {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
+                <div className='nav-user p-1'>
+                    <div className='bg-background rounded-md'>
+                        <OrganizationSwitcher hidePersonal={true}>
+                            <OrganizationSwitcher.OrganizationProfileLink
+                                label="Dashboard"
+                                url={`/library/inventory/${organization.id}`}
+                                labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                            />
+                            <OrganizationSwitcher.OrganizationProfileLink
+                                label="Preferences"
+                                url={`/library/profile/${organization.id}`}
+                                labelIcon={<Image src={preferences} alt="Dashboard Icon" width={20} height={20} />}
+                            />
+                            <OrganizationSwitcher.OrganizationProfilePage
+                                label="Sign Out"
+                                url="custom"
+                                labelIcon={<Image src={signOutIcon} alt="Dashboard Icon" width={20} height={20} />}
+                            >
+                                <button onClick={() => signOut({ redirectUrl: '/' })}>
+                                    Sign Out
+                                </button>
+                            </OrganizationSwitcher.OrganizationProfilePage>
+                        </OrganizationSwitcher>
                         <SignedOut>
                             <SignInButton>
-                                <button className='text-lg xs:text-base'>Sign In</button>
+                                <button className='text-lg'>Sign In</button>
                             </SignInButton>
                         </SignedOut>
                     </div>
-                )}
-                {/* <SignedOut>
-                    <SignInButton>
-                        <button className='text-lg'>Sign In</button>
-                    </SignInButton>
-                </SignedOut>
-            </div> */}
+                </div>
+            ) : (
+                <div className='nav-user2 p-1'>
+                    <SignedIn>
+                        <UserButton>
+                            <UserButton.MenuItems>
+                                <UserButton.Action
+                                    label="Dashboard"
+                                    labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                                    onClick={handleDashboardRedirect}
+                                />
+                            </UserButton.MenuItems>
+                            <UserButton.MenuItems>
+                                <UserButton.Action
+                                    label="Preferences"
+                                    labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
+                                    onClick={handlePreferencesRedirect}
+                                />
+                            </UserButton.MenuItems>
+                        </UserButton>
+                    </SignedIn>
+                    <SignedOut>
+                        <SignInButton>
+                            <button className='text-lg xs:text-base'>Sign In</button>
+                        </SignInButton>
+                    </SignedOut>
+                </div>
+            )}
         </nav>
     )
 }

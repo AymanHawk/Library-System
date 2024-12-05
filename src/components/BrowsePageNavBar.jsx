@@ -8,9 +8,11 @@ import InYourArea from "./InYourArea.jsx";
 import { useRouterContext } from "../utils/RouterContext.jsx";
 
 export default function BrowserNavbar() {
-  const [activeTab, setActiveTab] = useState("home");
+  const [activeTab, setActiveTab] = useState("Home");
   const router = useRouterContext();
-
+  const tabs = [
+    'Home', 'Fiction', 'Non-Fiction',
+  ]
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -23,36 +25,34 @@ export default function BrowserNavbar() {
 
   return (
     <div>
-      <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-start hidden">
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("home")}>Home</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("fiction")}>Fiction</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("popular")}>Non-Fiction</button>
-        <button className="mr-6 p-2 hover:bg-primary w-full hover:text-black" onClick={() => handleTabChange("inyourarea")}>In Your Area</button>
-        <button onClick={()=> handlePathClick("/browse/books/search")}>Custom</button>
+      <div className="text-primary my-[3%] mx-[6%] text-center text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl sm:flex justify-center hidden">
+        {tabs.map(tab => (
+          <button
+            key={tab}
+            className={(tab === activeTab ? 'bg-primary text-black ' : ' ') + ` p-2 w-full hover:bg-primary  hover:text-black`}
+            onClick={() => handleTabChange(tab)}
+          >
+            {tab}
+          </button>
+        ))
+        }
+        <button className=" p-2 hover:bg-primary w-full hover:text-black" onClick={() => handlePathClick("/browse/books/search")}>Custom</button>
       </div>
 
       <div className="tab-content">
-        {activeTab === "home" && (
+        {activeTab === "Home" && (
           <div>
             <Home />
           </div>
         )}
-
-        {activeTab === "fiction" && (
+        {activeTab === "Fiction" && (
           <div>
             <Fiction />
           </div>
         )}
-
-        {activeTab === "popular" && (
+        {activeTab === "Non-Fiction" && (
           <div>
             <NonFiction />
-          </div>
-        )}
-
-        {activeTab === "inyourarea" && (
-          <div>
-            <InYourArea />
           </div>
         )}
       </div>

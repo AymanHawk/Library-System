@@ -18,21 +18,31 @@
 }
 
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
+  /* Custom scrollbar for Chrome, Safari, and Opera */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    width: 8px; /* Set scrollbar width */
   }
- /* Hide scrollbar for IE, Edge and Firefox */
+
+  .no-scrollbar::-webkit-scrollbar-track {
+    background-color: theme(
+      "colors.background"
+    ); /* Scrollbar track (background) */
+  }
+
+  .no-scrollbar::-webkit-scrollbar-thumb {
+    background-color: theme("colors.loading"); /* Scrollbar thumb (handle) */
+    border-radius: 4px; /* Optional: rounded corners */
+  }
+
+  /* Custom scrollbar for Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+    scrollbar-color: theme("colors.loading") theme("colors.background"); /* thumb track */
+  }
 }
 
 body {
   font-family: "Jeju Myeongjo", serif;
 }
-
 
 /* this is for the nav bar component */
 
@@ -232,4 +242,3 @@ nav {
     --chart-5: 340 75% 55%;
   }
 } */
-
