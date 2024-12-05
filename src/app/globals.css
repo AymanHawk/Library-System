@@ -9,6 +9,30 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+.Toastify__toast {
+  border-top: 0.1px solid transparent !important;
+  border-left: 0.1px solid transparent !important;
+  border-right: 0.1px solid transparent !important;
+  color: #dbd7d7 !important;
+  background-color: #1E1C1C !important;  /* Custom background color */            /* Text color */
+  border-radius: 8px !important;         /* Optional: Add rounded corners */
+}
+.Toastify__toast--success .Toastify__close-button { color: #4CAF50 !important; }
+.Toastify__toast--error .Toastify__close-button { color: #F44336 !important; }
+.Toastify__toast--info .Toastify__close-button { color: #2196F3 !important; }
+
+.Toastify__toast--success {
+  border-color: #193c18 !important;     /* Green border with 0.8 opacity */
+}
+
+.Toastify__toast--error {
+  border-color: #462522 !important;     /* Red border with 0.8 opacity */
+}
+
+.Toastify__toast--info {
+  border-color: #223442 !important;    /* Blue border with 0.8 opacity */
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

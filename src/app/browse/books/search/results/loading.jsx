@@ -2,9 +2,6 @@ export default function Loading() {
   return (
     <div className="2xl:w-[1300px] xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto">
       <div className="animate-pulse">
-        
-        <div className="bg-loading h-8 w-3/4 my-2 md:my-10 ml-5 rounded-md"></div>
-
         <div className="flex flex-wrap lg:justify-between justify-center">
           
           {[...Array(6)].map((_, index) => (
