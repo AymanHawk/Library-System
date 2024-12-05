@@ -13,8 +13,6 @@ import Loading from './loading';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 function Results({ searchParams }) {
   const searchQuery = searchParams?.search;
   const router = useRouterContext();
@@ -70,9 +68,6 @@ function Results({ searchParams }) {
       console.error('Error liking the book:', err);
       toast.error('Login to Like a book');
     }
-
-
-
 
   };
 
