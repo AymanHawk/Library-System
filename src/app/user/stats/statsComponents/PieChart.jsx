@@ -59,8 +59,8 @@ const PieChart = ({ genreData }) => {
     }
 
     return (
-        <div style={{ width: '600px', height: '400px' }}>
-            <Pie data={data} options={options} />
+        <div className='sm:h-[400px] sm:w-[400px] w-[340px] xs:w-[250px]'>
+            <Pie data={data} options={options}/>
         </div>
     );
 };

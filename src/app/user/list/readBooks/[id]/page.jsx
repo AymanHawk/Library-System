@@ -1,53 +1,104 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import { useUser } from '@clerk/nextjs';
-import Image from 'next/image';
+"use client";
+import React, { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+import { useRouterContext } from "../../../../../utils/RouterContext";
+import UserNavbar from "../../../../../components/UserNavbar";
+import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
+import Loading from "./loading"
 
-function ReadList() {
-
+function readBooks() {
   const { user } = useUser();
   const [list, setList] = useState([]);
+  const pathname = usePathname()
+  const id = pathname.split('/').pop();
+  const router = useRouterContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 15;
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(true)
 
+  const handleBookClick = (path) => {
+    router.push(path);
+  }
   useEffect(() => {
     const fetchList = async () => {
+      setLoading(true);
       try {
-        const response = await fetch('/api/bookList/user/one', {
-          method: 'GET',
+        const response = await fetch("/api/bookList/user/one", {
+          method: "GET",
           headers: {
-            'userId': user.id,
-            'reqList': 'readBooks'
-          }
-        })
+            userId: user.id,
+            reqList: "readBooks",
+            limit: limit,
+            page: currentPage
+          },
+        });
 
         if (!response.ok) {
-          throw new Error('Failed to get read list');
+          throw new Error("Failed to get read list");
         }
 
         const data = await response.json();
         setList(Object.values(data.list));
+        setTotalCount(data.totalCount);
       } catch (err) {
         console.log(err);
+      }finally{
+        setLoading(false);
       }
     };
 
     if (user && user.id) {
       fetchList();
     }
-  }, [user])
+  }, [user, currentPage]);
+
+  if (loading) {
+    return <Loading count={totalCount > 0 ? totalCount : limit} />;
+  }
+
+ 
 
   return (
     <div>
-      <div className='flex'>
-        {list.map((book) => (
-          <div key={book.id} className=''>
-            <Image src={book.imgUrl} alt={book.id} width={50} height={60} className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28" />
+      <UserNavbar userId={id} userPath={pathname} />
+      <div className="mx-auto 2xl:w-[1400px] xl:w-[1250px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[350px] xs:w-[250px]">
+        <h1 className="mb-[10px] text-primary text-[43px]">Read Books</h1>
+        <div className="lg:ml-[20px] flex flex-row flex-wrap justify-start gap-6">
+          <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
+            {list.map((book) => (
+              <div
+                key={book.id}
+                className="flex flex-col 2xl:w-[256px] w-[250px] h-[550px] xl:w-[226px] xl:h-[600px] lg:w-[220px] norm:w-[210px] lg:h-[630px] md:w-[250px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
+              >
+                <img
+                  src={book.imgUrl}
+                  alt={book.id}
+                  width={50}
+                  height={60}
+                  className="w-full xl:h-[350px] lg:h-[350px] md:h-[350px] h-[300px]"
+                />
+                <h2 onClick={() => handleBookClick(`/books/${book.id}`)} className="text-primary cursor-pointer text-[32px]">
+                  {book.title.length > 40
+                    ? `${book.title.slice(0, 40)}...`
+                    : book.title}
+                </h2>
+                <h3 className="text-[23px]">{book.author}</h3>
+                <h3 className="text-[23px] capitalize">{book.genre}</h3>
+              </div>
+            ))}
           </div>
-        ))
-        }
+        </div>
       </div>
-
+      <Pagination
+        currentPage={currentPage}
+        totalCount={totalCount}
+        limit={limit}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
-  )
+  );
 }
 
-export default ReadList
+export default readBooks;

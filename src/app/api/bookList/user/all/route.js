@@ -28,9 +28,9 @@ export async function GET(req) {
         }
 
         const {readBooks = [], toReadBooks = [], likedBooks = []} = user.bookList;
-        const limitedReadBooks = readBooks.slice(0, 8);
-        const limitedToReadBooks = toReadBooks.slice(0, 8);
-        const limitedLikedBooks = likedBooks.slice(0, 8);
+        const limitedReadBooks = readBooks.slice(0, 15);
+        const limitedToReadBooks = toReadBooks.slice(0, 15);
+        const limitedLikedBooks = likedBooks.slice(0, 15);
 
         
 

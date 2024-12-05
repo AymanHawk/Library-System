@@ -4,11 +4,11 @@ import { useMemo } from 'react';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const LineChart = ({monthData}) => {
-    const data = useMemo(()=> {
+const LineChart = ({ monthData }) => {
+    const data = useMemo(() => {
         const months = Array.from({ length: 12 }, (_, i) => ({ month: i + 1, count: 0 }));
 
-        monthData.forEach(item=> {
+        monthData.forEach(item => {
             const monthIndex = item.month - 1;
             months[monthIndex].count = parseInt(item.count, 10);
         })
@@ -62,7 +62,12 @@ const LineChart = ({monthData}) => {
         },
     }
 
-    return <Line data={data} options={options} />
+    return (
+        <div className='md:w-[600px] md:h-[300px] sm:w-[480px] w-[340px] xs:w-[300px]'>
+            <Line data={data} options={options} />
+        </div>
+
+    )
 }
 
 export default LineChart;

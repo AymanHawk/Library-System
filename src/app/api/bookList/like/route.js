@@ -1,7 +1,7 @@
 import { connect } from '../../../../lib/dbConnection/mongoose';
 import User from '../../../../lib/models/users';
 import Book from '../../../../lib/models/books'
-import { subStat, addStat } from '../../../../lib/actions/book';
+import { subStat, addStat, addBookStat, subBookStat } from '../../../../lib/actions/book';
 
 export async function POST(req) {
 
@@ -81,9 +81,19 @@ export async function POST(req) {
             }
         }
 
+        let bookStatExist = book.stats.monthly.find(entry => entry.year === year && entry.month === month)
+        if(!bookStatExist) {
+            bookStatExist = {
+                year,
+                month,
+                userRead: 0,
+                userLiked: 0,
+                userRented: 0,
+            }
+        }
+
         user.bookList.likedBooks = user.bookList.likedBooks || [];
         user.bookList.dislikedBooks = user.bookList.dislikedBooks || [];
-
 
         const listSet = new Set(user.bookList[prefList]);
 
@@ -91,6 +101,7 @@ export async function POST(req) {
             user.bookList[prefList] = user.bookList[prefList].filter(id => id.toString() !== bookId);
             if (prefList === 'likedBooks') {
                 subStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
+                subBookStat(bookStatExist, 'userLiked');
             }
         } else {
             for (const list of ['likedBooks', 'dislikedBooks']) {
@@ -99,15 +110,22 @@ export async function POST(req) {
             user.bookList[prefList].push(bookId);
             if (prefList === 'likedBooks') {
                 addStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
+                addBookStat(bookStatExist, 'userLiked')
             } else if( prefList === 'dislikedBooks'){
                 subStat(statExist.likedBooks, statGenre, statPace, statTheme, statPage);
+                subBookStat(bookStatExist, 'userLiked');
             }
         }
 
         if(!user.stats.monthly.find(entry => entry.year === year && entry.month === month)){
             user.stats.monthly.push(statExist);
         }
+
+        if(!book.stats.monthly.find(entry => entry.year === year && entry.month === month)){
+            book.stats.monthly.push(bookStatExist);
+        }
         await user.save();
+        await book.save();
 
 
         return new Response(JSON.stringify({ success: true, bookList: user.bookList }), {

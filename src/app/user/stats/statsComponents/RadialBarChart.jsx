@@ -55,15 +55,18 @@ const RadialBarChart = ({avg, dataCall, call}) => {
                 titleColor: 'white',
                 bodyColor: 'white',
             },
+            datalabels: {
+                color: 'white',
+                formatter: (value) => {
+                    return value;
+                },
+            },
         },
     }
 
     return (
-        <div style={{ width: '400px', height: '300px' }}>
+        <div className='sm:h-[400px] sm:w-[400px] w-[340px] xs:w-[250px]'>
             <PolarArea data={data} options={options} />
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
-            </div>
-            <h3 style={{ textAlign: 'center' }}>{call} Read vs. Average</h3>
         </div>
     );
 }
