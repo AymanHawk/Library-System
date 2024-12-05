@@ -215,7 +215,7 @@ function StockEdit() {
             />
           </div>
 
-          <div className="grid grid-cols-2 ml-6 gap-6">
+          <div className="grid grid-cols-3 ml-6 gap-6">
             {result ? (
               result.map((book) => (
                 <div key={book.isbn}>
