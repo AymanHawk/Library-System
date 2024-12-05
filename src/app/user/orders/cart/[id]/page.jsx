@@ -2,6 +2,9 @@
 import { useUser } from '@clerk/nextjs';
 import React, { useEffect, useState } from 'react'
 import { useRouterContext } from '../../../../../utils/RouterContext';
+import checkicon from "../../../../../images/green_check_two.png";
+import xicon from "../../../../../images/red_x_two.png";
+import Image from 'next/image';
 
 function Cart() {
 
@@ -67,7 +70,7 @@ function Cart() {
 
     return (
         <div className='flex gap-2'>
-            <div className="border-secondary rounded-[5px] border-2 p-2 w-[48%] min-w-[300px] mb-6">
+            <div className="border-secondary rounded-[5px] border-2 p-2 w-[48%] min-w-[300px] mb-6 h-[600px] overflow-y-scroll">
                 <h1 className="text-[25px] text-primary mr-4 ml-4 mt-4 mb-2">Cart</h1>
                 <div className="flex flex-col">
                     {(cart && cart.length > 0) ? (
@@ -82,12 +85,12 @@ function Cart() {
                                             <h2 className="text-primary text-[32px]">{item.bookInfo.title}</h2>
                                             <h3 className="text-white text-[22px]">{item.bookInfo.author}</h3>
                                             <h4 className="text-white text-[22px]">{item.bookInfo.genre[0]}</h4>
-                                            <div className='flex justify-between'>
+                                            <div className='flex justify-between items-center'>
                                                 <h4 className="text-white text-[22px]">{item.libraryInfo.name}</h4>
                                                 {item.isMember ? (
-                                                    <h4 className="text-white text-[22px]">green tick</h4>
+                                                    <Image src={checkicon} className="w-[20px] h-[20px]"/>
                                                 ) : (
-                                                    <h4 className="text-white text-[22px]">red cross</h4>
+                                                    <Image src={xicon} className="w-[20px] h-[20px]"/>
 
                                                 )}
                                             </div>
@@ -113,14 +116,14 @@ function Cart() {
 
                 </div>
             </div>
-            <div className="border-secondary rounded-[5px] border-2 p-2 h-[65%]">
+            <div className="border-secondary rounded-[5px] border-2 p-2 h-[65%] w-[40%] ml-auto mr-auto">
                 <h1 className="text-[25px] text-primary mr-4 ml-4 mt-4 mb-2">Cart Summary</h1>
                 <div>
-                    <div className='border-secondary p-2 border-solid border-[1px]'>
-                        number of books: {cart.length}
+                    <div className='border-secondary p-2 border-solid border-[1px] text-[20px]'>
+                        Number of books: {cart.length}
                     </div>
-                    <div className='border-secondary p-2 border-solid border-[1px]'>
-                        <button className='bg-primary text-background' onClick={handleCheckout}>
+                    <div className='mt-4'>
+                        <button className='bg-primary rounded-md px-4 py-2 text-background text-[15px]' onClick={handleCheckout}>
                             Checkout
                         </button>
                     </div>
