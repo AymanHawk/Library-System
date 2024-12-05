@@ -65,7 +65,7 @@ nav {
     xs:h-8
     flex
     h-10
-    w-[54%]
+    w-[50%]
     flex-col
     items-start
     gap-4
@@ -141,6 +141,21 @@ nav {
 }
 
 .nav-user {
+  @apply norm:w-[13%]
+    bg-primary
+    xs:h-9
+    flex
+    h-12
+    md:w-[20%]
+    w-[90px]
+    items-center
+    justify-center
+    gap-1
+    text-nowrap
+    rounded-md
+    text-black;
+}
+.nav-user2 {
   @apply norm:w-[13%]
     bg-primary
     xs:h-9

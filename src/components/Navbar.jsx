@@ -149,53 +149,67 @@ export default function Navbar() {
 
 
             </div>
-            {user && (
+            {(user && !organization) && (
                 <div onClick={handleLinkCartClick} className='h-12 w-[8%] flex justify-center items-center xs:h-9 cursor-pointer bg-primary rounded-md'>
                     <Image src={cart} alt='cart' className='w-[75%] max-w-[36px]' />
                 </div>
             )
             }
-            <div className='nav-user p-1'>
+            {/* <div className='nav-user p-1'> */}
                 {orgsLoaded && userMemberships.data && userMemberships.data.length > 0 ? (
-                    <div className='bg-background rounded-md relative'>
-                        <div className='w-[100px] bg-background absolute'>
-                            <OrganizationSwitcher hidePersonal={true} />
-                            <div className='bg-primary cursor-pointer' onClick={()=>{handleBookClick(`/library/inventory/${organization.id}`)}}> 
-                                Dashboard
-                            </div>
-                            <div className='bg-primary cursor-pointer' onClick={()=>{handleBookClick(`/library/profile/${organization.id}`)}}>
-                                Preferences
-                            </div>
+                    <div className='nav-user p-1'>
+                        <div className='bg-background rounded-md'>
+                            <OrganizationSwitcher hidePersonal={true}>
+                                <OrganizationSwitcher.OrganizationProfileLink
+                                    label="Dashboard"
+                                    url={`/library/inventory/${organization.id}`}
+                                    labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                                />
+                                <OrganizationSwitcher.OrganizationProfileLink
+                                    label="Preferences"
+                                    url={`/library/profile/${organization.id}`}
+                                    labelIcon={<Image src={preferences} alt="Dashboard Icon" width={20} height={20} />}
+                                />
+                            </OrganizationSwitcher>
+                            <SignedOut>
+                                <SignInButton>
+                                    <button className='text-lg'>Sign In</button>
+                                </SignInButton>
+                            </SignedOut>
                         </div>
                     </div>
                 ) : (
-                    <SignedIn>
-                        <UserButton>
-                            <UserButton.MenuItems>
-                                <UserButton.Action
-                                    label="Dashboard"
-                                    labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
-                                    onClick={handleDashboardRedirect}
-                                />
-                            </UserButton.MenuItems>
-                            <UserButton.MenuItems>
-                                <UserButton.Action
-                                    label="Preferences"
-                                    labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
-                                    onClick={handlePreferencesRedirect}
-                                />
-                            </UserButton.MenuItems>
-                        </UserButton>
-                    </SignedIn>
+                    <div className='nav-user2 p-1'>
+                        <SignedIn>
+                            <UserButton>
+                                <UserButton.MenuItems>
+                                    <UserButton.Action
+                                        label="Dashboard"
+                                        labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                                        onClick={handleDashboardRedirect}
+                                    />
+                                </UserButton.MenuItems>
+                                <UserButton.MenuItems>
+                                    <UserButton.Action
+                                        label="Preferences"
+                                        labelIcon={<Image src={preferences} alt="Preferences Icon" width={20} height={20} />}
+                                        onClick={handlePreferencesRedirect}
+                                    />
+                                </UserButton.MenuItems>
+                            </UserButton>
+                        </SignedIn>
+                        <SignedOut>
+                            <SignInButton>
+                                <button className='text-lg xs:text-base'>Sign In</button>
+                            </SignInButton>
+                        </SignedOut>
+                    </div>
                 )}
-                <SignedOut>
+                {/* <SignedOut>
                     <SignInButton>
                         <button className='text-lg'>Sign In</button>
                     </SignInButton>
                 </SignedOut>
-            </div>
-            {/* <div>
-                <UserButton></UserButton>
             </div> */}
         </nav>
     )
