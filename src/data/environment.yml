@@ -1,0 +1,26 @@
+name: book-recommender-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - jupyter
+  - pandas
+  - numpy
+  - requests
+  - pymongo
+  - scikit-learn
+  - sentence-transformers
+  - faiss-cpu
+  - huggingface_hub
+  - pip
+  - faker
+  - pip:
+      - transformers
+      - datasets
+      - accelerate
+      - numpy
+  - pytorch
+  - torchvision
+  - torchaudio
+  - python-dotenv
