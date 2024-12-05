@@ -9,14 +9,21 @@ export default function Recommendations() {
   const [themeValue, setThemeValue] = useState([0]);
   const [paceValue, setPaceValue] = useState([0]);
   const [lengthValue, setLengthValue] = useState([0]);
-
-  const pathname = usePathname();
-  const id = pathname.split("/").pop();
+  const [loading, setLoading] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
   const [userInput, setUserInput] = useState("");
 
+  const pathname = usePathname();
+  const id = pathname.split("/").pop();
+
   async function getRecommendations() {
+    if (!userInput.trim()) {
+      alert("Please enter a description of the books you like!");
+      return;
+    }
+
     const weights = [themeValue[0], paceValue[0], lengthValue[0]];
+    setLoading(true);
 
     try {
       const response = await fetch("/api/recommend", {
@@ -34,6 +41,8 @@ export default function Recommendations() {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -57,7 +66,7 @@ export default function Recommendations() {
               onClick={getRecommendations}
               className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
             >
-              Get Recommendations
+              {loading ? "Loading..." : "Get Recommendations"}
             </button>
           </div>
         </div>
@@ -65,7 +74,7 @@ export default function Recommendations() {
           <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl mb-4">
             Adjust Preferences
           </h1>
-          <div className="">
+          <div>
             <div> Theme </div>
             <Slider
               min={-3}
@@ -73,8 +82,8 @@ export default function Recommendations() {
               step={0.1}
               value={themeValue}
               onValueChange={(value) => setThemeValue(value)}
-            />{" "}
-            {themeValue}
+            />
+            <span className="text-white">{themeValue[0]}</span>
             <br />
             <div> Pace </div>
             <Slider
@@ -83,8 +92,8 @@ export default function Recommendations() {
               step={0.1}
               value={paceValue}
               onValueChange={(value) => setPaceValue(value)}
-            />{" "}
-            {paceValue}
+            />
+            <span className="text-white">{paceValue[0]}</span>
             <br />
             <div> Length </div>
             <Slider
@@ -93,12 +102,12 @@ export default function Recommendations() {
               step={0.1}
               value={lengthValue}
               onValueChange={(value) => setLengthValue(value)}
-            />{" "}
-            {lengthValue}
+            />
+            <span className="text-white">{lengthValue[0]}</span>
           </div>
         </div>
 
-        {recommendations.length > 0 && (
+        {recommendations.length > 0 ? (
           <div className="mt-4">
             <h2 className="text-white text-lg">Recommended Books:</h2>
             <ul>
@@ -109,118 +118,16 @@ export default function Recommendations() {
               ))}
             </ul>
           </div>
+        ) : (
+          !loading && (
+            <div className="mt-4">
+              <h2 className="text-white text-lg">
+                No recommendations yet. Adjust your preferences and try again!
+              </h2>
+            </div>
+          )
         )}
       </div>
     </div>
   );
 }
-
-function Survey({
-  themeValue,
-  setThemeValue,
-  paceValue,
-  setPaceValue,
-  lengthValue,
-  setLengthValue,
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div>
-      <p>
-        Use Shelves™ Recommendation Guru <i>Hermes</i> to curate book
-        recommendations just for you
-      </p>
-      <div className="p-4">
-        <button
-          onClick={() => setIsOpen(true)}
-          className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-        >
-          Open Modal
-        </button>
-
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          title="Hermes Survey"
-        >
-          <p className="text-xl">
-            Complete the following to receive recommendations!
-          </p>
-          <div className="">
-            <div> Theme </div>
-            <Slider
-              min={-3}
-              max={3}
-              step={0.1}
-              value={themeValue}
-              onValueChange={(value) => setThemeValue(value)}
-            />
-            <br />
-            <div> Pace </div>
-            <Slider
-              min={-3}
-              max={3}
-              step={0.1}
-              value={paceValue}
-              onValueChange={(value) => setPaceValue(value)}
-            />
-            <br />
-            <div> Length </div>
-            <Slider
-              min={-3}
-              max={3}
-              step={0.1}
-              value={lengthValue}
-              onValueChange={(value) => setLengthValue(value)}
-            />
-          </div>
-
-          <br />
-
-          <div className="mt-4 flex justify-end space-x-2">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="rounded-md border px-4 py-2 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-            >
-              Confirm
-            </button>
-          </div>
-        </Modal>
-      </div>
-    </div>
-  );
-}
-
-const Modal = ({ isOpen, onClose, title, children }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-        onClick={onClose}
-      />
-
-      <div className="relative z-50 w-full max-w-lg rounded-lg bg-[#1F1C1C] shadow-lg">
-        <div className="flex items-center justify-between border-b p-4">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <button
-            onClick={onClose}
-            className="rounded-full p-1 hover:bg-gray-100"
-          >
-            <X className="h-5 w-5 text-gray-500" />
-          </button>
-        </div>
-
-        <div className="p-4">{children}</div>
-      </div>
-    </div>
-  );
-};
