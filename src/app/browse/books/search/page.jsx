@@ -941,9 +941,9 @@ function Search() {
         <div className="2xl:w-[250px] text-primary xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] hidden sm:hidden md:hidden lg:block xl:block 2xl:block">
           <h2 className="text-center text-2xl">Filters</h2>
           <div className="mb-5">
-            <div>
+            <div className="relative">
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer "
                 onClick={handleGenreDrop}
                 ref={genreRef}
               >
@@ -952,7 +952,7 @@ function Search() {
                 <div
                   className={
                     (genreDrop ? `` : `hidden`) +
-                    ` flex flex-col gap-1 border-secondary absolute z-50 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                    ` flex flex-col gap-1 border-secondary absolute z-50 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
                   }
                 >
                   <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
@@ -994,7 +994,7 @@ function Search() {
               </div>
 
             </div>
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handleThemeDrop}
@@ -1005,7 +1005,7 @@ function Search() {
                 <div
                 className={
                   (themeDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                  ` flex flex-col gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
                 }
                 onClick={(e) => e.stopPropagation()}
               >
@@ -1048,7 +1048,7 @@ function Search() {
               </div>
               
             </div>
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handlePaceDrop}
@@ -1059,7 +1059,7 @@ function Search() {
                 <div
                 className={
                   (paceDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                  ` flex flex-col gap-1 border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
                 }
                 onClick={(e) => e.stopPropagation()}
               >
@@ -1102,7 +1102,7 @@ function Search() {
               </div>
               
             </div>
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handleFormatDrop}
@@ -1113,7 +1113,7 @@ function Search() {
                 <div
                 className={
                   (formatDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                  ` flex flex-col gap-1 border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
                 }
                 onClick={(e) => e.stopPropagation()}
               >
@@ -1157,7 +1157,7 @@ function Search() {
               
             </div>
 
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handleLangDrop}
@@ -1168,7 +1168,7 @@ function Search() {
                 <div
                 className={
                   (langDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                  ` flex flex-col gap-1 border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
                 }
                 onClick={(e) => e.stopPropagation()}
               >
