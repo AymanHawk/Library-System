@@ -75,7 +75,7 @@ function Edit() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      <div className="border-solid border-2 border-secondary rounded-md mx-[400px] mt-10 h-[500px] flex flex-col">
+      <div className="border-solid border-2 border-secondary rounded-md mx-[350px] mt-10 h-[500px] flex flex-col">
         <h1 className="text-primary text-[35px] mt-2 ml-6">Customer Profiles</h1>
         <div className="mt-4 ">
           <input className='ml-6 text-black h-full' type="text" name="" id="" value={member} onChange={(e)=> {setMember(e.target.value)}}/>

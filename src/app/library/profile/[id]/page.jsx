@@ -95,7 +95,7 @@ function Profile() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      <div className="border-solid border-2 border-secondary rounded-md mr-[450px] ml-[450px] mt-10 h-[500px] flex flex-col">
+      <div className="border-solid border-2 border-secondary rounded-md mx-[350px] mt-10 h-[500px] flex flex-col">
         <h1 className="text-primary text-[35px] mt-2 ml-6">Library Profile</h1>
         <div className="text-white text-[22px] ml-6 mt-2 flex flex-row items-center">
           Current Profile:
