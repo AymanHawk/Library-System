@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import UserNavbar from "../../../../../components/UserNavbar";
 import { useRouterContext } from "../../../../../utils/RouterContext";
 import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
+import Loading from './loading';
 
 
 function likedBooks() {
@@ -16,12 +17,15 @@ function likedBooks() {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 15;
   const [totalCount, setTotalCount] = useState(0);
+  const [loading, setIsLoading] = useState(true);
+
 
   const handleBookClick = (path) => {
     router.push(path);
   }
   useEffect(() => {
     const fetchList = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("/api/bookList/user/one", {
           method: "GET",
@@ -32,7 +36,7 @@ function likedBooks() {
             page: currentPage
           },
         });
-
+        
         if (!response.ok) {
           throw new Error("Failed to get read list");
         }
@@ -42,13 +46,22 @@ function likedBooks() {
         setTotalCount(data.totalCount);
       } catch (err) {
         console.log(err);
+      }finally{
+        setIsLoading(false);
       }
+
+
+
     };
 
     if (user && user.id) {
       fetchList();
     }
   }, [user, currentPage]);
+
+  if (loading) {
+    return <Loading count={totalCount > 0 ? totalCount : limit} />;
+  }
 
   return (
     <div>

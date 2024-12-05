@@ -9,6 +9,7 @@ import activeLike from '../../../../../images/like_active.png'
 import activeDislike from '../../../../../images/dislike_active.png'
 import { useUser } from '@clerk/nextjs';
 import { useRouterContext } from '../../../../../utils/RouterContext.jsx';
+import Loading from './loading';
 
 
 
@@ -18,6 +19,7 @@ function Results({ searchParams }) {
   const [results, setResults] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const limit = 10;
   const [dropState, setDropState] = useState({});
   const [dropTextState, setDropTextState] = useState({});
@@ -155,6 +157,7 @@ function Results({ searchParams }) {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`/api/search?query=${encodeURIComponent(searchQuery)}&page=${currentPage}&limit=${limit}`);
         const { books, totalCount } = await res.json();
@@ -162,6 +165,8 @@ function Results({ searchParams }) {
         setTotalCount(totalCount);
       } catch (err) {
         console.error(err)
+      }finally{
+        setLoading(false);
       }
 
 
@@ -216,7 +221,9 @@ function Results({ searchParams }) {
 
   }, [user])
 
-
+  if (loading) {  
+    return <Loading/>;
+  }
 
   return (
     <div className='2xl:w-[1300px] xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto' >
