@@ -50,14 +50,15 @@ function orderId() {
         <h1 className="text-primary text-3xl text-left lg:text-4xl mb-5">
           Orders
         </h1>
-        <div className="border-[1px] border-secondary border-solid rounded-lg flex flex-col px-4 py-2 gap-2">
+        <div className="border-[1px] border-secondary border-solid rounded-lg flex flex-col px-4 py-2 gap-2 overflow-x-scroll">
           <div className="h-[20%] flex justify-between ">
             {orders && orders.length > 0 ? (
               orders.map((order) => (
                 <div key={order._id} className="flex flex-col">
                   <div
                     key={order._id}
-                    className="text-[#D9D9D9] md:text-sm text-[10px]"
+                    className="text-[#D9D9D9] md:text-sm text-[10px] m-4"
+                    
                   >
                     <h3>
                       Order ID: <br />{" "}
