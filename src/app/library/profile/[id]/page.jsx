@@ -140,7 +140,7 @@ function Profile() {
             }}
           />
         </div>
-        <div className="text-white text-[22px] ml-6 mt-4 flex flex-row flex flex-col">
+        <div className="text-white text-[22px] ml-6 mt-4 flex flex-col">
           Address:
           <div>
             <div className="flex items-end mb-5">

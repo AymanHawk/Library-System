@@ -81,8 +81,6 @@ export async function POST(req) {
         const body = await req.json();
         const { libId, op, member } = body;
 
-        console.log(member);
-
         const client = await clientPromise;
         const db = client.db('lib');
 

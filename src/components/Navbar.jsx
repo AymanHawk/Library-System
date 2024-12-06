@@ -138,9 +138,7 @@ export default function Navbar() {
                                     <span className={`${book.isbn ? '' : 'hidden'} font-light`}>ISBN: {book.isbn} </span>
                                 </div>
                             </div>
-
                         ))
-
                         }
                         <div className='text-center py-2 '>
                             <span className='cursor-pointer hover:text-secondary' onClick={handleLinkClick}>View All The Books</span>

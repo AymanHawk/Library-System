@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouterContext } from "../utils/RouterContext";
 import logo from "../images/logo.png";
 import Image from "next/image";
+import signOutIcon from '../images/signOut.png'
 import dashboard from '../images/dashboard.png'
 import preferences from '../images/preferences.png'
 import {
@@ -108,18 +109,27 @@ function LibNavbar({ libId, libPath }) {
           userMemberships.data &&
           userMemberships.data.length > 0 ? (
           <div className="bg-background rounded-md ">
-              <OrganizationSwitcher hidePersonal={true}>
-                <OrganizationSwitcher.OrganizationProfileLink
-                  label="Dashboard"
-                  url={`/library/inventory/${organization.id}`}
-                  labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
-                />
-                <OrganizationSwitcher.OrganizationProfileLink
-                  label="Preferences"
-                  url={`/library/profile/${organization.id}`}
-                  labelIcon={<Image src={preferences} alt="Dashboard Icon" width={20} height={20} />}
-                />
-              </OrganizationSwitcher>
+            <OrganizationSwitcher hidePersonal={true}>
+              <OrganizationSwitcher.OrganizationProfileLink
+                label="Dashboard"
+                url={`/library/inventory/${organization.id}`}
+                labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+              />
+              <OrganizationSwitcher.OrganizationProfileLink
+                label="Preferences"
+                url={`/library/profile/${organization.id}`}
+                labelIcon={<Image src={preferences} alt="Dashboard Icon" width={20} height={20} />}
+              />
+              <OrganizationSwitcher.OrganizationProfilePage
+                label="Sign Out"
+                url="custom"
+                labelIcon={<Image src={signOutIcon} alt="Dashboard Icon" width={20} height={20} />}
+              >
+                <button onClick={() => signOut({ redirectUrl: '/' })}>
+                  Sign Out
+                </button>
+              </OrganizationSwitcher.OrganizationProfilePage>
+            </OrganizationSwitcher>
           </div>
         ) : (
           <div></div>
