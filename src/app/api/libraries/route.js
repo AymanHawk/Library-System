@@ -10,8 +10,6 @@ export async function GET(req) {
             .find({}, { projection: { _id: 1, name: 1 } })
             .toArray();
 
-        console.log(libs);
-
         return NextResponse.json({ libs }, { status: 200 });
     } catch (error) {
         return new Response(JSON.stringify({ success: false, error: error.message }), {

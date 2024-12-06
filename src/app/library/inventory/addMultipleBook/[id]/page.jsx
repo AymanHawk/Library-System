@@ -201,7 +201,7 @@ function StockEdit() {
     <div>
       <LibNavbar libId={id} libPath={`/library/inventory/${id}`} />
       <div>
-        <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[500px] overflow-y-scroll">
+        <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[500px] overflow-y-scroll no-scrollbar">
           <h2 className="text-[34px] text-primary text-center sm:ml-4 mt-2">
             Book Info
           </h2>
@@ -214,216 +214,228 @@ function StockEdit() {
               className="bg-secondary file:bg-secondary file:border-none file:cursor-pointer mb-4 ml-6 text-[20px]"
             />
           </div>
-
-          <div className="grid grid-cols-3 ml-6 gap-6">
+          <div className="">
             {result ? (
-              result.map((book) => (
-                <div key={book.isbn}>
-                  <div className="flex flex-col">
-                    <h2 className="text-white text-[26px]">
-                      <span className="text-primary">Title:</span> {book.title}
-                    </h2>
-                    <h2 className="text-white text-[22px]">
-                      <span className="text-primary">Author:</span>{" "}
-                      {book.author}
-                    </h2>
-                    <h2 className="text-white text-[22px]">
-                      <span className="text-primary">ISBN:</span> {book.isbn}
-                    </h2>
+              <div>
 
-                    {book.editable ? (
-                      <div>
-                        <button
-                          className="bg-secondary py-1 px-8 rounded-md mt-2 mb-0.5 text-[17px]"
-                          onClick={() => setEditingBook(book.isbn)}
-                        >
-                          Edit
-                        </button>
+                <div className="grid grid-cols-3 ml-6 gap-6">
+                  {
+                    result.map((book) => (
+                      <div key={book.isbn}>
+                        <div className="flex flex-col">
+                          <h2 className="text-white text-[26px]">
+                            <span className="text-primary">Title:</span> {book.title}
+                          </h2>
+                          <h2 className="text-white text-[22px]">
+                            <span className="text-primary">Author:</span>{" "}
+                            {book.author}
+                          </h2>
+                          <h2 className="text-white text-[22px]">
+                            <span className="text-primary">ISBN:</span> {book.isbn}
+                          </h2>
 
-                        {editingBook === book.isbn && (
-                          <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-background p-5 text-background border-primary border-solid border-2">
+                          {book.editable ? (
                             <div>
-                              <Image
-                                src={cross}
-                                height={25}
-                                width={25}
-                                alt="cross"
-                                onClick={() => setEditingBook(null)}
-                              />
+                              <button
+                                className="bg-secondary py-1 px-8 rounded-md mt-2 mb-0.5 text-[17px]"
+                                onClick={() => setEditingBook(book.isbn)}
+                              >
+                                Edit
+                              </button>
+
+                              {editingBook === book.isbn && (
+                                <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-background p-5 text-background border-primary border-solid border-2">
+                                  <div>
+                                    <Image
+                                      src={cross}
+                                      height={25}
+                                      width={25}
+                                      alt="cross"
+                                      onClick={() => setEditingBook(null)}
+                                    />
+                                  </div>
+                                  <div></div>
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.title ?? book.title ?? ""
+                                    }
+                                    placeholder="Title"
+                                    onChange={(e) =>
+                                      handleEdit(book.isbn, "title", e.target.value)
+                                    }
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.author ??
+                                      book.author ??
+                                      ""
+                                    }
+                                    placeholder="Author(s)"
+                                    onChange={(e) =>
+                                      handleEdit(book.isbn, "author", e.target.value)
+                                    }
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.publisher ??
+                                      book.publisher ??
+                                      ""
+                                    }
+                                    placeholder="Publisher"
+                                    onChange={(e) =>
+                                      handleEdit(
+                                        book.isbn,
+                                        "publisher",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                  <input
+                                    type="date"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.publication_date ??
+                                      book.publication_date ??
+                                      ""
+                                    }
+                                    placeholder="Publish Date"
+                                    onChange={(e) =>
+                                      handleEdit(
+                                        book.isbn,
+                                        "publication_date",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={book.isbn}
+                                    placeholder="ISBN"
+                                    disabled
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.language ??
+                                      book.language ??
+                                      ""
+                                    }
+                                    placeholder="Language"
+                                    onChange={(e) =>
+                                      handleEdit(
+                                        book.isbn,
+                                        "language",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.length ??
+                                      book.length ??
+                                      ""
+                                    }
+                                    placeholder="Length"
+                                    onChange={(e) =>
+                                      handleEdit(book.isbn, "length", e.target.value)
+                                    }
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.format ??
+                                      book.format ??
+                                      ""
+                                    }
+                                    placeholder="Format"
+                                    onChange={(e) =>
+                                      handleEdit(book.isbn, "format", e.target.value)
+                                    }
+                                  />
+                                  <input
+                                    type="text"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    value={
+                                      editValue[book.isbn]?.genre ?? book.genre ?? ""
+                                    }
+                                    placeholder="Genre"
+                                    onChange={(e) =>
+                                      handleEdit(book.isbn, "genre", e.target.value)
+                                    }
+                                  />
+                                  <input
+                                    type="file"
+                                    className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+                                    onChange={(e) => handleImageSelect(e, book.isbn)}
+                                  />
+                                  <div className="col-span-2">
+                                    <textarea
+                                      className="m-0.5 w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[90px]"
+                                      value={
+                                        editValue[book.isbn]?.desc ?? book.desc ?? ""
+                                      }
+                                      name="description"
+                                      id="description"
+                                      placeholder="Description"
+                                      onChange={(e) =>
+                                        handleEdit(book.isbn, "desc", e.target.value)
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                    <button
+                                      className="bg-secondary rounded-md text-white text-[15px] py-2 px-4"
+                                      onClick={() => handleSave(book.isbn)}
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      onClick={() => handleDelete(book.isbn)}
+                                      className="bg-red-500 rounded-md text-white ml-2 py-2 px-4"
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
                             </div>
+                          ) : (
                             <div></div>
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.title ?? book.title ?? ""
-                              }
-                              placeholder="Title"
-                              onChange={(e) =>
-                                handleEdit(book.isbn, "title", e.target.value)
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.author ??
-                                book.author ??
-                                ""
-                              }
-                              placeholder="Author(s)"
-                              onChange={(e) =>
-                                handleEdit(book.isbn, "author", e.target.value)
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.publisher ??
-                                book.publisher ??
-                                ""
-                              }
-                              placeholder="Publisher"
-                              onChange={(e) =>
-                                handleEdit(
-                                  book.isbn,
-                                  "publisher",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            <input
-                              type="date"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.publication_date ??
-                                book.publication_date ??
-                                ""
-                              }
-                              placeholder="Publish Date"
-                              onChange={(e) =>
-                                handleEdit(
-                                  book.isbn,
-                                  "publication_date",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={book.isbn}
-                              placeholder="ISBN"
-                              disabled
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.language ??
-                                book.language ??
-                                ""
-                              }
-                              placeholder="Language"
-                              onChange={(e) =>
-                                handleEdit(
-                                  book.isbn,
-                                  "language",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.length ??
-                                book.length ??
-                                ""
-                              }
-                              placeholder="Length"
-                              onChange={(e) =>
-                                handleEdit(book.isbn, "length", e.target.value)
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.format ??
-                                book.format ??
-                                ""
-                              }
-                              placeholder="Format"
-                              onChange={(e) =>
-                                handleEdit(book.isbn, "format", e.target.value)
-                              }
-                            />
-                            <input
-                              type="text"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              value={
-                                editValue[book.isbn]?.genre ?? book.genre ?? ""
-                              }
-                              placeholder="Genre"
-                              onChange={(e) =>
-                                handleEdit(book.isbn, "genre", e.target.value)
-                              }
-                            />
-                            <input
-                              type="file"
-                              className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-                              onChange={(e) => handleImageSelect(e, book.isbn)}
-                            />
-                            <div className="col-span-2">
-                              <textarea
-                                className="m-0.5 w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[90px]"
-                                value={
-                                  editValue[book.isbn]?.desc ?? book.desc ?? ""
-                                }
-                                name="description"
-                                id="description"
-                                placeholder="Description"
-                                onChange={(e) =>
-                                  handleEdit(book.isbn, "desc", e.target.value)
-                                }
-                              />
-                            </div>
-                            <div>
-                              <button
-                                className="bg-secondary rounded-md text-white text-[15px] py-2 px-4"
-                                onClick={() => handleSave(book.isbn)}
-                              >
-                                Save
-                              </button>
-                              <button
-                                onClick={() => handleDelete(book.isbn)}
-                                className="bg-red-500 rounded-md text-white ml-2 py-2 px-4"
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
+                    ))
+
+                  }
+
                 </div>
-              ))
+                <div>
+                  <button
+                    onClick={handleConfirm}
+                    className="bg-secondary mb-4 ml-6 mt-4 py-1 px-4 text-[18px] rounded-md"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+
             ) : (
-              <div>No book</div>
+              <div className="ml-6">No book</div>
             )}
           </div>
 
-          <button
-            onClick={handleConfirm}
-            className="bg-secondary ml-6 mt-4 py-1 px-4 text-[18px] rounded-md"
-          >
-            Confirm
-          </button>
+
         </div>
       </div>
       <div className="flex justify-between mx-[8%] mt-4">

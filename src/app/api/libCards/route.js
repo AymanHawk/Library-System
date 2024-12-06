@@ -64,7 +64,6 @@ export async function POST(req) {
             { authId: userId },
             { $addToSet: { libCards: card } }
         );
-        console.log("Update result:", result);
 
         return new Response(JSON.stringify({ success: true }), {
             status: 200,

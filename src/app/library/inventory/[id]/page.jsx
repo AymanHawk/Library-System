@@ -58,6 +58,15 @@ function Books() {
         console.error("Failed to update the inventory", res.statusText);
         return;
       }
+      setStock((prevStock) =>
+        prevStock.map((book) => {
+          if (book.id === bookId) {
+            let newAmount = op === "+" ? book.amount + 1 : book.amount - 1;
+            if (newAmount < 0) newAmount = 0; 
+            return { ...book, amount: newAmount }; 
+          }
+          return book;
+        }));
       const data = await res.json();
       if (!data.success) {
         console.error("API response indicates failure to update the inventory");
