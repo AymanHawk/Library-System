@@ -19,9 +19,8 @@ export default function Home() {
       </div>
       <div className="text-white xs:text-sm text-center sm:text-left text-xl md:text-2xl lg:text-3xl">
         <h2>
-          The one-stop-shop for all your reading needs. The Shelves is a service that works with public libararies in order to make
-          access to library books more convenient and accesible to all. We provide users with the option to have books checked out and
-          delivered to your home, entirely through our website.
+          The one-stop-shop for all your reading needs. The Shelves is a service that works with public libararies in order to make 
+          access to library books more convenient and accessible for all. We provide users with the option to have books checked out and 
         </h2>
       </div>
       <div className="flex justify-cart w-[50%] sm:flex mt-5">
