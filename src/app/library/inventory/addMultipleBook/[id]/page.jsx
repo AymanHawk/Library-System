@@ -241,7 +241,7 @@ function StockEdit() {
                         </button>
 
                         {editingBook === book.isbn && (
-                          <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 absolute bg-background p-5 text-background">
+                          <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-background p-5 text-background border-primary border-solid border-2">
                             <div>
                               <Image
                                 src={cross}
@@ -251,6 +251,7 @@ function StockEdit() {
                                 onClick={() => setEditingBook(null)}
                               />
                             </div>
+                            <div></div>
                             <input
                               type="text"
                               className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
@@ -391,14 +392,14 @@ function StockEdit() {
                             </div>
                             <div>
                               <button
-                                className="bg-secondary"
+                                className="bg-secondary rounded-md text-white text-[15px] py-2 px-4"
                                 onClick={() => handleSave(book.isbn)}
                               >
                                 Save
                               </button>
                               <button
                                 onClick={() => handleDelete(book.isbn)}
-                                className="bg-red-500 text-white ml-2"
+                                className="bg-red-500 rounded-md text-white ml-2 py-2 px-4"
                               >
                                 Delete
                               </button>
@@ -417,7 +418,10 @@ function StockEdit() {
             )}
           </div>
 
-          <button onClick={handleConfirm} className="bg-secondary ml-6 mt-4 py-1 px-4 text-[18px] rounded-md">
+          <button
+            onClick={handleConfirm}
+            className="bg-secondary ml-6 mt-4 py-1 px-4 text-[18px] rounded-md"
+          >
             Confirm
           </button>
         </div>
