@@ -30,8 +30,6 @@ export async function GET(req) {
             .project({ title: 1, author: 1, imgUrl: 1, isbn: 1, _id: 1, genre: 1, format: 1, length: 1, language: 1})
             .toArray();
 
-        console.log(books);
-
         return new Response(JSON.stringify({ books }), { status: 200 });
 
 

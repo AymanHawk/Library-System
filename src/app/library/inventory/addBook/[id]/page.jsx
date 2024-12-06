@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouterContext } from "../../../../../utils/RouterContext";
 import LibNavbar from "../../../../../components/LibNavbar";
 import cross from "../../../../../images/cross.png";
+import nobookcover from "../../../../../images/no_cover_available.png";
 import Image from "next/image";
 
 function AddBook() {
@@ -28,6 +29,29 @@ function AddBook() {
     router.push(path);
   };
 
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    const cloudUrl = process.env.NEXT_PUBLIC_CLOUDINARY_LINK;
+    formData.append("file", file);
+    formData.append("upload_preset", "book_image");
+    try {
+      const response = await fetch(cloudUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      if (data.secure_url) {
+        setImg(data.secure_url);
+      } else {
+        console.error("Error uploading to Cloudinary", data);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
   const onAddClick = async () => {
     try {
@@ -57,7 +81,6 @@ function AddBook() {
 
   const handleAddExistBook = async () => {
     try {
-      console.log(selectedExistingBook);
       let libId = id;
       let bookId = selectedExistingBook;
 
@@ -131,14 +154,15 @@ function AddBook() {
         <div
           className={
             (popUp ? "" : "hidden ") +
-            ` absolute bg-background border-secondary border-[1px] p-10 ml-40`
+            ` absolute top-0 left-[-150px] sm:left-[-80px] md:left-[-40px] bg-background border-secondary border-[1px] p-10 ml-40  w-[50%]`
           }
         >
           <div>
             <Image
+              className="absolute top-2 left-2"
               src={cross}
-              height={25}
-              width={25}
+              height={30}
+              width={30}
               alt="cross"
               onClick={() => {
                 setPopUp(false);
@@ -147,25 +171,64 @@ function AddBook() {
           </div>
           {result && result.length > 0 ? (
             <div>
-              {result.map((book) => (
-                <div key={book._id}>
-                  <label htmlFor={`book${book._id}`}>{book.title}</label>
-                  <input
-                    type="radio"
-                    name="book"
-                    onChange={(e) => {
-                      setSelectedExistingBook(e.target.value);
-                    }}
-                    value={`${book._id}`}
-                    id={`book${book._id}`}
-                  />
-                </div>
-              ))}
-              <div className="bg-secondary" onClick={handleAddExistBook}>
-                add selected book
+              <div className="flex overflow-x-auto h-[250px]">
+                {result.map((book) => (
+                  <div key={book._id}>
+                    <div key={book._id} className="flex flex-row ml-2">
+                      <div className="lg:w-32 lg:h-48 norm:w-28 norm:h-44 md:w-24 md:h-40 sm:w-20 sm:h-32 w-16 h-28">
+                        {book.imgUrl !== "N/A" ? (
+                          <img src={book.imgUrl} alt={book.title} />
+                        ) : (
+                          <Image
+                            className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                            src={nobookcover}
+                            alt={`${book.title} cover`}
+                          />
+                        )}
+                      </div>
+                      <div className="flex flex-col items-start ml-2">
+                        <div className="text-primary sm:text-lg norm:text-2xl lg:text-2xl text-nowrap text-base">
+                          <label
+                            htmlFor={`book${book._id}`}
+                            className="text-[24px] mr-2"
+                          >
+                            {book.title}
+                          </label>
+                        </div>
+                        <p className="text-[#D9D9D9]] sm:text-base norm:text-lg lg:text-lg text-sm">
+                          {book.author}
+                        </p>
+                        <p className="text-[#D9D9D9]] sm:text-base norm:text-lg lg:text-lg text-sm">
+                          #{book.isbn}
+                        </p>
+                        <input
+                          type="radio"
+                          name="book"
+                          className="appearance-none w-3 h-3 border border-primary rounded-full checked:bg-primary checked:border-primary focus:outline-none"
+                          onChange={(e) => {
+                            setSelectedExistingBook(e.target.value);
+                          }}
+                          value={`${book._id}`}
+                          id={`book${book._id}`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="bg-secondary" onClick={handleNewBook}>
-                add the inputed book
+              <div className="flex flex-row">
+                <div
+                  className="bg-secondary mt-4 mb-2 text-center text-[20px] rounded-md py-2 px-4"
+                  onClick={handleAddExistBook}
+                >
+                  Add Selected Book
+                </div>
+                <div
+                  className="bg-secondary ml-4 mt-4 mb-2 text-center text-[20px] rounded-md py-2 px-4"
+                  onClick={handleNewBook}
+                >
+                  Add Uploaded Book
+                </div>
               </div>
             </div>
           ) : (
@@ -245,12 +308,11 @@ function AddBook() {
               placeholder="Genre"
               onChange={(e) => setGenre(e.target.value)}
             />
+
             <input
               type="file"
               className="w-full bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
-              value={imgSrc}
-              placeholder="Image"
-              onChange={(e) => setImg(e.target.value)}
+              onChange={handleImageUpload}
             />
 
             <div className="col-span-2">
@@ -273,7 +335,10 @@ function AddBook() {
         >
           Back
         </div>
-        <div className="bg-secondary cursor-pointer rounded-lg px-8 sm:px-14 py-2 text-white text-[20px]" onClick={onAddClick}>
+        <div
+          className="bg-secondary cursor-pointer rounded-lg px-8 sm:px-14 py-2 text-white text-[20px]"
+          onClick={onAddClick}
+        >
           Upload
         </div>
       </div>

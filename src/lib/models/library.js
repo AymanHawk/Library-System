@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { type } from 'os';
+
 
 const libSchema = new mongoose.Schema({
     authId: {
@@ -9,7 +9,7 @@ const libSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        default: '',
     },
     name: {
         type: String,

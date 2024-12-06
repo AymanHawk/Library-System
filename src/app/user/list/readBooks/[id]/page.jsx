@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useRouterContext } from "../../../../../utils/RouterContext";
 import UserNavbar from "../../../../../components/UserNavbar";
 import Pagination from '../../../../browse/books/search/results/Pagination.jsx'
+import Loading from "./loading"
+import Image from "next/image";
 
 function readBooks() {
   const { user } = useUser();
@@ -15,12 +17,14 @@ function readBooks() {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 15;
   const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(true)
 
   const handleBookClick = (path) => {
     router.push(path);
   }
   useEffect(() => {
     const fetchList = async () => {
+      setLoading(true);
       try {
         const response = await fetch("/api/bookList/user/one", {
           method: "GET",
@@ -41,6 +45,8 @@ function readBooks() {
         setTotalCount(data.totalCount);
       } catch (err) {
         console.log(err);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -48,6 +54,12 @@ function readBooks() {
       fetchList();
     }
   }, [user, currentPage]);
+
+  if (loading) {
+    return <Loading count={totalCount > 0 ? totalCount : limit} />;
+  }
+
+ 
 
   return (
     <div>
@@ -61,7 +73,7 @@ function readBooks() {
                 key={book.id}
                 className="flex flex-col 2xl:w-[256px] w-[250px] h-[550px] xl:w-[226px] xl:h-[600px] lg:w-[220px] norm:w-[210px] lg:h-[630px] md:w-[250px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
               >
-                <img
+                <Image
                   src={book.imgUrl}
                   alt={book.id}
                   width={50}
