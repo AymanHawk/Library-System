@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouterContext } from '../../../../utils/RouterContext';
 import LibNavbar from '../../../../components/LibNavbar';
 import Pagination from '../../../browse/books/search/results/Pagination.jsx';
+import Image from 'next/image';
 
 function orderId() {
 
@@ -97,17 +98,16 @@ function orderId() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      <div>
-        <h2>Orders</h2>
+      <div className='mt-[50px]'>
         <div className='flex justify-evenly'>
-          <div className=''>
-            <h2 onClick={() => { setSection('prepare') }} className='cursor-pointer'>Prepare Orders</h2>
-            <h2 onClick={() => { setSection('confirm') }} className='cursor-pointer'>Confirmed Orders</h2>
-            <h2 onClick={() => { setSection('return') }} className='cursor-pointer'>Returned Orders</h2>
+          <div className='h-[80vh] flex flex-col justify-evenly'>
+            <h2 onClick={() => { setSection('prepare') }} className={((section === 'prepare') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Prepare Orders</h2>
+            <h2 onClick={() => { setSection('confirm') }} className={((section === 'confirm') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Confirmed Orders</h2>
+            <h2 onClick={() => { setSection('return') }} className={((section === 'return') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Returned Orders</h2>
           </div>
-          <div className='border-l-2'></div>
-          <div className='w-[80%]'>
-            <div className='ml-1'>
+          <div className='border-l-2 border-primary'></div>
+          <div className='w-[80%] overflow-auto overflow-y-auto'>
+            <div className=''>
               {section === 'prepare' && (
                 (loading) ? (
                   <div>Loading...</div>
@@ -116,20 +116,33 @@ function orderId() {
                     <div>
                       {preOrder.length > 0 ? (
                         preOrder.map(order => (
-                          <div key={order._id} className='border-secondary border-[1px] py-2'>
-                            <h3>Order ID: {order._id}</h3>
-                            <div>
-                              {order.books.map(book => (
-                                <div key={book._id} className='flex flex-col items-center border-secondary border-[1px]'>
-                                  <div>{book.title}</div>
-
-                                </div>
-                              ))}
-                              <div className='flex gap-2'>
-                                <button className='bg-secondary' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
+                          <div key={order._id} className='py-2'>
+                            <h3 className='text-xl text-primary'>Order #{order._id}</h3>
+                            <div className='border-secondary border-[1px] p-2 flex justify-between rounded-sm'>
+                              <div className='flex flex-col gap-1 justify-evenly'>
+                                {order.books.map(book => (
+                                  <div key={book._id} className='flex flex-row gap-1'>
+                                    <div>
+                                      <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
+                                    </div>
+                                    <div className='flex flex-col items-start'>
+                                      <h2 className='text-primary text-lg'>{book.title}</h2>
+                                      <h2 className='text-primary'>{book.author}</h2>
+                                      {book.isbn && (
+                                        <h2>
+                                          ISBN #{book.isbn}
+                                        </h2>
+                                      )
+                                      }
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className='flex flex-col justify-start gap-2'>
+                                <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
                                   More Details
                                 </button>
-                                <button className='bg-secondary' onClick={() => confirmOrder(order._id)}>
+                                <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => confirmOrder(order._id)}>
                                   confirm
                                 </button>
                               </div>
@@ -154,18 +167,33 @@ function orderId() {
                       <div>
                         {confOrder.length > 0 ? (
                           confOrder.map(order => (
-                            <div key={order._id} className='border-secondary border-[1px] py-2'>
-                              <h3>Order ID: {order._id}</h3>
-                              <div>
-                                {order.books.map(book => (
-                                  <div key={book._id} className='flex flex-col items-center border-secondary border-[1px]'>
-                                    <div>{book.title}</div>
-
-                                  </div>
-                                ))}
-                                <button className='bg-secondary' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
-                                  More Details
-                                </button>
+                            <div key={order._id} className='py-2'>
+                              <h3 className='text-xl text-primary'>Order #{order._id}</h3>
+                              <div className='border-secondary border-[1px] p-2 flex justify-between rounded-sm'>
+                                <div className='flex flex-col gap-1 justify-evenly'>
+                                  {order.books.map(book => (
+                                    <div key={book._id} className='flex flex-row gap-1'>
+                                      <div>
+                                        <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
+                                      </div>
+                                      <div className='flex flex-col items-start'>
+                                        <h2 className='text-primary text-lg'>{book.title}</h2>
+                                        <h2 className='text-primary'>{book.author}</h2>
+                                        {book.isbn && (
+                                          <h2>
+                                            ISBN #{book.isbn}
+                                          </h2>
+                                        )
+                                        }
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className='flex flex-col justify-start gap-2'>
+                                  <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
+                                    More Details
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           ))
@@ -187,18 +215,33 @@ function orderId() {
                       <div>
                         {retOrder.length > 0 ? (
                           retOrder.map(order => (
-                            <div key={order._id} className='border-secondary border-[1px] py-2'>
-                              <h3>Order ID: {order._id}</h3>
-                              <div>
-                                {order.books.map(book => (
-                                  <div key={book._id} className='flex flex-col items-center border-secondary border-[1px]'>
-                                    <div>{book.title}</div>
-
-                                  </div>
-                                ))}
-                                <button className='bg-secondary' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
-                                  More Details
-                                </button>
+                            <div key={order._id} className='py-2'>
+                              <h3 className='text-xl text-primary'>Order #{order._id}</h3>
+                              <div className='border-secondary border-[1px] p-2 flex justify-between rounded-sm'>
+                                <div className='flex flex-col gap-1 justify-evenly'>
+                                  {order.books.map(book => (
+                                    <div key={book._id} className='flex flex-row gap-1'>
+                                      <div>
+                                        <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
+                                      </div>
+                                      <div className='flex flex-col items-start'>
+                                        <h2 className='text-primary text-lg'>{book.title}</h2>
+                                        <h2 className='text-primary'>{book.author}</h2>
+                                        {book.isbn && (
+                                          <h2>
+                                            ISBN #{book.isbn}
+                                          </h2>
+                                        )
+                                        }
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className='flex flex-col justify-start gap-2'>
+                                  <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
+                                    More Details
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           ))

@@ -10,6 +10,9 @@ import like from "../../../../images/like.png";
 import dislike from "../../../../images/dislike.png";
 import activeLike from "../../../../images/like_active.png";
 import activeDislike from "../../../../images/dislike_active.png";
+import Loading from './loading.jsx'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Search() {
   const [results, setResults] = useState([]);
@@ -23,6 +26,11 @@ function Search() {
   const [paceDrop, setPaceDrop] = useState(false);
   const [langDrop, setLangDrop] = useState(false);
   const [formatDrop, setFormatDrop] = useState(false);
+  const [genreSmallDrop, setGenreSmallDrop] = useState(false);
+  const [themeSmallDrop, setThemeSmallDrop] = useState(false);
+  const [paceSmallDrop, setPaceSmallDrop] = useState(false);
+  const [langSmallDrop, setLangSmallDrop] = useState(false);
+  const [formatSmallDrop, setFormatSmallDrop] = useState(false);
   const [filters, setFilters] = useState({
     genre: [],
     theme: [],
@@ -55,6 +63,11 @@ function Search() {
   const paceRef = useRef(null);
   const formatRef = useRef(null);
   const langRef = useRef(null);
+  const genreSmallRef = useRef(null);
+  const themeSmallRef = useRef(null);
+  const paceSmallRef = useRef(null);
+  const formatSmallRef = useRef(null);
+  const langSmallRef = useRef(null);
 
   const genre = [
     "dystopian",
@@ -207,60 +220,79 @@ function Search() {
   ];
 
   const toggleLike = async (bookId) => {
-    try {
-      const updatedPref = likePref[bookId] === "like" ? null : "like";
-      setLikePref((prev) => ({
-        ...prev,
-        [bookId]: updatedPref,
-      }));
 
-      const res = await fetch("/api/bookList/like", {
-        method: "POST",
+    try {
+      const updatedPref = likePref[bookId] === 'like' ? null : 'like';
+
+
+      const res = await fetch('/api/bookList/like', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           userId: user.id,
           bookId,
-          prefList: "likedBooks",
+          prefList: 'likedBooks'
         }),
       });
 
       const data = await res.json();
-      if (!data.success) {
-        console.error("Failed to update like status");
+      if (data.success) {
+        setLikePref((prev) => ({
+          ...prev,
+          [bookId]: updatedPref,
+        }))
+        if (likePref[bookId] !== 'like') {
+          toast.success('Book liked successfully!');
+        } else {
+          toast.info('Book Un-Liked successfully!');
+        }
+      } else {
+        toast.error('Failed to update like status');
       }
     } catch (err) {
-      console.error("Error liking the book:", err);
+      console.error('Error liking the book:', err);
+      toast.info('Login to Like a book');
     }
+
   };
 
   const toggleDislike = async (bookId) => {
     try {
-      const updatedPref = likePref[bookId] === "dislike" ? null : "dislike";
-      setLikePref((prev) => ({
-        ...prev,
-        [bookId]: updatedPref,
-      }));
+      const updatedPref = likePref[bookId] === 'dislike' ? null : 'dislike';
 
-      const res = await fetch("/api/bookList/like", {
-        method: "POST",
+
+      const res = await fetch('/api/bookList/like', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           userId: user.id,
           bookId,
-          prefList: "dislikedBooks",
+          prefList: 'dislikedBooks'
         }),
       });
 
       const data = await res.json();
-      if (!data.success) {
-        console.error("Failed to update dislike status");
+      if (data.success) {
+        setLikePref((prev) => ({
+          ...prev,
+          [bookId]: updatedPref,
+        }))
+        if (likePref[bookId] !== 'dislike') {
+          toast.success('Book Disliked successfully!');
+        } else {
+          toast.info('Book Un-Disked successfully!');
+        }
+      } else {
+        toast.error('Failed to update dislike status');
       }
     } catch (err) {
-      console.error("Error disliking the book:", err);
+      console.error('Error disliking the book:', err);
+      toast.info('Login to Dislike a book');
+
     }
   };
 
@@ -279,18 +311,15 @@ function Search() {
         console.error("User ID is undefined");
         return;
       }
-      if (list === "Finished") {
-        newList = "readBooks";
-      } else if (list === "To-Read") {
-        newList = "toReadBooks";
-      } else if (list === "Add to List" || null) {
-        newList = "remove";
-      }
+      if (list === 'Finished') { newList = 'readBooks' }
+      else if (list === 'To-Read') { newList = 'toReadBooks' }
+      else if (list === 'Add to List' || null) { newList = 'remove' }
 
-      const res = await fetch("/api/bookList/read", {
-        method: "POST",
+
+      const res = await fetch('/api/bookList/read', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userId, bookId, newList }),
       });
@@ -303,17 +332,22 @@ function Search() {
         }));
         setUserBookLists(data.bookList);
         toggleDrop(bookId);
+        toast.success('Book list updated successfully!');
+      } else {
+        toast.error('Failed to update book list');
       }
     } catch (err) {
       console.log(err);
+      toast.info('Login to Add to the List');
+
     }
   };
 
   const handleClickOutside = (event) => {
-    const isOuside = Object.keys(dropRefs.current).every(
+    const isOutside = Object.keys(dropRefs.current).every(
       (key) => !dropRefs.current[key]?.contains(event.target)
     );
-    if (isOuside) {
+    if (isOutside) {
       setDropState({});
     }
 
@@ -331,6 +365,21 @@ function Search() {
     }
     if (langRef.current && !langRef.current.contains(event.target)) {
       setLangDrop(false);
+    }
+    if (genreSmallRef.current && !genreSmallRef.current.contains(event.target)) {
+      setGenreSmallDrop(false);
+    }
+    if (themeSmallRef.current && !themeSmallRef.current.contains(event.target)) {
+      setThemeSmallDrop(false);
+    }
+    if (paceSmallRef.current && !paceSmallRef.current.contains(event.target)) {
+      setPaceSmallDrop(false);
+    }
+    if (formatSmallRef.current && !formatSmallRef.current.contains(event.target)) {
+      setFormatSmallDrop(false);
+    }
+    if (langSmallRef.current && !langSmallRef.current.contains(event.target)) {
+      setLangSmallDrop(false);
     }
   };
 
@@ -356,6 +405,26 @@ function Search() {
 
   const handleFormatDrop = () => {
     setFormatDrop(!formatDrop);
+  };
+
+  const handleGenreSmallDrop = () => {
+    setGenreSmallDrop(!genreSmallDrop);
+  };
+
+  const handleThemeSmallDrop = () => {
+    setThemeSmallDrop(!themeSmallDrop);
+  };
+
+  const handlePaceSmallDrop = () => {
+    setPaceSmallDrop(!paceSmallDrop);
+  };
+
+  const handleLangSmallDrop = () => {
+    setLangSmallDrop(!langSmallDrop);
+  };
+
+  const handleFormatSmallDrop = () => {
+    setFormatSmallDrop(!formatSmallDrop);
   };
 
   const fetchBooks = async () => {
@@ -481,337 +550,338 @@ function Search() {
     <div className="2xl:w-[1400px] text-primary xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto">
       <h2 className="text-center text-4xl">Explore Books</h2>
       {/* Top Filter for when screen gets too small */}
-      <div className="2xl:w-[250px] text-primary xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] block sm:block md:block lg:hidden xl:hidden 2xl:hidden">
+      <div className="2xl:w-[250px] text-primary xl:w-[200px] lg:w-[200px] norm:w-[700px] md:w-[600px] block sm:block md:block lg:hidden ">
         <h2 className="text-center text-2xl">Filters</h2>
         <div className="mb-5">
-         <div className="flex flex-nowrap">
-           <div className="">
-            
-            <div>
-              <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={handleGenreDrop}
-                ref={genreRef}
-              >
-                <h3 className="text-xl relative">Genres</h3>
-                <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (genreDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-50 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.genre.map((g) => (
-                    <h2
-                      key={g}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {g}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
-                  {genre.map((genre) => (
-                    <div key={genre}>
-                      <label
-                        className={
-                          (filters.genre.includes(genre)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={genre}
-                      >
-                        {genre}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="genre"
-                        value={genre}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={genre}
-                      />
+          <div className="flex flex-nowrap">
+            <div className="w-[350px]">
+              <div className="relative" ref={genreSmallRef}>
+                <div
+                  className="flex gap-2 items-center cursor-pointer justify-end"
+                  onClick={handleGenreSmallDrop}
+
+                >
+                  <h3 className="text-xl">Genres</h3>
+                  <Image src={drop} width={15} height={10} alt="drop" />
+                  <div
+                    className={
+                      (genreSmallDrop ? `` : `hidden`) +
+                      ` flex flex-col mt-[260px] gap-1 border-secondary absolute z-50 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                    }
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                      {filters.genre.map((g) => (
+                        <h2
+                          key={g}
+                          className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
+                        >
+                          {g}
+                        </h2>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div>
-              <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={handleThemeDrop}
-                ref={themeRef}
-              >
-                <h3 className="text-xl relative">Themes</h3>
-                <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (themeDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.theme.map((t) => (
-                    <h2
-                      key={t}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {t}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
-                  {theme.map((theme) => (
-                    <div key={theme}>
-                      <label
-                        className={
-                          (filters.theme.includes(theme)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={theme}
-                      >
-                        {theme}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="theme"
-                        value={theme}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={theme}
-                      />
+                    <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
+                      {genre.map((genre) => (
+                        <div key={genre}>
+                          <label
+                            className={
+                              (filters.genre.includes(genre)
+                                ? `text-secondary hover:text-white`
+                                : "hover:text-secondary cursor-pointer text-white") +
+                              ` mx-1 capitalize`
+                            }
+                            htmlFor={genre}
+                          >
+                            {genre}
+                          </label>
+                          <input
+                            type="checkbox"
+                            name="genre"
+                            value={genre}
+                            onChange={handleFilterChange}
+                            className="hidden"
+                            id={genre}
+                          />
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={handlePaceDrop}
-                ref={paceRef}
-              >
-                <h3 className="text-xl relative">Paces</h3>
-                <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (paceDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.pace.map((p) => (
-                    <h2
-                      key={p}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {p}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
-                  {pace.map((pace) => (
-                    <div key={pace}>
-                      <label
-                        className={
-                          (filters.pace.includes(pace)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={pace}
-                      >
-                        {pace}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="pace"
-                        value={pace}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={pace}
-                      />
+              <div>
+                <div
+                  className="flex gap-2 items-center cursor-pointer justify-end"
+                  onClick={handleThemeSmallDrop}
+                  ref={themeSmallRef}
+                >
+                  <h3 className="text-xl relative">Themes</h3>
+                  <Image src={drop} width={15} height={10} alt="drop" />
+                  <div
+                    className={
+                      (themeSmallDrop ? `` : `hidden`) +
+                      ` flex flex-col mt-[260px] gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                    }
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                      {filters.theme.map((t) => (
+                        <h2
+                          key={t}
+                          className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
+                        >
+                          {t}
+                        </h2>
+                      ))}
                     </div>
-                  ))}
+                    <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
+                      {theme.map((theme) => (
+                        <div key={theme}>
+                          <label
+                            className={
+                              (filters.theme.includes(theme)
+                                ? `text-secondary hover:text-white`
+                                : "hover:text-secondary cursor-pointer text-white") +
+                              ` mx-1 capitalize`
+                            }
+                            htmlFor={theme}
+                          >
+                            {theme}
+                          </label>
+                          <input
+                            type="checkbox"
+                            name="theme"
+                            value={theme}
+                            onChange={handleFilterChange}
+                            className="hidden"
+                            id={theme}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-          
-           
+              <div>
+                <div
+                  className="flex gap-2 items-center cursor-pointer justify-end"
+                  onClick={handlePaceSmallDrop}
+                  ref={paceSmallRef}
+                >
+                  <h3 className="text-xl relative">Paces</h3>
+                  <Image src={drop} width={15} height={10} alt="drop" />
+                  <div
+                    className={
+                      (paceSmallDrop ? `` : `hidden`) +
+                      ` flex flex-col gap-1 mt-[170px] border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                    }
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                      {filters.pace.map((p) => (
+                        <h2
+                          key={p}
+                          className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
+                        >
+                          {p}
+                        </h2>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
+                      {pace.map((pace) => (
+                        <div key={pace}>
+                          <label
+                            className={
+                              (filters.pace.includes(pace)
+                                ? `text-secondary hover:text-white`
+                                : "hover:text-secondary cursor-pointer text-white") +
+                              ` mx-1 capitalize`
+                            }
+                            htmlFor={pace}
+                          >
+                            {pace}
+                          </label>
+                          <input
+                            type="checkbox"
+                            name="pace"
+                            value={pace}
+                            onChange={handleFilterChange}
+                            className="hidden"
+                            id={pace}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
               <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={handleFormatDrop}
-                ref={formatRef}
+                className="flex gap-2 items-center cursor-pointer justify-end"
+                onClick={handleFormatSmallDrop}
+                ref={formatSmallRef}
               >
                 <h3 className="text-xl relative">Formats</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (formatDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.format.map((f) => (
-                    <h2
-                      key={f}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {f}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
-                  {format.map((format) => (
-                    <div key={format}>
-                      <label
-                        className={
-                          (filters.format.includes(format)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={format}
+                <div
+                  className={
+                    (formatSmallDrop ? `` : `hidden`) +
+                    ` flex flex-col gap-1 mt-[170px] border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                  }
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                    {filters.format.map((f) => (
+                      <h2
+                        key={f}
+                        className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
                       >
-                        {format}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="format"
-                        value={format}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={format}
-                      />
+                        {f}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
+                    {format.map((format) => (
+                      <div key={format}>
+                        <label
+                          className={
+                            (filters.format.includes(format)
+                              ? `text-secondary hover:text-white`
+                              : "hover:text-secondary cursor-pointer text-white") +
+                            ` mx-1 capitalize`
+                          }
+                          htmlFor={format}
+                        >
+                          {format}
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="format"
+                          value={format}
+                          onChange={handleFilterChange}
+                          className="hidden"
+                          id={format}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div
+                  className="flex gap-2 items-center cursor-pointer justify-end"
+                  onClick={handleLangSmallDrop}
+                  ref={langSmallRef}
+                >
+                  <h3 className="text-xl relative">Languages</h3>
+                  <Image src={drop} width={15} height={10} alt="drop" />
+                  <div
+                    className={
+                      (langSmallDrop ? `` : `hidden`) +
+                      ` flex flex-col gap-1 mt-[260px] border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
+                    }
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                      {filters.language.map((l) => (
+                        <h2
+                          key={l}
+                          className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
+                        >
+                          {l}
+                        </h2>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-           
-            <div>
-              <div
-                className="flex gap-2 items-center cursor-pointer"
-                onClick={handleLangDrop}
-                ref={langRef}
-              >
-                <h3 className="text-xl relative">Languages</h3>
-                <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (langDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.language.map((l) => (
-                    <h2
-                      key={l}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {l}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
-                  {language.map((language) => (
-                    <div key={language}>
-                      <label
-                        className={
-                          (filters.language.includes(language)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={language}
-                      >
-                        {language}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="language"
-                        value={language}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={language}
-                      />
+                    <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
+                      {language.map((language) => (
+                        <div key={language}>
+                          <label
+                            className={
+                              (filters.language.includes(language)
+                                ? `text-secondary hover:text-white`
+                                : "hover:text-secondary cursor-pointer text-white") +
+                              ` mx-1 capitalize`
+                            }
+                            htmlFor={language}
+                          >
+                            {language}
+                          </label>
+                          <input
+                            type="checkbox"
+                            name="language"
+                            value={language}
+                            onChange={handleFilterChange}
+                            className="hidden"
+                            id={language}
+                          />
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
-         
-          <div className="flex flex-wrap flex-row gap-6 ml-[30px] sm:ml-[100px] md:ml-[10vw] mb-4">
-          <div>
-            <h3 className="text-xl mb-1">Rating</h3>
-            <div className="flex flex-nowrap gap-4">
-              <input
-                type="number"
-                placeholder="Min"
-                onChange={(e) =>
-                  handleRatingChange(e.target.value, filters.rating[1])
-                }
-                className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-                max={5}
-                min={0}
-              />
-              <input
-                type="number"
-                placeholder="Max"
-                onChange={(e) =>
-                  handleRatingChange(filters.rating[0], e.target.value)
-                }
-                className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-                max={5}
-                min={0}
-              />
-            </div>
-          </div>
-          
+            <div className="flex w-[350px] flex-wrap flex-row gap-6 ml-[20px] mb-4 justify-start">
+              <div>
+                <h3 className="text-xl mb-1">Rating</h3>
+                <div className="flex flex-nowrap gap-4">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    onChange={(e) =>
+                      handleRatingChange(e.target.value, filters.rating[1])
+                    }
+                    className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+                    max={5}
+                    min={0}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    onChange={(e) =>
+                      handleRatingChange(filters.rating[0], e.target.value)
+                    }
+                    className="w-[75px] bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+                    max={5}
+                    min={0}
+                  />
+                </div>
+              </div>
 
-          <div>
-            <h3 className="text-xl mb-1">Publish Date</h3>
-            <div className="flex flex-row gap-1 flex-wrap">
-              <input
-                type="date"
-                placeholder="Start date"
-                onChange={(e) =>
-                  handlePublishDateChange(
-                    e.target.value,
-                    filters.publishDate[1]
-                  )
-                }
-                className=" bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-              />
-              <input
-                type="date"
-                placeholder="End date"
-                onChange={(e) =>
-                  handlePublishDateChange(
-                    filters.publishDate[0],
-                    e.target.value
-                  )
-                }
-                className=" bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
-              />
+              <div>
+                <h3 className="text-xl mb-1">Publish Date</h3>
+                <div className="flex flex-row gap-1 flex-wrap">
+                  <input
+                    type="date"
+                    placeholder="Start date"
+                    onChange={(e) =>
+                      handlePublishDateChange(
+                        e.target.value,
+                        filters.publishDate[1]
+                      )
+                    }
+                    className="bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+                  />
+                  <input
+                    type="date"
+                    placeholder="End date"
+                    onChange={(e) =>
+                      handlePublishDateChange(
+                        filters.publishDate[0],
+                        e.target.value
+                      )
+                    }
+                    className="bg-background border-secondary border-[1px] rounded-md p-1 text-secondary outline-none"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          </div>
+
+
           </div>
           <div>
             <button
               onClick={handleSubmit}
-              className="bg-secondary w-full rounded-md my-2 text-2xl text-white"
+              className="bg-secondary mx-auto block w-[250px] rounded-md my-2 text-2xl text-white"
             >
               Search
             </button>
@@ -854,8 +924,8 @@ function Search() {
                         ? "#ffffff"
                         : "#5D68B0"
                       : hoveringUp
-                      ? "#5D68B0"
-                      : "#ffffff"
+                        ? "#5D68B0"
+                        : "#ffffff"
                   }
                   height="25px"
                   width="25px"
@@ -895,8 +965,8 @@ function Search() {
                         ? "#ffffff"
                         : "#5D68B0"
                       : hoveringDown
-                      ? "#5D68B0"
-                      : "#ffffff"
+                        ? "#5D68B0"
+                        : "#ffffff"
                   }
                   height="25px"
                   width="25px"
@@ -930,62 +1000,67 @@ function Search() {
       </div>
       <div className="flex justify-center md: just">
         {/* Side Filter for when screen is large */}
+
+        {/* from hereeeee */}
         <div className="2xl:w-[250px] text-primary xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] hidden sm:hidden md:hidden lg:block xl:block 2xl:block">
           <h2 className="text-center text-2xl">Filters</h2>
           <div className="mb-5">
-            <div>
+            <div className="relative">
               <div
-                className="flex gap-2 items-center cursor-pointer"
+                className="flex gap-2 items-center cursor-pointer "
                 onClick={handleGenreDrop}
                 ref={genreRef}
               >
                 <h3 className="text-xl relative">Genres</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (genreDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-50 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.genre.map((g) => (
-                    <h2
-                      key={g}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {g}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
-                  {genre.map((genre) => (
-                    <div key={genre}>
-                      <label
-                        className={
-                          (filters.genre.includes(genre)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={genre}
+                <div
+                  className={
+                    (genreDrop ? `` : `hidden`) +
+                    ` flex flex-col gap-1 border-secondary absolute z-50 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
+
+                  }
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="border-b-[1px] h-[60px] border-secondary pb-2 px-2 flex gap-2 py-1 items-center overflow-x-auto no-scrollbar">
+                    {filters.genre.map((g) => (
+                      <h2
+                        key={g}
+                        className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
                       >
-                        {genre}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="genre"
-                        value={genre}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={genre}
-                      />
-                    </div>
-                  ))}
+                        {g}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
+                    {genre.map((genre) => (
+                      <div key={genre}>
+                        <label
+                          className={
+                            (filters.genre.includes(genre)
+                              ? `text-secondary hover:text-white`
+                              : "hover:text-secondary cursor-pointer text-white") +
+                            ` mx-1 capitalize`
+                          }
+                          htmlFor={genre}
+                        >
+                          {genre}
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="genre"
+                          value={genre}
+                          onChange={handleFilterChange}
+                          className="hidden"
+                          id={genre}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
             </div>
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handleThemeDrop}
@@ -993,51 +1068,53 @@ function Search() {
               >
                 <h3 className="text-xl relative">Themes</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (themeDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.theme.map((t) => (
-                    <h2
-                      key={t}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {t}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
-                  {theme.map((theme) => (
-                    <div key={theme}>
-                      <label
-                        className={
-                          (filters.theme.includes(theme)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={theme}
+                <div
+                  className={
+                    (themeDrop ? `` : `hidden`) +
+                    ` flex flex-col gap-1 border-secondary absolute z-40 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
+                  }
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="border-b-[1px] h-[60px] border-secondary items-center pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                    {filters.theme.map((t) => (
+                      <h2
+                        key={t}
+                        className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
                       >
-                        {theme}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="theme"
-                        value={theme}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={theme}
-                      />
-                    </div>
-                  ))}
+                        {t}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
+                    {theme.map((theme) => (
+                      <div key={theme}>
+                        <label
+                          className={
+                            (filters.theme.includes(theme)
+                              ? `text-secondary hover:text-white`
+                              : "hover:text-secondary cursor-pointer text-white") +
+                            ` mx-1 capitalize`
+                          }
+                          htmlFor={theme}
+                        >
+                          {theme}
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="theme"
+                          value={theme}
+                          onChange={handleFilterChange}
+                          className="hidden"
+                          id={theme}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
             </div>
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handlePaceDrop}
@@ -1045,51 +1122,53 @@ function Search() {
               >
                 <h3 className="text-xl relative">Paces</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (paceDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.pace.map((p) => (
-                    <h2
-                      key={p}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {p}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
-                  {pace.map((pace) => (
-                    <div key={pace}>
-                      <label
-                        className={
-                          (filters.pace.includes(pace)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={pace}
+                <div
+                  className={
+                    (paceDrop ? `` : `hidden`) +
+                    ` flex flex-col gap-1 border-secondary absolute z-30 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
+                  }
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="border-b-[1px] h-[50px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                    {filters.pace.map((p) => (
+                      <h2
+                        key={p}
+                        className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
                       >
-                        {pace}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="pace"
-                        value={pace}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={pace}
-                      />
-                    </div>
-                  ))}
+                        {p}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
+                    {pace.map((pace) => (
+                      <div key={pace}>
+                        <label
+                          className={
+                            (filters.pace.includes(pace)
+                              ? `text-secondary hover:text-white`
+                              : "hover:text-secondary cursor-pointer text-white") +
+                            ` mx-1 capitalize`
+                          }
+                          htmlFor={pace}
+                        >
+                          {pace}
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="pace"
+                          value={pace}
+                          onChange={handleFilterChange}
+                          className="hidden"
+                          id={pace}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
             </div>
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handleFormatDrop}
@@ -1097,52 +1176,54 @@ function Search() {
               >
                 <h3 className="text-xl relative">Formats</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (formatDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.format.map((f) => (
-                    <h2
-                      key={f}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {f}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
-                  {format.map((format) => (
-                    <div key={format}>
-                      <label
-                        className={
-                          (filters.format.includes(format)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={format}
+                <div
+                  className={
+                    (formatDrop ? `` : `hidden`) +
+                    ` flex flex-col gap-1 border-secondary absolute z-20 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
+                  }
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                    {filters.format.map((f) => (
+                      <h2
+                        key={f}
+                        className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
                       >
-                        {format}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="format"
-                        value={format}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={format}
-                      />
-                    </div>
-                  ))}
+                        {f}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap p-2 overflow-y-auto no-scrollbar">
+                    {format.map((format) => (
+                      <div key={format}>
+                        <label
+                          className={
+                            (filters.format.includes(format)
+                              ? `text-secondary hover:text-white`
+                              : "hover:text-secondary cursor-pointer text-white") +
+                            ` mx-1 capitalize`
+                          }
+                          htmlFor={format}
+                        >
+                          {format}
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="format"
+                          value={format}
+                          onChange={handleFilterChange}
+                          className="hidden"
+                          id={format}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
             </div>
 
-            <div>
+            <div className="relative">
               <div
                 className="flex gap-2 items-center cursor-pointer"
                 onClick={handleLangDrop}
@@ -1150,49 +1231,51 @@ function Search() {
               >
                 <h3 className="text-xl relative">Languages</h3>
                 <Image src={drop} width={15} height={10} alt="drop" />
-              </div>
-              <div
-                className={
-                  (langDrop ? `` : `hidden`) +
-                  ` flex flex-col gap-1 border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px]`
-                }
-              >
-                <div className="border-b-[1px] h-[47px] border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
-                  {filters.language.map((l) => (
-                    <h2
-                      key={l}
-                      className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
-                    >
-                      {l}
-                    </h2>
-                  ))}
-                </div>
-                <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
-                  {language.map((language) => (
-                    <div key={language}>
-                      <label
-                        className={
-                          (filters.language.includes(language)
-                            ? `text-secondary hover:text-white`
-                            : "hover:text-secondary cursor-pointer text-white") +
-                          ` mx-1 capitalize`
-                        }
-                        htmlFor={language}
+                <div
+                  className={
+                    (langDrop ? `` : `hidden`) +
+                    ` flex flex-col gap-1 border-secondary absolute z-10 border-[1px] rounded-md py-2 bg-background 2xl:w-[250px] xl:w-[200px] lg:w-[200px] norm:w-[200px] md:w-[150px] sm:w-[150px] w-[100px] xs:w-[100px] top-full mt-1`
+                  }
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="border-b-[1px] h-[60px] items-center border-secondary pb-2 px-2 flex gap-2 py-1 overflow-x-auto no-scrollbar">
+                    {filters.language.map((l) => (
+                      <h2
+                        key={l}
+                        className="border-secondary capitalize text-secondary border-[1px] rounded-md p-1"
                       >
-                        {language}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name="language"
-                        value={language}
-                        onChange={handleFilterChange}
-                        className="hidden"
-                        id={language}
-                      />
-                    </div>
-                  ))}
+                        {l}
+                      </h2>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap p-2 h-[150px] overflow-y-auto no-scrollbar">
+                    {language.map((language) => (
+                      <div key={language}>
+                        <label
+                          className={
+                            (filters.language.includes(language)
+                              ? `text-secondary hover:text-white`
+                              : "hover:text-secondary cursor-pointer text-white") +
+                            ` mx-1 capitalize`
+                          }
+                          htmlFor={language}
+                        >
+                          {language}
+                        </label>
+                        <input
+                          type="checkbox"
+                          name="language"
+                          value={language}
+                          onChange={handleFilterChange}
+                          className="hidden"
+                          id={language}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
             </div>
             <div>
               <h3 className="text-xl mb-1">Rating</h3>
@@ -1293,8 +1376,8 @@ function Search() {
                           ? "#ffffff"
                           : "#5D68B0"
                         : hoveringUp
-                        ? "#5D68B0"
-                        : "#ffffff"
+                          ? "#5D68B0"
+                          : "#ffffff"
                     }
                     height="25px"
                     width="25px"
@@ -1334,8 +1417,8 @@ function Search() {
                           ? "#ffffff"
                           : "#5D68B0"
                         : hoveringDown
-                        ? "#5D68B0"
-                        : "#ffffff"
+                          ? "#5D68B0"
+                          : "#ffffff"
                     }
                     height="25px"
                     width="25px"
@@ -1374,7 +1457,7 @@ function Search() {
                 {results.map((book) => (
                   <div
                     key={book._id}
-                    className="flex 2xl:w-[650px] xl:w-[600px] lg:w-[500px] norm:w-[725px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] 2xl:h-[300px] xl:h-[275px] lg:h-[225px] norm:h-[325px] md:h-[275px] sm:h-[200px]  h-[175px] xs:h-[150px] my-3"
+                    className=" transition-transform duration-300 hover:scale-[1.01] flex 2xl:w-[650px] xl:w-[600px] lg:w-[500px] norm:w-[725px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] 2xl:h-[300px] xl:h-[275px] lg:h-[225px] norm:h-[325px] md:h-[275px] sm:h-[200px]  h-[175px] xs:h-[150px] my-3"
                   >
                     <div className="flex items-stretch 2xl:w-[225px] xl:w-[200px] lg:w-[175px] norm:w-[225px] md:w-[200px] sm:w-[150px] w-[110px] xs:w-[80px]">
                       <img
@@ -1428,9 +1511,8 @@ function Search() {
                               height={20}
                             />
                             <section
-                              className={`bg-secondary ${
-                                dropState[book._id] ? "" : "hidden"
-                              } absolute 2xl:w-[150px] xl:w-[125px] lg:w-[100px] norm:w-[175px] md:w-[125px] sm:w-[110px] 2xl:mt-[148px] xl:mt-[140px] lg:mt-[134px] norm:mt-[147px] md:mt-[140px] sm:mt-[116px] mt-[99px] xs:mt-[99px]`}
+                              className={`bg-secondary ${dropState[book._id] ? "" : "hidden"
+                                } absolute 2xl:w-[150px] xl:w-[125px] lg:w-[100px] norm:w-[175px] md:w-[125px] sm:w-[110px] 2xl:mt-[148px] xl:mt-[140px] lg:mt-[134px] norm:mt-[147px] md:mt-[140px] sm:mt-[116px] mt-[99px] xs:mt-[99px]`}
                             >
                               <ul className="text-white text-center">
                                 <li
@@ -1442,7 +1524,7 @@ function Search() {
                                     dropTextState[book._id] === "Finished"
                                       ? `hidden`
                                       : `` +
-                                        ` border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`
+                                      ` border-y-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`
                                   }
                                 >
                                   Finished
@@ -1456,7 +1538,7 @@ function Search() {
                                     dropTextState[book._id] === "To-Read"
                                       ? `hidden`
                                       : `` +
-                                        ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`
+                                      ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`
                                   }
                                 >
                                   To-Read
@@ -1468,7 +1550,7 @@ function Search() {
                                   }}
                                   className={
                                     (dropTextState[book._id] === "Finished" ||
-                                    dropTextState[book._id] === "To-Read"
+                                      dropTextState[book._id] === "To-Read"
                                       ? ` `
                                       : `hidden`) +
                                     ` border-b-2 hover:bg-[#4f5aa3] 2xl:text-2xl xl:text-xl lg:text-lg norm:text-2xl md:text-xl sm:text-base text-sm xs:text-[12px] p-2 w-full`
@@ -1533,7 +1615,9 @@ function Search() {
               />
             </div>
           ) : (
-            <div> </div>
+            <div> 
+              <Loading />
+            </div>
           )}
         </div>
       </div>

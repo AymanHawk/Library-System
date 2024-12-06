@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useRouterContext } from "../utils/RouterContext";
 import logo from "../images/logo.png";
 import Image from "next/image";
+import dashboard from '../images/dashboard.png'
+import preferences from '../images/preferences.png'
 import {
   OrganizationSwitcher,
   SignInButton,
@@ -106,13 +108,18 @@ function LibNavbar({ libId, libPath }) {
           userMemberships.data &&
           userMemberships.data.length > 0 ? (
           <div className="bg-background rounded-md ">
-            <OrganizationSwitcher hidePersonal={true} />
-            <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/inventory/${organization.id}`) }}>
-              Dashboard
-            </div>
-            <div className='bg-primary cursor-pointer' onClick={() => { handleRoutes(`/library/profile/${organization.id}`) }}>
-              Preferences
-            </div>
+              <OrganizationSwitcher hidePersonal={true}>
+                <OrganizationSwitcher.OrganizationProfileLink
+                  label="Dashboard"
+                  url={`/library/inventory/${organization.id}`}
+                  labelIcon={<Image src={dashboard} alt="Dashboard Icon" width={20} height={20} />}
+                />
+                <OrganizationSwitcher.OrganizationProfileLink
+                  label="Preferences"
+                  url={`/library/profile/${organization.id}`}
+                  labelIcon={<Image src={preferences} alt="Dashboard Icon" width={20} height={20} />}
+                />
+              </OrganizationSwitcher>
           </div>
         ) : (
           <div></div>

@@ -5,7 +5,8 @@ import Navbar from "../components/Navbar.jsx"
 import { ClerkProvider } from '@clerk/nextjs'
 import { RouterProvider } from "../utils/RouterContext.jsx";
 import { usePathname } from "next/navigation";
-
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -35,6 +36,8 @@ export default function RootLayout({ children }) {
           <body className="bg-background p-5 text-white">
             {!hideUserNav && <Navbar />}
             {children}
+            <ToastContainer 
+             position="bottom-right"/>
           </body>
         </html>
       </RouterProvider>

@@ -26,7 +26,7 @@ export async function GET(req) {
                 {
                     $match: {
                         libId: new ObjectId(library._id),
-                        orderStatus: 'returned'
+                        orderStatus: 'return'
                     }
                 },
                 {
