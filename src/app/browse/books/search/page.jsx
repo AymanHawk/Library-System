@@ -243,15 +243,17 @@ function Search() {
           ...prev,
           [bookId]: updatedPref,
         }))
-        toast.success('Book liked successfully!', {
-          className: 'bg-green-500 text-white',
-        });
+        if (likePref[bookId] !== 'like') {
+          toast.success('Book liked successfully!');
+        } else {
+          toast.info('Book Un-Liked successfully!');
+        }
       } else {
         toast.error('Failed to update like status');
       }
     } catch (err) {
       console.error('Error liking the book:', err);
-      toast.error('Login to Like a book');
+      toast.info('Login to Like a book');
     }
 
   };
@@ -279,13 +281,17 @@ function Search() {
           ...prev,
           [bookId]: updatedPref,
         }))
-        toast.success('Book disliked successfully!');
+        if (likePref[bookId] !== 'dislike') {
+          toast.success('Book Disliked successfully!');
+        } else {
+          toast.info('Book Un-Disked successfully!');
+        }
       } else {
         toast.error('Failed to update dislike status');
       }
     } catch (err) {
       console.error('Error disliking the book:', err);
-      toast.error('Login to Dislike a book');
+      toast.info('Login to Dislike a book');
 
     }
   };
@@ -332,7 +338,7 @@ function Search() {
       }
     } catch (err) {
       console.log(err);
-      toast.error('Login to Add to the List');
+      toast.info('Login to Add to the List');
 
     }
   };

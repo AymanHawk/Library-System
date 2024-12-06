@@ -11,6 +11,8 @@ import unrated from '../../../images/unrated_star.png'
 import Loading from './loading';
 import { useRouterContext } from '../../../utils/RouterContext';
 import zipcodes from 'zipcodes';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import dropdown from '../../../images/dd.png';
@@ -50,6 +52,7 @@ function Books() {
   const [libId, setLibId] = useState('');
 
 
+
   const handleCartClick = async () => {
     if (selectLib !== 'Libraries' || libId !== '') {
       try {
@@ -71,22 +74,23 @@ function Books() {
         }
 
         const data = await res.json();
-        console.log(data)
-        if (!data.success) {
-          console.error('API response indicates failure to post a review');
+        if (data.success) {
+          toast.success('Book added to the Cart successfully!');
+        } else {
+          toast.error('Failed to add the book to the Cart');
         }
-
       } catch (err) {
         console.log(err)
+        toast.info('Login to Add to Cart');
       }
-    } else {
-      console.log('select a Library')
     }
 
   }
 
   const libChange = (name, id) => {
     setSelectLib(name);
+    setLibTopDrop(false)
+    setLibTopDrop(false)
     setLibId(id);
   }
 
@@ -218,11 +222,7 @@ function Books() {
 
   const toggleLike = async () => {
     try {
-      setLikePref((prev) => {
-        (
-          prev === 'like' ? null : 'like'
-        )
-      })
+
       const userId = user.id;
       const bookId = id;
 
@@ -239,11 +239,23 @@ function Books() {
       });
 
       const data = await res.json();
-      if (!data.success) {
-        console.error('Failed to update like status');
+      if (data.success) {
+        setLikePref((prev) => {
+          (
+            prev === 'like' ? null : 'like'
+          )
+        })
+        if (likePref !== 'like') {
+          toast.success('Book liked successfully!');
+        } else {
+          toast.info('Book Un-Liked successfully!');
+        }
+      } else {
+        toast.error('Failed to update like status');
       }
     } catch (err) {
       console.error('Error liking the book:', err);
+      toast.info('Login to Like a book');
     }
   }
 
@@ -281,8 +293,6 @@ function Books() {
   }
 
   const postBookReview = async () => {
-
-    console.log(id);
     try {
       const userId = user.id;
       const bookId = id
@@ -302,20 +312,16 @@ function Books() {
           })
         })
 
-        if (!res.ok) {
-          console.error('Failed to post a review', res.statusText);
-          return;
-        }
-
         const data = await res.json();
-        if (!data.success) {
-          console.error('API response indicates failure to post a review');
+        if (data.success) {
+          toast.success('Review Posted successfully!');
+        } else {
+          toast.error('Failed to post a review');
         }
       }
-
-
     } catch (err) {
-      console.log(err);
+      console.log(err)
+      toast.info('Login to Post a Review');
     }
     setReviewDescription('');
     setReviewTitle('');
@@ -326,11 +332,7 @@ function Books() {
 
   const toggleDislike = async () => {
     try {
-      setLikePref((prev) => {
-        (
-          prev === 'dislike' ? null : 'dislike'
-        )
-      })
+
       const userId = user.id;
       const bookId = id;
 
@@ -347,11 +349,23 @@ function Books() {
       });
 
       const data = await res.json();
-      if (!data.success) {
-        console.error('Failed to update dislike status');
+      if (data.success) {
+        setLikePref((prev) => {
+          (
+            prev === 'dislike' ? null : 'dislike'
+          )
+        })
+        if (likePref !== 'dislike') {
+          toast.success('Book disliked successfully!');
+        } else {
+          toast.info('Book Un-Disliked successfully!');
+        }
+      } else {
+        toast.error('Failed to update dislike status');
       }
     } catch (err) {
       console.error('Error disliking the book:', err);
+      toast.info('Login to Dislike a book');
     }
   }
 
@@ -384,8 +398,6 @@ function Books() {
           }
         })
         .catch((err) => setError('Error', err));
-
-
     }
 
   }, [id, user, likePref])
@@ -441,15 +453,17 @@ function Books() {
         body: JSON.stringify({ userId, bookId, newList }),
       });
       const data = await res.json();
-      if (!data.success) {
-        console.error('Error updating book list:', data.error);
-      } else {
+      if (data.success) {
         setUserLists(data.bookList);
         await checkUserBookLists();
+        toast.success('Book list updated successfully!');
+      } else {
+        console.error('Error updating book list:', data.error);
+        toast.error('Failed to update book list');
       }
-
     } catch (err) {
       console.error("error updating book list:", err);
+      toast.info('Login to Add to the List');
     }
   }
 
@@ -519,9 +533,9 @@ function Books() {
               </div>
             </div>
           </div>
-          <div className='h-[50px] bg-primary rounded-md flex items-center justify-center'>
+          <div className='h-[50px] bg-primary rounded-md relative  flex items-center justify-center'>
             <section
-              className='2xl:text-4xl cursor-pointer relative xl:text-3xl lg:text-2xl text-black'
+              className='2xl:text-4xl cursor-pointer w-[99%] text-center xl:text-3xl lg:text-2xl text-black transition-transform duration-300 hover:scale-[1.01]'
               onClick={
                 () => getZipNearby()
               }
@@ -529,21 +543,22 @@ function Books() {
               name="libraries"
               id="libraries">
               {selectLib}
-              <div className={(libTopDrop ? ' ' : 'hidden') + ` absolute bg-secondary text-primary `}>
+              <div className={(libTopDrop ? ' ' : 'hidden') + ` absolute bg-white text-background mt-2 rounded-md p-2 -ml-auto w-[99%] `}>
                 {!libraries || libraries.length <= 0 ? (
-                  <ul>
-                    <li>Book is not Avaible near your Area</li>
+                  <ul className='w-fit'>
+                    <li>Book is not Avaible near you</li>
                   </ul>
                 ) : (
-                  <ul>
+                  <ul className='w-[99%] overflow-y-auto max-h-[250px]'>
                     {
                       libraries.map((lib) => (
                         <li
                           key={lib._id}
                           onClick={() => { libChange(lib.name, lib._id) }}
-                          className='bg-secondary cursor-pointer w-full'>
+                          className='cursor-pointer w-[99%] mx-auto mb-4 border-b-[1px] border-background last:mb-0 last:border-b-0'>
                           {lib.name}
                         </li>
+
                       ))
                     }
                   </ul>
@@ -579,7 +594,7 @@ function Books() {
               <div className='text-right text-white font-normal'>{new Date(book.publishDate).toDateString()}</div>
             </div>
           </div>
-          <button className='bg-secondary w-full py-2 rounded-md text-2xl' onClick={handleCartClick}>
+          <button className='bg-secondary w-full py-2 rounded-md text-2xl transition-transform duration-300 hover:scale-[1.01]' onClick={handleCartClick}>
             Add to Cart
           </button>
         </div>
@@ -624,8 +639,8 @@ function Books() {
               </div>
             </div>
           </div>
-          <div className='h-[50px] bg-primary rounded-md flex items-center justify-center'>
-            <section className='norm:text-4xl md:text-3xl sm:text-2xl cursor-pointer text-3xl xs:text-2xl text-black'
+          <div className='h-[50px] bg-primary relative text-center rounded-md flex items-center justify-center'>
+            <section className='norm:text-4xl md:text-3xl w-[99%] sm:text-2xl cursor-pointer text-3xl xs:text-2xl text-black transition-transform duration-300 hover:scale-[1.01]'
               onClick={
                 () => getZipNearby()
               }
@@ -633,9 +648,9 @@ function Books() {
               name="libraries"
               id="libraries">
               {selectLib}
-              <div className={(libLowDrop ? ' ' : 'hidden') + ` absolute bg-secondary text-primary mt-[10px]`}>
+              <div className={(libLowDrop ? ' ' : 'hidden') + ` absolute bg-white text-background mt-2 rounded-md p-2 -ml-auto w-[99%]`}>
                 {!libraries || libraries.length <= 0 ? (
-                  <ul>
+                  <ul className='w-fit'>
                     <li>Book is not Avaible near your Area</li>
                   </ul>
                 ) : (
@@ -645,7 +660,7 @@ function Books() {
                         <li
                           key={lib._id}
                           onClick={() => { libChange(lib.name, lib._id) }}
-                          className='bg-secondary cursor-pointer w-full'>
+                          className='cursor-pointer w-[99%] mx-auto mb-4 border-b-[1px] border-background last:mb-0 last:border-b-0'>
                           {lib.name}</li>
                       ))
                     }
@@ -684,7 +699,7 @@ function Books() {
               <div className='text-right text-white font-normal'>{new Date(book.publishDate).toDateString()}</div>
             </div>
           </div>
-          <button className='bg-secondary w-full py-2 rounded-md text-2xl' onClick={handleCartClick}>
+          <button className='bg-secondary w-full py-2 rounded-md text-2xl transition-transform duration-300 hover:scale-[1.01]' onClick={handleCartClick}>
             Add to Cart
           </button>
         </div>
