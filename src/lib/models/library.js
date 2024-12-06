@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+
 const libSchema = new mongoose.Schema({
     authId: {
         type: String,
@@ -8,7 +9,7 @@ const libSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        default: '',
     },
     name: {
         type: String,
@@ -45,7 +46,7 @@ const libSchema = new mongoose.Schema({
             },
             _id: false,
         }], 
-        
+    userAcc: {type: [String], default: []}
 }, { timestamps: true }); 
 
 const Library = mongoose.models.Library || mongoose.model('Library', libSchema);

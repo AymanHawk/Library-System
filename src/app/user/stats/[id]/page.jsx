@@ -11,6 +11,8 @@ import DonutChart from '../statsComponents/DonutChart';
 import RadialBarChart from '../statsComponents/RadialBarChart';
 import LineChart from '../statsComponents/LineChart'
 import LineChartYear from '../statsComponents/LineChartYear'
+import Loading from './loading.jsx'
+
 
 function Stats() {
   const pathname = usePathname();
@@ -38,6 +40,8 @@ function Stats() {
   const [monthBookData, setMonthBookData] = useState(null);
   const [yearBookData, setYearBookData] = useState([]);
   const [allBookData, setAllBookData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
 
   const toggleListDrop = () => {
     setListDrop(!listDrop);
@@ -114,6 +118,7 @@ function Stats() {
   const getMonthStat = async () => {
     if (!monthNum || !list) return;
     try {
+      setLoading(true);
       const response = await fetch('/api/stat/user/singleListMonth', {
         method: 'GET',
         headers: {
@@ -131,11 +136,14 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
+    }finally{
+      setLoading(false)
     }
   }
 
   const getYearStat = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/stat/user/singleListYear', {
         method: 'GET',
         headers: {
@@ -152,11 +160,14 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
+    }finally{
+      setLoading(false)
     }
   }
 
   const getAllTimeStat = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/stat/user/singleListAllTime', {
         method: 'GET',
         headers: {
@@ -172,6 +183,8 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -217,6 +230,9 @@ function Stats() {
     }
   }, [stats]);
 
+if (loading){
+  return<Loading/>
+}
 
 
 

@@ -13,19 +13,19 @@ const orderSchema = new mongoose.Schema({
         zip: { type: Number }
     },
     orderStatus: {
-        type: Boolean,
-        default: false,
+        type: String,
+        default: 'prepare',
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    bookId: {
+    bookIds: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Book',
         required: true,
-    },
+    }],
     libId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Library',

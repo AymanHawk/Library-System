@@ -4,7 +4,7 @@ import { useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import UserNavbar from "../../../../components/UserNavbar";
 import { useRouterContext } from '../../../../utils/RouterContext';
-
+import Loading from "./loading"
 
 function Lists() {
 
@@ -12,6 +12,7 @@ function Lists() {
   const router = useRouterContext();
   const id = pathname.split('/').pop();
   const { user } = useUser();
+  const [loading, setIsLoading] = useState(true);
   const [bookList, setBookList] = useState({
     readBooks: [],
     toReadBooks: [],
@@ -28,6 +29,7 @@ function Lists() {
 
   useEffect(() => {
     const fetchBookList = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(`/api/bookList/user/all?userId=${user.id}`);
         if (!response.ok) {
@@ -38,12 +40,18 @@ function Lists() {
         setBookList(data.bookList);
       } catch (err) {
         console.log(err);
+      }finally{
+        setIsLoading(false)
       }
     };
     if (user && user.id) {
       fetchBookList();
     }
   }, [user])
+
+  if (loading){
+    return<Loading/>
+  }
 
 
   return (
