@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Error from 'next/error'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from './loading.jsx'
 
 
 function Preferences() {
@@ -17,9 +18,10 @@ function Preferences() {
   const [zipAdd, setZipAdd] = useState('');
   const { user } = useUser();
   const [cardNumber, setCardNumber] = useState('');
+  const [cardN, SetCardN] = useState(null);
   const [editAdd, setEditAdd] = useState(false);
   const [addCard, setAddCard] = useState(false);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState();
   const [library, setLibrary] = useState('Libraries');
   const [libId, setLibId] = useState(null);
 
@@ -116,14 +118,22 @@ function Preferences() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, libId, cardNumber }),
+        body: JSON.stringify({ userId, libId, cardNumber}),
       })
 
       const data = await res.json();
       setAddCard(false);
       getLibCards();
+      if (!data.success) {
+        console.error('Failed to Add Card');
+        toast.error('Failed to Add Library Card');
+      } else {
+        toast.success('Library Card Successfully Added');
+        setEditAdd(false);
+      }
     } catch (err) {
       console.log("Error getting address", err);
+      toast.error('Failed to Add Library Card');
     }
 
   }
@@ -162,10 +172,10 @@ function Preferences() {
 
   return (
     <div className='2xl:w-[1400px] xl:w-[1200px] lg:w-[1000px] norm:w-[750px] md:w-[600px] sm:w-[450px] w-[340px] xs:w-[275px] mx-auto'>
-      <h1 className='text-2xl text-White'>
+      <h1 className='text-2xl ml-5 text-White'>
         My Preferences
       </h1 >
-      <div className='border-secondary rounded-md border-[1px] my-5 p-2 flex justify-between'>
+      <div className='border-secondary rounded-md border-[1px] my-5 p-4 flex justify-between'>
         <div className='mt-4 2xl:w-[850px] xl:w-[750px] lg:w-[600px] norm:w-[425px] md:w-[325px] sm:w-[250px] w-[175px] xs:w-[160px]'>
           <div className='mb-10'>
             <h2 className='text-primary text-4xl'>Address</h2>
@@ -195,38 +205,44 @@ function Preferences() {
               </div>
             </div>
             <div className={(editAdd ? ' ' : 'hidden') + ` mt-3 gap-4 flex`}>
-              <button onClick={changeAddress} className='bg-primary w-[100px] px-3 rounded-md py-2 text-background'>Save</button>
-              <button className='bg-red-600 px-3 w-[100px] rounded-md py-2 text-background' onClick={handleCancel}>Cancel</button>
+              <button onClick={changeAddress} className='bg-primary w-[100px] px-3 rounded-md py-2 text-background transition-transform duration-300 hover:scale-[1.01]'>Save</button>
+              <button className='bg-red-600 px-3 w-[100px] rounded-md py-2 text-background transition-transform duration-300 hover:scale-[1.01]' onClick={handleCancel}>Cancel</button>
             </div>
           </div>
           <div>
             <h2 className='text-primary text-4xl'>Library Card</h2>
-            <div className='  w-[500px] overflow-x-auto no-scrollbar'>
-              {cards.length > 0 ? (
-                <div className='flex gap-3'>
-                  {cards.map((card, index) => (
-                    <div key={index}>
-                      {card.library && (
-                        <div className='border-secondary w-[250px] border-[1px] p-2 rounded-md'>
-                          <div>
+            <div className='  w-[1000px] overflow-x-auto no-scrollbar'>
+              {cards ? (
+                cards.length > 0 ? (
+                  <div className='flex gap-3'>
+                    {cards.map((card, index) => (
+                      <div key={index}>
+                        {card.library && (
+                          <div className='border-secondary w-[250px] border-[1px] p-2 rounded-md'>
                             <div>
                               <div>
-                                <span className='text-primary'>Location:</span> {card.library.address.street}, {card.library.address.city}, {card.library.address.state}, {card.library.address.zip}
-                              </div>
-                              <div>
-                                <span className='text-primary'>Name:</span> {card.library.name}
+                                <div>
+                                  <span className='text-primary'>Location:</span> {card.library.address.street}, {card.library.address.city}, {card.library.address.state}, {card.library.address.zip}
+                                </div>
+                                <div>
+                                  <span className='text-primary'>Name:</span> {card.library.name}
+                                </div>
                               </div>
                             </div>
+                            <h2><span className='text-primary'>ID:</span> #{card.cardId}</h2>
                           </div>
-                          <h2><span className='text-primary'>ID:</span> #{card.cardId}</h2>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    No Library Cards
+                  </div>
+                )
               ) : (
                 <div>
-                  No Card
+                  <Loading />
                 </div>
               )
 
@@ -234,7 +250,7 @@ function Preferences() {
             </div>
           </div>
           <div className='my-2 rounded-md text-background cursor-pointer'>
-            <button onClick={() => { setAddCard(true) }} className='bg-primary p-2 mb-4'>
+            <button onClick={() => { setAddCard(true) }} className='bg-primary rounded-md p-2 mb-4 transition-transform duration-300 hover:scale-[1.01]'>
               Add Library Card
             </button>
             <div className={(addCard ? '' : 'hidden') + ` flex justify-center items-center gap-2`}>
@@ -267,7 +283,7 @@ function Preferences() {
                 </select>
               </div>
               <div>
-                <button onClick={handleAddCard} className='bg-primary rounded-md mt-2 p-2 mb-4'>
+                <button onClick={handleAddCard} className='bg-primary rounded-md mt-2 p-2 mb-4 transition-transform duration-300 hover:scale-[1.01]'>
                   Add
                 </button>
               </div>
