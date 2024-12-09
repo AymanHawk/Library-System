@@ -136,7 +136,7 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -160,7 +160,7 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -183,7 +183,7 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -198,6 +198,12 @@ function Stats() {
       getMonthStat();
     }
   }
+  const emptyPieData = [{ genre: 'No Data', count: 1 }]
+  const emptyBubbleData = [{ theme: 'No data', count: 1 }]
+  const emptyDonutData = [{ pace: 'No data', count: 1 }]
+  const emptyRadialBarData = 0;
+  const emptyLineData = [{ data: 'No data', count: 1 }];
+
 
   useEffect(() => {
     if (list && year && month && isLoaded && user) {
@@ -211,6 +217,7 @@ function Stats() {
   useEffect(() => {
     if (month === 'Whole Year' || year === 'All Time') {
       setThemeData(stats.length > 0 ? stats[0].totalTheme : []);
+      console.log(stats);
       setGenreData(stats.length > 0 ? stats[0].totalGenre : []);
       setPaceData(stats.length > 0 ? stats[0].totalPace : []);
       if (month === 'Whole Year') {
@@ -227,12 +234,14 @@ function Stats() {
       setPaceData(stats.paceRead);
       setMonthBookData(stats.booksRead);
       setMonthPageData(stats.pagesRead);
+      console.log(stats);
+
     }
   }, [stats]);
 
-if (loading){
-  return<Loading/>
-}
+  if (loading) {
+    return <Loading />
+  }
 
 
 
@@ -294,8 +303,31 @@ if (loading){
           </div>
         </div>
         <hr className='my-5 w-[80%] mx-auto border-primary' />
-        <div>{
-          stats.length === 0 ? <div>no data(Make a empty stats page)</div> :
+        <div >{
+          stats.length === 0 ? (
+            <div className='flex flex-wrap justify-center items-center text-center'>
+              <div>
+                <PieChart genreData={emptyPieData} />
+                Genres Distribution
+              </div>
+              <div>
+                <BubbleChart themeData={emptyBubbleData} />
+                Themes Distibution
+              </div>
+              <div>
+                <DonutChart paceData={emptyDonutData} />
+                Pace Distribution
+              </div>
+              <div>
+                <RadialBarChart avg={500} dataCall={emptyRadialBarData} call={'Pages'} />
+                {list} Page vs Average
+              </div>
+              <div>
+                <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
+                {list} Book vs Average
+              </div>
+            </div>
+          ) : (
             <div className='flex flex-wrap justify-center items-center text-center'>
               <div>
                 {genreData && genreData.length > 0 ? (
@@ -305,7 +337,8 @@ if (loading){
                   </div>
                 ) : (
                   <div>
-                    No Data Available(Make a loading page/component/empty)
+                    <PieChart genreData={emptyPieData} />
+                    Genres Distribution
                   </div>
                 )}
               </div>
@@ -316,7 +349,10 @@ if (loading){
                     Themes Distibution
                   </div>
                 ) : (
-                  <div>No Data Available</div>
+                  <div>
+                    <BubbleChart themeData={emptyBubbleData} />
+                    Themes Distibution
+                  </div>
                 )}
               </div>
               <div>
@@ -327,7 +363,8 @@ if (loading){
                   </div>
                 ) : (
                   <div>
-                    No Data Available
+                    <DonutChart paceData={emptyDonutData} />
+                    Pace Distribution
                   </div>
                 )}
               </div>
@@ -342,7 +379,8 @@ if (loading){
                         </div>
                       ) : (
                         <div>
-                          No Data Available
+                          <RadialBarChart avg={500} dataCall={emptyRadialBarData} call={'Pages'} />
+                          {list} Page vs Average
                         </div>
                       )}
                     </div>
@@ -350,11 +388,12 @@ if (loading){
                       {monthBookData ? (
                         <div>
                           <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
-                          {list} vs Average
+                          {list}Books vs Average
                         </div>
                       ) : (
                         <div>
-                          No Data Available
+                          <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
+                          {list} Book vs Average
                         </div>
                       )}
                     </div>
@@ -381,7 +420,7 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
@@ -403,7 +442,7 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
@@ -428,7 +467,7 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
@@ -450,25 +489,23 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
                       </div>
                     )
-
                     }
                   </div>
-
                 )
-
                 }
               </div>
             </div>
+          )
         }
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
