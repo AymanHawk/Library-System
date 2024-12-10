@@ -48,8 +48,8 @@ function Dashboard() {
   return (
     <div>
       <UserNavbar userId={id} userPath={pathname} />
-      <div className="grid justify-items-center lg:mx-0 grid-cols-1 gap-6 sm:grid-cols-1 norm:grid-cols-3 lg:grid-cols-3 xl:mx-5">
-        <div className="w-9/12">
+      <div className="grid justify-items-center lg:mx-0 grid-cols-1 md:gap-0 md:grid-cols-3 lg:gap-6 sm:grid-cols-1 norm:grid-cols-3 lg:grid-cols-3 xl:mx-5">
+        <div className="w-11/12">
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
             Liked
           </h1>
@@ -62,10 +62,10 @@ function Dashboard() {
                 <div>
                   {
                     bookList.likedBooks.length > 0 ? (
-                      <div className="flex flex-wrap justify-evenly gap-5 py-3">
+                      <div className="flex sm:flex md:grid md:grid-cols-2 lg:grid lg:grid-cols-2 justify-self-center gap-2 py-3 sm:gap-5 md:gap-3 lg:gap-5">
                         {bookList.likedBooks.map(book => (
                           <div key={book.id} className="cursor-pointer transition-transform duration-300 hover:scale-[1.01]" onClick={() => { handleRoute(`/books/${book.id}`) }}>
-                            <img src={book.imgUrl} alt={book.id} width={50} height={60} className="w-[125px] h-[175px]" />
+                            <img src={book.imgUrl} alt={book.id} width={50} height={60} className="w-[80px] sm:w-[100px] md:w-[90px] lg:w-[110px] xl:w-[120px] h-[100px] sm:h-[140px] md:h-[140px] lg:h-[160px] xl:h-[165px]" />
                           </div>
                         ))
                         }
@@ -82,7 +82,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="w-9/12">
+        <div className="w-11/12">
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
             Recommendations
           </h1>
@@ -95,10 +95,10 @@ function Dashboard() {
                 <div>
                   {
                     bookList.recommendBooks.length > 0 ? (
-                      <div className="flex flex-wrap justify-evenly gap-5 py-3">
+                      <div className="flex sm:flex md:grid md:grid-cols-2 lg:grid lg:grid-cols-2 justify-self-center gap-2 py-3 sm:gap-5 md:gap-3 lg:gap-5">
                         {bookList.recommendBooks.map(book => (
                           <div key={book.id} className="cursor-pointer transition-transform duration-300 hover:scale-[1.01]" onClick={() => { handleRoute(`/books/${book.id}`) }}>
-                            <img src={book.imgUrl} alt={book.id} width={50} height={60} className="w-[125px] h-[175px]" />
+                            <img src={book.imgUrl} alt={book.id} width={50} height={60} className="w-[80px] sm:w-[100px] md:w-[90px] lg:w-[110px] xl:w-[120px] h-[100px] sm:h-[140px] md:h-[140px] lg:h-[160px] xl:h-[165px]" />
                           </div>
                         ))
                         }
@@ -115,7 +115,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="w-9/12">
+        <div className="w-11/12">
           <h1 className="text-primary sm:text-2xl md:text-2xl lg:text-4xl xl:text-4xl">
             Read Recently
           </h1>
@@ -128,10 +128,10 @@ function Dashboard() {
                 <div>
                   {
                     bookList.readBooks.length > 0 ? (
-                      <div className="flex flex-wrap justify-evenly gap-5 py-3">
+                      <div className="flex sm:flex md:grid md:grid-cols-2 lg:grid lg:grid-cols-2 justify-self-center gap-2 py-3 sm:gap-5 md:gap-3 lg:gap-5">
                         {bookList.readBooks.map(book => (
                           <div key={book.id} className="cursor-pointer transition-transform duration-300 hover:scale-[1.01]" onClick={() => { handleRoute(`/books/${book.id}`) }}>
-                            <img src={book.imgUrl} alt={book.id} width={50} height={60} className="w-[125px] h-[175px]" />
+                            <img src={book.imgUrl} alt={book.id} width={50} height={60} className="w-[80px] sm:w-[100px] md:w-[90px] lg:w-[110px] xl:w-[120px] h-[100px] sm:h-[140px] md:h-[140px] lg:h-[160px] xl:h-[165px]" />
                           </div>
                         ))
                         }
