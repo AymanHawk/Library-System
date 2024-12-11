@@ -262,63 +262,63 @@ function AddBook() {
           <div className="grid grid-cols-2 gap-2 gap-y-8 m-4 text-background">
             <input
               type="text"
-              className="w-full placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={title}
               placeholder="Title"
               onChange={(e) => setTitle(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={author}
               placeholder="Author(s)"
               onChange={(e) => setAuthor(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={publisher}
               placeholder="Publisher"
               onChange={(e) => setPublisher(e.target.value)}
             />
             <input
               type="date"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={date}
               placeholder="Publish Date"
               onChange={(e) => setDate(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={isbn}
               placeholder="ISBN"
               onChange={(e) => setIsbn(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={lang}
               placeholder="Language"
               onChange={(e) => setLang(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={length}
               placeholder="Length"
               onChange={(e) => setLength(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={format}
               placeholder="Format"
               onChange={(e) => setFormat(e.target.value)}
             />
             <input
               type="text"
-              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full bg-transparent placeholder:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               value={genre}
               placeholder="Genre"
               onChange={(e) => setGenre(e.target.value)}
@@ -326,13 +326,13 @@ function AddBook() {
 
             <input
               type="file"
-              className="w-full file:bg-background file:border-primary file:border-solid file:border-r-[1px] file:border-0 file:cursor-pointer file:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="w-full file:bg-background  file:border-primary file:border-solid file:border-r-[1px] file:border-0 file:cursor-pointer file:text-white border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[40px]"
               onChange={handleImageUpload}
             />
 
             <div className="col-span-2">
               <textarea
-                className="m-0.5 w-full placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[90px]"
+                className="m-0.5 w-full placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[18px] sm:text-[23px] pl-2 text-white h-[90px]"
                 value={desc}
                 name="description"
                 id="description"
