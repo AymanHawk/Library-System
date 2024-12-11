@@ -42,6 +42,9 @@ export async function GET(req) {
                 title: book.title,
                 author: book.author,
                 genre: book.genre[1],
+                isbn: book.isbn,
+                format: book.format,
+                language: book.language,
                 amount: stockEntry?.amount || 0,
             }
         })
@@ -90,7 +93,6 @@ export async function POST(req) {
         }
 
         const stock = book.amount;
-        console.log(book);
 
         const updatedLibrary = await db.collection('libraries').updateOne(
             { authId: libId, "bookStock.bookId": bookObjectId }, 

@@ -15,8 +15,6 @@ export async function POST(req) {
         const isbn = parseInt(body.isbn);
         const imgSrc = body.imgSrc || "N/A";
 
-        console.log(genre);
-
         if(!libId || !title) {
             return new Response(JSON.stringify({ success: false, message: 'Missing data in request' }), {
                 status: 400,

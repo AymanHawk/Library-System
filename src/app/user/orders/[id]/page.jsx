@@ -37,8 +37,6 @@ function orderId() {
 
       const data = await res.json();
 
-      console.log(data);
-
       setOrders(data.orders);
       setTotalCount(data.totalCount);
     } catch (err) {
@@ -62,11 +60,10 @@ function orderId() {
           <div>
             {orders.length > 0 ? (
               orders.map((order) => (
-                <div className="border-[1px] w-[99%] border-secondary border-solid rounded-lg flex flex-col px-4 mb-2 py-2 gap-2">
+                <div key={order._id} className="border-[1px] w-[99%] border-secondary border-solid rounded-lg flex flex-col px-4 mb-2 py-2 gap-2">
                   <div className="h-[20%] flex justify-between w-[99%]">
-                    <div key={order._id} className="flex flex-col w-[99%]">
+                    <div className="flex flex-col w-[99%]">
                       <div
-                        key={order._id}
                         className="text-[#D9D9D9] md:text-sm text-[10px] m-4"
                       >
                         <div className="flex justify-between items-center">

@@ -7,12 +7,15 @@ import Pagination from "../../../browse/books/search/results/Pagination.jsx";
 import dropyellow from "../../../../images/drop-yellow.png";
 import nobookcover from "../../../../images/no_cover_available.png";
 import Image from "next/image";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loading from './loading.jsx'
 
 function Books() {
   const pathname = usePathname();
   const id = pathname.split("/").pop();
   const router = useRouterContext();
-  const [stock, setStock] = useState([]);
+  const [stock, setStock] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 15;
   const [totalCount, setTotalCount] = useState(0);
@@ -58,18 +61,23 @@ function Books() {
         console.error("Failed to update the inventory", res.statusText);
         return;
       }
-      setStock((prevStock) =>
-        prevStock.map((book) => {
-          if (book.id === bookId) {
-            let newAmount = op === "+" ? book.amount + 1 : book.amount - 1;
-            if (newAmount < 0) newAmount = 0; 
-            return { ...book, amount: newAmount }; 
-          }
-          return book;
-        }));
+
       const data = await res.json();
       if (!data.success) {
         console.error("API response indicates failure to update the inventory");
+        toast.error('Failed to Update Stock');
+
+      } else {
+        toast.success('Stock Updated');
+        setStock((prevStock) =>
+          prevStock.map((book) => {
+            if (book.id === bookId) {
+              let newAmount = op === "+" ? book.amount + 1 : book.amount - 1;
+              if (newAmount < 0) newAmount = 0;
+              return { ...book, amount: newAmount };
+            }
+            return book;
+          }));
       }
     } catch (err) {
       console.log(err);
@@ -92,13 +100,13 @@ function Books() {
       <div className="flex flex-wrap justify-between mr-8 ml-8 my-6">
         <div className="flex flex-wrap gap-2">
           <div
-            className="bg-secondary cursor-pointer px-8 py-2 rounded-md "
+            className="bg-secondary cursor-pointer px-8 py-2 rounded-md transition-transform duration-300 hover:scale-[1.01]"
             onClick={() => handleRouteClick(`/library/inventory/addBook/${id}`)}
           >
             Upload Single Book
           </div>
           <div
-            className="bg-secondary cursor-pointer px-8 py-2 rounded-md"
+            className="bg-secondary cursor-pointer px-8 py-2 rounded-md transition-transform duration-300 hover:scale-[1.01]"
             onClick={() =>
               handleRouteClick(`/library/inventory/addMultipleBook/${id}`)
             }
@@ -108,64 +116,81 @@ function Books() {
         </div>
       </div>
 
-      {stock.length > 0 ? (
-        <div>
-          <div className="flex flex-row flex-wrap mr-8 ml-8 mt-6 justify-start sm:justify-center md:justify-evenly lg:justify-start">
-            {stock.map((book) => (
-              <div
-                key={book.id}
-                className="flex flex-row w-[80%] sm:w-[400px] md:w-[360px] lg:w-[420px] sm:h-[400px] h-[250px]"
-              >
-                {(book.imgUrl !== 'N/A') ? (
-                  <img
-                    className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
-                    src={book.imgUrl}
-                    alt={`${book.title} cover`}
-                  />
-                ) : (
-                  <Image
-                    className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
-                    src={nobookcover}
-                    alt={`${book.title} cover`}
-                  />
-                )}
+      {stock ? (
+        stock.length > 0 ? (
+          <div>
+            <div className="flex flex-row flex-wrap mr-8 ml-8 mt-6 gap-1 justify-start sm:justify-center md:justify-evenly lg:justify-start">
+              {stock.map((book) => (
+                <div
+                  key={book.id}
+                  className="flex flex-row w-[80%] sm:w-[400px] md:w-[360px] lg:w-[420px] sm:h-[400px] h-[250px] transition-transform duration-300 hover:scale-[1.01] hover:bg-loading p-1"
+                >
+                  {(book.imgUrl !== 'N/A') ? (
+                    <img
+                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                      src={book.imgUrl}
+                      alt={`${book.title} cover`}
+                    />
+                  ) : (
+                    <Image
+                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                      src={nobookcover}
+                      alt={`${book.title} cover`}
+                    />
+                  )}
 
-                <div className="flex flex-col h-[400px] w-[400px]">
-                  <div className="text-primary cursor-pointer text-[22px] sm:text-[32px]">
-                    {book.title}
-                  </div>
-                  <div className="text-primary mb-8 text-[18px] sm:text-[23px]">
-                    {book.author}
-                  </div>
-                  <div className="bg-secondary w-[90px] h-[40px] text-center py-2 flex flex-row items-center justify-between px-4 rounded-md text-[20px]">
-                    <span
-                      className="bg-secondary cursor-pointer"
-                      onClick={() => updateStock("-", book.id)}
-                    >
-                      -
-                    </span>
-                    {book.amount}
-                    <span
-                      className="bg-secondary cursor-pointer"
-                      onClick={() => updateStock("+", book.id)}
-                    >
-                      +
-                    </span>
+                  <div className="flex flex-col h-[400px] w-[400px]">
+                    <div className="text-primary cursor-pointer text-[22px] sm:text-[32px]" onClick={()=>handleRouteClick(`/books/${book.id}`)}>
+                      {book.title}
+                    </div>
+                    <div className="text-primary text-[18px] sm:text-[23px]">
+                      {book.author}
+                    </div>
+                    <div className="text-white text-[18px] sm:text-[23px]">
+                      {book.isbn}
+                    </div>
+                    <div className="text-white text-[18px] sm:text-[23px]">
+                      {book.format}
+                    </div>
+                    <div className="text-white text-[18px] sm:text-[23px]">
+                      {book.language}
+                    </div>
+                    <div className="text-white mb-8 text-[18px] sm:text-[23px]">
+                      {book.genre}
+                    </div>
+                    <div className="bg-secondary w-[90px] h-[40px] text-center py-2 flex flex-row items-center justify-between px-4 rounded-md text-[20px]">
+                      <span
+                        className="bg-secondary cursor-pointer"
+                        onClick={() => updateStock("-", book.id)}
+                      >
+                        -
+                      </span>
+                      {book.amount}
+                      <span
+                        className="bg-secondary cursor-pointer"
+                        onClick={() => updateStock("+", book.id)}
+                      >
+                        +
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <Pagination
+              currentPage={currentPage}
+              totalCount={totalCount}
+              limit={limit}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalCount={totalCount}
-            limit={limit}
-            setCurrentPage={setCurrentPage}
-          />
-        </div>
+        ) : (
+          <div>No Book In Inventory</div>
+        )
       ) : (
-        <div></div>
-      )}
+        <Loading />
+      )
+      }
     </div>
   );
 }

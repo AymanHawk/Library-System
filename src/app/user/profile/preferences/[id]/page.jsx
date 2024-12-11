@@ -183,24 +183,24 @@ function Preferences() {
               <div className='flex items-end mb-5'>
                 <div className='flex flex-col'>
                   Street Address
-                  <input type="text" className='outline-none bg-secondary p-1 w-[427px]' value={stAdd} onChange={(e) => { setStAdd(e.target.value) }} />
+                  <input type="text" className='outline-none placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[23px] p-1 w-[427px]' value={stAdd} onChange={(e) => { setStAdd(e.target.value) }} />
                 </div>
                 <Image src={edit} alt='edit' width={32} height={32} onClick={handleEdit} className='cursor-pointer transition-transform duration-300 hover:scale-[1.1]' />
               </div>
               <div className='flex justify-start gap-3'>
                 <div className='flex flex-col'>
                   City
-                  <input type="text" className='outline-none bg-secondary p-1 w-[200px]' value={cityAdd} onChange={(e) => { setCityAdd(e.target.value) }} />
+                  <input type="text" className='outline-none placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[23px] p-1 w-[200px]' value={cityAdd} onChange={(e) => { setCityAdd(e.target.value) }} />
                 </div>
                 <div className='flex flex-col'>
                   State
-                  <div className='w-[120px] flex items-center bg-secondary'>
-                    <input type="text" className='outline-none bg-secondary p-1 w-[99%]' value={stateAdd} onChange={(e) => { setStateAdd(e.target.value) }} />
+                  <div className='w-[120px] flex items-center'>
+                    <input type="text" className='outline-none placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[23px] p-1 w-[99%]' value={stateAdd} onChange={(e) => { setStateAdd(e.target.value) }} />
                   </div>
                 </div>
                 <div className='flex flex-col'>
                   Zip
-                  <input type="text" className='outline-none bg-secondary p-1 w-[115px]' value={zipAdd} onChange={(e) => { setZipAdd(e.target.value) }} />
+                  <input type="text" className='outline-none placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-[23px] p-1 w-[115px]' value={zipAdd} onChange={(e) => { setZipAdd(e.target.value) }} />
                 </div>
               </div>
             </div>

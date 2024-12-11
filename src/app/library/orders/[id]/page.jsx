@@ -5,24 +5,26 @@ import { useRouterContext } from '../../../../utils/RouterContext';
 import LibNavbar from '../../../../components/LibNavbar';
 import Pagination from '../../../browse/books/search/results/Pagination.jsx';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loading from './loading';
 
 function orderId() {
 
   const pathname = usePathname();
   const id = pathname.split('/').pop();
   const router = useRouterContext();
-  const [preOrder, setPreOrder] = useState([]);
-  const [confOrder, setConfOrder] = useState([]);
-  const [retOrder, setRetOrder] = useState([]);
+  const [preOrder, setPreOrder] = useState();
+  const [confOrder, setConfOrder] = useState();
+  const [retOrder, setRetOrder] = useState();
   const [section, setSection] = useState('prepare')
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 15;
   const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(false);
+
 
 
   const fetchOrders = async () => {
-    setLoading(true);
     try {
       const endpointMap = {
         prepare: '/api/library/orders/prepared',
@@ -53,8 +55,6 @@ function orderId() {
       setTotalCount(data.totalCount);
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -78,19 +78,20 @@ function orderId() {
       })
 
       if (!res.ok) {
-        console.error("Failed to update order status", res.statusText);
+        console.error("Failed to update order status");
+        toast.error('Falied to fullfill the order');
         return;
       }
       const data = await res.json();
-      console.log(data.order);
+      if(data.success) {
+        toast.success('Order Fullfilled Successfully!!');
+        fetchOrders();
+      } else {
+        toast.error('Falied to fullfill the order');
+      }
     } catch (err) {
       console.log(err);
-    }
-
-    try {
-
-    } catch (err) {
-      console.error(err);
+      toast.error('Falied to fullfill the order');
     }
   }
 
@@ -100,17 +101,17 @@ function orderId() {
       <LibNavbar libId={id} libPath={pathname} />
       <div className='mt-[50px]'>
         <div className='flex justify-evenly'>
-          <div className='h-[80vh] flex flex-col justify-evenly'>
+          <div className='h-[80vh] flex flex-col text-2xl justify-evenly'>
             <h2 onClick={() => { setSection('prepare') }} className={((section === 'prepare') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Prepare Orders</h2>
-            <h2 onClick={() => { setSection('confirm') }} className={((section === 'confirm') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Confirmed Orders</h2>
+            <h2 onClick={() => { setSection('confirm') }} className={((section === 'confirm') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Fullfilled Orders</h2>
             <h2 onClick={() => { setSection('return') }} className={((section === 'return') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Returned Orders</h2>
           </div>
           <div className='border-l-2 border-primary'></div>
           <div className='w-[80%] overflow-auto overflow-y-auto'>
             <div className=''>
               {section === 'prepare' && (
-                (loading) ? (
-                  <div>Loading...</div>
+                (!preOrder) ? (
+                  <Loading />
                 ) :
                   (
                     <div>
@@ -121,12 +122,12 @@ function orderId() {
                             <div className='border-secondary border-[1px] p-2 flex justify-between rounded-sm'>
                               <div className='flex flex-col gap-1 justify-evenly'>
                                 {order.books.map(book => (
-                                  <div key={book._id} className='flex flex-row gap-1'>
+                                  <div key={book._id} className='flex flex-row gap-1 transition-transform duration-300 hover:scale-[1.01] hover:bg-loading p-2'>
                                     <div>
                                       <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
                                     </div>
                                     <div className='flex flex-col items-start'>
-                                      <h2 className='text-primary text-lg'>{book.title}</h2>
+                                      <h2 className='text-primary text-lg cursor-pointer' onClick={() => { router.push(`/books/${book._id}`) }}>{book.title}</h2>
                                       <h2 className='text-primary'>{book.author}</h2>
                                       {book.isbn && (
                                         <h2>
@@ -139,11 +140,11 @@ function orderId() {
                                 ))}
                               </div>
                               <div className='flex flex-col justify-start gap-2'>
-                                <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
+                                <button className='bg-secondary px-3 py-1 rounded-md transition-transform duration-300 hover:scale-[1.01]' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
                                   More Details
                                 </button>
-                                <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => confirmOrder(order._id)}>
-                                  confirm
+                                <button className='bg-secondary px-3 py-1 rounded-md transition-transform duration-300 hover:scale-[1.01]' onClick={() => confirmOrder(order._id)}>
+                                  Fullfill
                                 </button>
                               </div>
 
@@ -155,13 +156,19 @@ function orderId() {
                       )
 
                       }
+                      <Pagination
+                        currentPage={currentPage}
+                        totalCount={totalCount}
+                        limit={limit}
+                        setCurrentPage={setCurrentPage}
+                      />
                     </div>
                   )
               )}
               {section === 'confirm' &&
                 (
-                  (loading) ? (
-                    <div>Loading...</div>
+                  (!confOrder) ? (
+                    <Loading />
                   ) :
                     (
                       <div>
@@ -172,12 +179,12 @@ function orderId() {
                               <div className='border-secondary border-[1px] p-2 flex justify-between rounded-sm'>
                                 <div className='flex flex-col gap-1 justify-evenly'>
                                   {order.books.map(book => (
-                                    <div key={book._id} className='flex flex-row gap-1'>
+                                    <div key={book._id} className='flex flex-row gap-1 transition-transform duration-300 hover:scale-[1.01] hover:bg-loading p-2'>
                                       <div>
                                         <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
                                       </div>
                                       <div className='flex flex-col items-start'>
-                                        <h2 className='text-primary text-lg'>{book.title}</h2>
+                                        <h2 className='text-primary text-lg cursor-pointer' onClick={() => { router.push(`/books/${book._id}`) }}>{book.title}</h2>
                                         <h2 className='text-primary'>{book.author}</h2>
                                         {book.isbn && (
                                           <h2>
@@ -190,7 +197,7 @@ function orderId() {
                                   ))}
                                 </div>
                                 <div className='flex flex-col justify-start gap-2'>
-                                  <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
+                                  <button className='bg-secondary px-3 py-1 rounded-md transition-transform duration-300 hover:scale-[1.01]' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
                                     More Details
                                   </button>
                                 </div>
@@ -202,14 +209,20 @@ function orderId() {
                         )
 
                         }
+                        <Pagination
+                          currentPage={currentPage}
+                          totalCount={totalCount}
+                          limit={limit}
+                          setCurrentPage={setCurrentPage}
+                        />
                       </div>
                     )
                 )
               }
               {section === 'return' &&
                 (
-                  (loading) ? (
-                    <div>Loading...</div>
+                  (!retOrder) ? (
+                    <Loading />
                   ) :
                     (
                       <div>
@@ -220,12 +233,12 @@ function orderId() {
                               <div className='border-secondary border-[1px] p-2 flex justify-between rounded-sm'>
                                 <div className='flex flex-col gap-1 justify-evenly'>
                                   {order.books.map(book => (
-                                    <div key={book._id} className='flex flex-row gap-1'>
+                                    <div key={book._id} className='flex flex-row gap-1 transition-transform duration-300 hover:scale-[1.01] hover:bg-loading p-2'>
                                       <div>
                                         <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
                                       </div>
                                       <div className='flex flex-col items-start'>
-                                        <h2 className='text-primary text-lg'>{book.title}</h2>
+                                        <h2 className='text-primary text-lg cursor-pointer' onClick={() => { router.push(`/books/${book._id}`) }}>{book.title}</h2>
                                         <h2 className='text-primary'>{book.author}</h2>
                                         {book.isbn && (
                                           <h2>
@@ -238,7 +251,7 @@ function orderId() {
                                   ))}
                                 </div>
                                 <div className='flex flex-col justify-start gap-2'>
-                                  <button className='bg-secondary px-3 py-1 rounded-md' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
+                                  <button className='bg-secondary px-3 py-1 rounded-md transition-transform duration-300 hover:scale-[1.01]' onClick={() => { moreDetials(`/orders/${order._id}`) }}>
                                     More Details
                                   </button>
                                 </div>
@@ -250,17 +263,17 @@ function orderId() {
                         )
 
                         }
+                        <Pagination
+                          currentPage={currentPage}
+                          totalCount={totalCount}
+                          limit={limit}
+                          setCurrentPage={setCurrentPage}
+                        />
                       </div>
                     )
                 )
               }
             </div>
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalCount}
-              limit={limit}
-              setCurrentPage={setCurrentPage}
-            />
           </div>
         </div>
       </div>

@@ -68,7 +68,6 @@ function Books() {
           })
         })
         const data = await res.json();
-        console.log(data);
         if (data.success) {
           toast.success('Book added to the Cart successfully!');
         } else {
@@ -91,10 +90,6 @@ const libChange = (name, id) => {
   setLibId(id);
 }
 
-useEffect(() => {
-  console.log("Selected Library:", selectLib);
-}, [selectLib]);
-
 const getZipNearby = async () => {
   if (user) {
     try {
@@ -110,7 +105,6 @@ const getZipNearby = async () => {
       }
 
       const data = await res.json();
-      console.log(data.address.zip);
 
 
       if (!data.address.zip) {
@@ -121,9 +115,7 @@ const getZipNearby = async () => {
               try {
                 const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
                 const data = await res.json();
-                console.log(data);
                 const userZipCode = data.address.postcode;
-                console.log(userZipCode);
                 setZip(userZipCode);
               } catch (err) {
                 console.log('Failed to retrieve zip code.');
@@ -150,9 +142,7 @@ const getZipNearby = async () => {
           try {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
             const data = await res.json();
-            console.log(data);
             const userZipCode = data.address.postcode;
-            console.log(userZipCode);
             setZip(userZipCode);
           } catch (err) {
             console.log('Failed to retrieve zip code.');
@@ -179,7 +169,6 @@ const getLib = async () => {
     }
 
     const data = await res.json();
-    console.log(data);
     setLibraries(data.libs);
   } catch (err) {
     console.log("Error getting library", err);
@@ -196,7 +185,6 @@ useEffect(() => {
   if (zip) {
     const nearby = zipcodes.radius(zip, 5);
     setZipList(nearby);
-    console.log(nearby);
   }
 }, [zip])
 

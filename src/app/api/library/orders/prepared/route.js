@@ -103,6 +103,9 @@ export async function GET(req) {
                         userName: "$UserDetails.name"
                     }
                 },
+                {
+                    $sort: { orderAt: -1 }
+                },
                 { $skip: skip },
                 { $limit: limit }
             ]
