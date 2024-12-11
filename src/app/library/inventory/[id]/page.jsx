@@ -119,45 +119,52 @@ function Books() {
       {stock ? (
         stock.length > 0 ? (
           <div>
-            <div className="flex flex-row flex-wrap mr-8 ml-8 mt-6 gap-1 justify-start sm:justify-center md:justify-evenly lg:justify-start">
+            <div className="flex flex-row flex-wrap  mt-6 gap-1 justify-start sm:justify-center md:justify-evenly lg:justify-start">
               {stock.map((book) => (
                 <div
                   key={book.id}
-                  className="flex flex-row w-[80%] sm:w-[400px] md:w-[360px] lg:w-[420px] sm:h-[400px] h-[250px] transition-transform duration-300 hover:scale-[1.01] hover:bg-loading p-1"
+                  className="flex flex-row w-[80%] sm:w-[400px] md:w-[480px] lg:w-[416px] sm:h-[400px] h-[230px] sm:h-[350px] md:h-[400px] transition-transform duration-300 hover:scale-[1.01] hover:bg-loading p-1"
                 >
                   {(book.imgUrl !== 'N/A') ? (
-                    <img
-                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                    <Image
+                      className="w-full lg:h-[350px] md:h-[375px] sm:h-[320px] h-[200px] bg-primary mr-4"
                       src={book.imgUrl}
+                      width={50}
+                      height={50}
                       alt={`${book.title} cover`}
                     />
                   ) : (
                     <Image
-                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-2"
                       src={nobookcover}
+                      width={50}
+                      height={50}
                       alt={`${book.title} cover`}
                     />
                   )}
 
-                  <div className="flex flex-col h-[400px] w-[400px]">
-                    <div className="text-primary cursor-pointer text-[22px] sm:text-[32px]" onClick={()=>handleRouteClick(`/books/${book.id}`)}>
-                      {book.title}
+                  <div className="flex flex-col h-[350px] w-[400px]">
+                    <div className="overflow-y-auto h-[175px] sm:h-[250px] md:h-[280px] lg:h-[280px]">
+                      <div className="text-primary cursor-pointer text-[22px] sm:text-[32px]" onClick={()=>handleRouteClick(`/books/${book.id}`)}>
+                        {book.title}
+                      </div>
+                      <div className="text-primary text-[18px] sm:text-[23px]">
+                        {book.author}
+                      </div>
+                      <div className="text-white text-[18px] sm:text-[23px]">
+                        {book.isbn}
+                      </div>
+                      <div className="text-white text-[18px] sm:text-[23px]">
+                        {book.format}
+                      </div>
+                      <div className="text-white text-[18px] sm:text-[23px]">
+                        {book.language}
+                      </div>
+                      <div className="text-white mb-8 text-[18px] sm:text-[23px]">
+                        {book.genre}
+                      </div>
                     </div>
-                    <div className="text-primary text-[18px] sm:text-[23px]">
-                      {book.author}
-                    </div>
-                    <div className="text-white text-[18px] sm:text-[23px]">
-                      {book.isbn}
-                    </div>
-                    <div className="text-white text-[18px] sm:text-[23px]">
-                      {book.format}
-                    </div>
-                    <div className="text-white text-[18px] sm:text-[23px]">
-                      {book.language}
-                    </div>
-                    <div className="text-white mb-8 text-[18px] sm:text-[23px]">
-                      {book.genre}
-                    </div>
+                    
                     <div className="bg-secondary w-[90px] h-[40px] text-center py-2 flex flex-row items-center justify-between px-4 rounded-md text-[20px]">
                       <span
                         className="bg-secondary cursor-pointer"
