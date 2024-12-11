@@ -16,7 +16,7 @@ function BookReview() {
     const [totalCount, setTotalCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [title, setTitle] = useState('');
-    const limit = 25;
+    const limit = 5;
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -25,7 +25,7 @@ function BookReview() {
                     method: 'GET',
                     headers: {
                         'bookId': id,
-                        'limit': 5,
+                        'limit': limit,
                         'page': currentPage,
                     }
                 })

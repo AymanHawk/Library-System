@@ -70,7 +70,7 @@ function likedBooks() {
                   {list.map((book) => (
                     <div
                       key={book.id}
-                      className="transition-transform duration-300 hover:scale-[1.01] hover:bg-loading flex flex-col 2xl:w-[256px] w-[250px] h-[550px] xl:w-[226px] xl:h-[600px] lg:w-[220px] norm:w-[210px] lg:h-[630px] md:w-[250px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
+                      className="transition-transform duration-300 hover:scale-[1.01] hover:bg-loading flex flex-col 2xl:w-[256px] w-[250px] h-[500px] xl:w-[226px] xl:h-[600px] lg:w-[220px] norm:w-[210px] lg:h-[630px] md:w-[250px] md:h-[630px] sm:w-[200px] sm:h-[580px]"
                     >
                       <img
                         src={book.imgUrl}
