@@ -220,8 +220,8 @@ function StockEdit() {
     <div>
       <LibNavbar libId={id} libPath={`/library/inventory/${id}`} />
       <div>
-        <div className="border-2 border-solid border-secondary rounded-xl mx-[8%] h-[500px] overflow-y-scroll no-scrollbar">
-          <h2 className="text-[34px] text-primary text-center sm:ml-4 mt-2">
+        <div className="border-2 border-solid border-secondary rounded-xl md:mx-{4%} lg:mx-[8%] h-[500px] overflow-y-scroll no-scrollbar">
+          <h2 className="text-[23px] sm:text-[34px] text-primary text-center sm:ml-4 mt-2">
             Book Info
           </h2>
           <div className=" cursor-pointer">
@@ -230,26 +230,26 @@ function StockEdit() {
               name="csv"
               id="csv"
               onChange={handleFileChange}
-              className=" ml-[22px] mb-[10px] file:bg-background file:border-primary file:border-solid file:border-r-[1px] file:border-0 file:cursor-pointer file:text-white border-[1px] border-solid border-primary text-[23px] pl-2 text-white h-[40px]"
+              className="ml-[22px] mb-[10px] file:bg-background file:border-primary file:border-solid file:border-r-[1px] file:border-0 file:cursor-pointer file:text-white border-[1px] border-solid border-primary text-[20px] sm:text-[23px] pl-2 text-white w-[250px] sm:w-[400px] h-[40px]"
             />
           </div>
           <div className="">
             {result ? (
               <div>
 
-                <div className="grid grid-cols-3 ml-6 gap-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 ml-6 gap-6">
                   {
                     result.map((book) => (
                       <div key={book.isbn}>
                         <div className="flex flex-col">
-                          <h2 className="text-white text-[26px]">
+                          <h2 className="text-white text-[20px] sm:text-[26px]">
                             <span className="text-primary">Title:</span> {book.title}
                           </h2>
-                          <h2 className="text-white text-[22px]">
+                          <h2 className="text-white text-[18px] sm:text-[22px]">
                             <span className="text-primary">Author:</span>{" "}
                             {book.author}
                           </h2>
-                          <h2 className="text-white text-[22px]">
+                          <h2 className="text-white text-[18px] sm:text-[22px]">
                             <span className="text-primary">ISBN:</span> {book.isbn}
                           </h2>
 
@@ -263,7 +263,7 @@ function StockEdit() {
                               </button>
 
                               {editingBook === book.isbn && (
-                                <div className=" grid grid-cols-2 gap-2 gap-y-8 m-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-background p-5 text-background border-primary border-solid border-2">
+                                <div className=" grid grid-cols-2 w-[300px] sm:w-[400px] md:w-[600px] gap-2 gap-y-8 m-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md bg-background p-5 text-background border-primary border-solid border-2">
                                   <div>
                                     <Image
                                       src={cross}
@@ -422,7 +422,7 @@ function StockEdit() {
                                     </button>
                                     <button
                                       onClick={() => handleDelete(book.isbn)}
-                                      className="bg-red-500 transition-transform duration-300 hover:scale-[1.01] rounded-md text-white ml-2 py-2 px-4"
+                                      className="bg-red-500 transition-transform duration-300 hover:scale-[1.01] rounded-md text-white ml-0 sm:ml-6 mt-2 sm:ml-0 py-2 px-4"
                                     >
                                       Delete
                                     </button>
