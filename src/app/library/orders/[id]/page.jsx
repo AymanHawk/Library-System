@@ -101,12 +101,12 @@ function orderId() {
       <LibNavbar libId={id} libPath={pathname} />
       <div className='mt-[50px]'>
         <div className='flex justify-evenly'>
-          <div className='h-[80vh] flex flex-col text-2xl justify-evenly'>
+          <div className='h-[80vh] flex flex-col md:text-[20px] lg:text-2xl justify-evenly mr-2'>
             <h2 onClick={() => { setSection('prepare') }} className={((section === 'prepare') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Prepare Orders</h2>
             <h2 onClick={() => { setSection('confirm') }} className={((section === 'confirm') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Fullfilled Orders</h2>
             <h2 onClick={() => { setSection('return') }} className={((section === 'return') ? 'text-primary hover:text-white' : 'text-white hover:text-primary') + ` cursor-pointer`}>Returned Orders</h2>
           </div>
-          <div className='border-l-2 border-primary'></div>
+          <div className='border-l-2 mr-4 border-primary'></div>
           <div className='w-[80%] overflow-auto overflow-y-auto'>
             <div className=''>
               {section === 'prepare' && (

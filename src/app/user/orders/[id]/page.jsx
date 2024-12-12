@@ -52,7 +52,7 @@ function orderId() {
     <div>
       <UserNavbar userId={id} userPath={pathname} />
 
-      <div className="w-[80%] mx-auto">
+      <div className="w-[80%] mx-[280px]">
         <h1 className="text-primary text-3xl text-left lg:text-4xl mb-5">
           Orders
         </h1>
