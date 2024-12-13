@@ -127,7 +127,7 @@ function Books() {
                 >
                   {(book.imgUrl !== 'N/A') ? (
                     <Image
-                      className="w-full lg:h-[350px] md:h-[375px] sm:h-[320px] h-[200px] bg-primary mr-4"
+                      className="w-full lg:h-[350px] md:h-[375px] sm:h-[320px] h-[200px] mr-4"
                       src={book.imgUrl}
                       width={50}
                       height={50}
@@ -135,7 +135,7 @@ function Books() {
                     />
                   ) : (
                     <Image
-                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] bg-primary mr-2"
+                      className="w-full lg:h-[350px] sm:h-[320px] h-[200px] mr-2"
                       src={nobookcover}
                       width={50}
                       height={50}
