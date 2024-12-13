@@ -249,13 +249,13 @@ function Stats() {
     <div>
       <UserNavbar userId={id} userPath={pathname} />
       <div className='flex flex-col'>
-        <div className='mx-auto flex flex-row gap-4 flex-wrap justify-center items-center 2xl:text-4xl xl:text-3xl lg:text-2xl norm:text-xl sm:text-xl'>
+        <div className='mx-auto flex flex-row gap-4 flex-wrap justify-center items-center 2xl:text-4xl xl:text-3xl lg:text-2xl norm:text-xl sm:text-[20px]'>
           <span className='text-primary'>View Stats for: </span>
-          <span onClick={toggleListDrop} ref={listRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+          <span onClick={toggleListDrop} ref={listRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[140px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
             {list || 'List'}
             <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
             <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
-            <ul className={(listDrop ? `` : `hidden`) + ` text-nowrap absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+            <ul className={(listDrop ? `` : `hidden`) + ` text-nowrap absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[140px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
               <li onClick={() => handleListSelect('Read Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Read Books</li>
               <li onClick={() => handleListSelect('To-Read Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>To-Read Books</li>
               <li onClick={() => handleListSelect('Liked Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Liked Books</li>
@@ -264,11 +264,11 @@ function Stats() {
           </span>
 
           <div className='flex sm:flex-row flex-col items-center gap-4'>
-            <span onClick={toggleYearDrop} ref={yearRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+            <span onClick={toggleYearDrop} ref={yearRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[100px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
               {year || 'Year'}
               <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
               <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
-              <ul className={(yearDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+              <ul className={(yearDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[100px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
                 <li onClick={() => hangleYearSelect('All Time')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>All Time</li>
                 <li onClick={() => hangleYearSelect('2024')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2024</li>
                 <li onClick={() => hangleYearSelect('2023')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2023</li>
@@ -280,11 +280,11 @@ function Stats() {
                 <li onClick={() => hangleYearSelect('2017')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2017</li>
               </ul>
             </span>
-            <span onClick={toggleMonthDrop} ref={monthRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+            <span onClick={toggleMonthDrop} ref={monthRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[120px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
               {month || 'Month'}
               <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
               <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
-              <ul className={(monthDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+              <ul className={(monthDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[120px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
                 <li onClick={() => handleMonthSelect('Whole Year')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Whole Year</li>
                 <li onClick={() => handleMonthSelect('January')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>January</li>
                 <li onClick={() => handleMonthSelect('Feburary')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Feburary</li>
@@ -331,7 +331,7 @@ function Stats() {
             <div className='flex flex-wrap justify-center items-center text-center'>
               <div>
                 {genreData && genreData.length > 0 ? (
-                  <div>
+                  <div className="">
                     <PieChart genreData={genreData} />
                     Genres Distribution
                   </div>

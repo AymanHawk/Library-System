@@ -65,7 +65,7 @@ const RadialBarChart = ({avg, dataCall, call}) => {
     }
 
     return (
-        <div className='sm:h-[400px] sm:w-[400px] w-[340px] xs:w-[250px]'>
+        <div className='sm:h-[200px] sm:w-[200px] md:h-[320px] md:w-[320px] lg:w-[400px] lg:h-[400px] w-[200px] h-[250px]'>
             <PolarArea data={data} options={options} />
         </div>
     );
