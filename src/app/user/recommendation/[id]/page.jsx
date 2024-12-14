@@ -83,7 +83,7 @@ export default function Recommendations() {
                         height={60}
                         className="w-full xl:h-[350px] lg:h-[350px] md:h-[350px] h-[300px]"
                       />
-                      <h2 onClick={() => handleBookClick(`/books/${book.id}`)} className="text-primary cursor-pointer text-[32px]">
+                      <h2 onClick={() => handleRoute(`/books/${book.id}`)} className="text-primary cursor-pointer text-[32px]">
                         {book.title.length > 40
                           ? `${book.title.slice(0, 40)}...`
                           : book.title}
