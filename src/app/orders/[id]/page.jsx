@@ -80,7 +80,7 @@ function Orders() {
   }, []);
 
   return (
-    <div className='w-[80%] mx-auto'>
+    <div className='w-[90%] mx-auto'>
       <div className={(confPop ? '' : 'hidden') + ` absolute border-secondary border-[1px] ml-[400px] rounded-md p-5 bg-background`}>
         <div className='flex justify-end'>
           <Image src={cross} alt='cross' className='transition-transform duration-300 hover:scale-[1.01]' width={25} height={25} onClick={() => { setConfPop(false) }} />
@@ -99,8 +99,8 @@ function Orders() {
           order.map(ord => (
             <div key={ord._id}>
               <h2 className='text-primary text-xl m-2 ml-6'>#{ord._id}</h2>
-              <div className='flex justify-evenly items-start'>
-                <div className='border-secondary p-5 w-[70%] border-[1px] rounded-md'>
+              <div className='flex flex-wrap justify-evenly items-start'>
+                <div className='border-secondary p-5 w-[90%] md:w-[60%] mb-4 md:mb-0 border-[1px] rounded-md overflow-y-auto'>
                   {ord.books ? (
                     ord.books.map(book => (
                       <div key={book._id} className='flex flex-row gap-1 p-1 hover:bg-loading border-b-[1px] w-full pb-4 mb-4 last:mb-0 last:border-b-0 transition-transform duration-300 hover:scale-[1.01]'>
@@ -108,7 +108,7 @@ function Orders() {
                           <h2 className='text-primary text-lg cursor-pointer' onClick={() => { handlePath(`/books/${book._id}`) }}>{book.title}</h2>
                           <div className='flex text-sm'>
                             <div>
-                              <Image src={book.imgSrc} width={75} height={150} alt='book.title' />
+                              <Image src={book.imgSrc} width={75} height={150} className="mr-4" alt='book.title' />
                             </div>
                             <div className='flex flex-col items-start'>
                               <h2 className=''>{book.author}</h2>
@@ -132,7 +132,7 @@ function Orders() {
                   )
                   }
                 </div>
-                <div className='w-[25%]'>
+                <div className='w-[90%] md:w-[35%] min-w-[210px]'>
                   <div className='border-secondary p-2 border-[1px]  text-primary rounded-md'>
                     <h2 className='text-center font-bold '>Order Info</h2>
                     <div className='flex flex-col p-2'>

@@ -4,8 +4,8 @@ function Loading() {
     return (
         <div className="animate-pulse">
             <div className="text-primary text-xl m-2 ml-6 bg-loading h-6 w-32 rounded"></div>
-            <div className="flex justify-evenly items-start">
-                <div className="border-secondary p-5 w-[70%] border-[1px] rounded-md">
+            <div className="flex flex-wrap justify-evenly items-start">
+                <div className="border-secondary p-5 w-[90%] md:w-[60%] mb-4 md:mb-0 border-[1px] rounded-md">
                     {Array.from({ length: 3 }).map((_, index) => (
                         <div
                             key={index}
@@ -21,7 +21,7 @@ function Loading() {
                     ))}
                 </div>
 
-                <div className="w-[25%]">
+                <div className="w-[90%] md:w-[35%] min-w-[210px]">
                     <div className="border-secondary p-2 border-[1px] text-primary rounded-md">
                         <div className="bg-loading h-6 w-3/4 rounded mb-4"></div>
                         <div className="flex flex-col gap-2 p-2">
