@@ -151,7 +151,7 @@ function Orders() {
                       <span className='flex justify-between'>
                         <h4>Order By:</h4>
                         <div className='flex gap-1'>
-                          <Image src={ord.userImg} className='rounded-full' width={25} height={25} alt={ord.userId} />
+                          <Image src={ord.userImg} className='rounded-full block sm:hidden lg:block' width={25} height={25} alt={ord.userId} />
                           <h4>{ord.userName}</h4>
                         </div>
                       </span>
