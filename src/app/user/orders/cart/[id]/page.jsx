@@ -75,7 +75,7 @@ function Cart() {
 
     return (
         <div className='flex flex-wrap gap-2 justify-center lg:mx-[40px]'>
-            <div className="border-secondary rounded-[5px] border-2 p-2 w-[85%] sm:w-[65%] min-w-[350px] mb-6 h-[520px] overflow-y-auto">
+            <div className="border-secondary rounded-[5px] border-2 p-2 w-[85%] sm:w-[95%] md:w-[65%] min-w-[350px] mb-6 h-[520px] overflow-y-auto">
                 <h1 className="text-[25px] sm:text-[27px] md:text-[36px] text-primary mr-4 ml-4 mt-4 mb-2">Cart</h1>
                 <div className="flex flex-col">
                     {(cart) ? (
@@ -128,7 +128,7 @@ function Cart() {
 
                 </div>
             </div>
-            <div className="border-secondary rounded-[5px] border-2 p-2 h-[65%] w-[85%] sm:w-[30%] ml-auto mr-auto">
+            <div className="border-secondary rounded-[5px] border-2 p-2 h-[65%] min-w-[200px] flex-grow ml-auto mr-auto">
                 <h1 className="text-[23px] sm:text-[20px] lg:text-[25px] text-primary mr-4 mt-4 mb-2">Cart Summary</h1>
                 <div>
                     <div className='border-secondary p-2 border-solid border-[1px] text-[20px]'>
