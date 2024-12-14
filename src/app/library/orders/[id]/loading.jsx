@@ -21,7 +21,7 @@ function Loading() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col justify-start gap-2">
+            <div className="flex flex-row justify-end gap-2">
               <div className="h-8 bg-loading w-24 rounded-md"></div> 
               <div className="h-8 bg-loading w-24 rounded-md"></div>
             </div>
