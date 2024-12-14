@@ -4,6 +4,7 @@ import Pagination from '../../../browse/books/search/results/Pagination.jsx'
 import { useParams } from 'next/navigation';
 import rated from '../../../../images/rated_star.png';
 import Image from 'next/image';
+import Loading from './loading.jsx';
 
 
 
@@ -11,11 +12,11 @@ import Image from 'next/image';
 function BookReview() {
 
     const { id } = useParams();
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState(null);
     const [totalCount, setTotalCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [title, setTitle] = useState('');
-    const limit = 25;
+    const limit = 5;
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -24,7 +25,7 @@ function BookReview() {
                     method: 'GET',
                     headers: {
                         'bookId': id,
-                        'limit': 5,
+                        'limit': limit,
                         'page': currentPage,
                     }
                 })
@@ -47,16 +48,16 @@ function BookReview() {
 
     return (
         <div>
-            <h1 className='text-primary text-center sm:text-2xl text-xl'>Review For: '{title}'</h1>
             {results ? (
                 <div>
+                    <h1 className='text-primary text-center sm:text-2xl text-xl'>Review For: '{title}'</h1>
                     {results.map((review) => (
                         <div className='border-secondary border-[1px] p-2 rounded-md m-2' key={review._id}>
                             <div className='flex justify-between'>
                                 <div className='flex gap-2 items-center justify-center'>
                                     <h2 className='text-primary capitalize'>{review.authorId.username}</h2>
                                     {
-                                        Array.from({ length: review.rating }, ( _, index) => (
+                                        Array.from({ length: review.rating }, (_, index) => (
                                             <div key={index}>
                                                 <Image
                                                     src={rated}
@@ -72,14 +73,11 @@ function BookReview() {
                             </div>
                             <h2 className='text-secondary text-xl'>{review.title}</h2>
                             <h2>{review.description}</h2>
-
                         </div>
                     ))}
                 </div>
             ) : (
-                <div>
-                    No Reviews
-                </div>
+                <Loading />
             )}
             <Pagination
                 currentPage={currentPage}

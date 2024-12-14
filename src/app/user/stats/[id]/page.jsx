@@ -136,7 +136,7 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -160,7 +160,7 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -183,7 +183,7 @@ function Stats() {
       setStats(data);
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoading(false)
     }
   }
@@ -198,6 +198,12 @@ function Stats() {
       getMonthStat();
     }
   }
+  const emptyPieData = [{ genre: 'No Data', count: 1 }]
+  const emptyBubbleData = [{ theme: 'No data', count: 1 }]
+  const emptyDonutData = [{ pace: 'No data', count: 1 }]
+  const emptyRadialBarData = 0;
+  const emptyLineData = [{ data: 'No data', count: 1 }];
+
 
   useEffect(() => {
     if (list && year && month && isLoaded && user) {
@@ -211,6 +217,7 @@ function Stats() {
   useEffect(() => {
     if (month === 'Whole Year' || year === 'All Time') {
       setThemeData(stats.length > 0 ? stats[0].totalTheme : []);
+      console.log(stats);
       setGenreData(stats.length > 0 ? stats[0].totalGenre : []);
       setPaceData(stats.length > 0 ? stats[0].totalPace : []);
       if (month === 'Whole Year') {
@@ -227,12 +234,14 @@ function Stats() {
       setPaceData(stats.paceRead);
       setMonthBookData(stats.booksRead);
       setMonthPageData(stats.pagesRead);
+      console.log(stats);
+
     }
   }, [stats]);
 
-if (loading){
-  return<Loading/>
-}
+  if (loading) {
+    return <Loading />
+  }
 
 
 
@@ -240,13 +249,13 @@ if (loading){
     <div>
       <UserNavbar userId={id} userPath={pathname} />
       <div className='flex flex-col'>
-        <div className='mx-auto flex flex-row gap-4 flex-wrap justify-center items-center 2xl:text-4xl xl:text-3xl lg:text-2xl norm:text-xl sm:text-xl'>
+        <div className='mx-auto flex flex-row gap-4 flex-wrap justify-center items-center 2xl:text-4xl xl:text-3xl lg:text-2xl norm:text-xl sm:text-[20px]'>
           <span className='text-primary'>View Stats for: </span>
-          <span onClick={toggleListDrop} ref={listRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+          <span onClick={toggleListDrop} ref={listRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[140px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
             {list || 'List'}
             <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
             <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
-            <ul className={(listDrop ? `` : `hidden`) + ` text-nowrap absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+            <ul className={(listDrop ? `` : `hidden`) + ` text-nowrap absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[140px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
               <li onClick={() => handleListSelect('Read Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Read Books</li>
               <li onClick={() => handleListSelect('To-Read Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>To-Read Books</li>
               <li onClick={() => handleListSelect('Liked Books')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Liked Books</li>
@@ -255,11 +264,11 @@ if (loading){
           </span>
 
           <div className='flex sm:flex-row flex-col items-center gap-4'>
-            <span onClick={toggleYearDrop} ref={yearRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+            <span onClick={toggleYearDrop} ref={yearRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[100px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
               {year || 'Year'}
               <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
               <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
-              <ul className={(yearDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+              <ul className={(yearDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[100px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
                 <li onClick={() => hangleYearSelect('All Time')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>All Time</li>
                 <li onClick={() => hangleYearSelect('2024')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2024</li>
                 <li onClick={() => hangleYearSelect('2023')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2023</li>
@@ -271,11 +280,11 @@ if (loading){
                 <li onClick={() => hangleYearSelect('2017')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>2017</li>
               </ul>
             </span>
-            <span onClick={toggleMonthDrop} ref={monthRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
+            <span onClick={toggleMonthDrop} ref={monthRef} className='flex text-nowrap relative bg-secondary text-white 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[120px] p-2 md:h-[50px] h-[40px] rounded-md justify-center gap-4 items-center'>
               {month || 'Month'}
               <Image src={drop} alt='dropdown' height={15} width={15} className='md:block hidden' />
               <Image src={drop} alt='dropdown' height={10} width={10} className='md:hidden block' />
-              <ul className={(monthDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[145px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
+              <ul className={(monthDrop ? `` : `hidden`) + ` absolute bg-slate-100 2xl:w-[250px] xl:w-[225px] lg:w-[200px] norm:w-[175px] sm:w-[175px] w-[120px] rounded-md md:mt-[205px] mt-[198px] text-center z-30 h-[150px] overflow-y-auto no-scrollbar`}>
                 <li onClick={() => handleMonthSelect('Whole Year')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Whole Year</li>
                 <li onClick={() => handleMonthSelect('January')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>January</li>
                 <li onClick={() => handleMonthSelect('Feburary')} className='text-secondary md:h-[50px] h-[40px] border-b-[1px] border-secondary content-center'>Feburary</li>
@@ -294,18 +303,42 @@ if (loading){
           </div>
         </div>
         <hr className='my-5 w-[80%] mx-auto border-primary' />
-        <div>{
-          stats.length === 0 ? <div>no data(Make a empty stats page)</div> :
+        <div >{
+          stats.length === 0 ? (
+            <div className='flex flex-wrap justify-center items-center text-center'>
+              <div>
+                <PieChart genreData={emptyPieData} />
+                Genres Distribution
+              </div>
+              <div>
+                <BubbleChart themeData={emptyBubbleData} />
+                Themes Distibution
+              </div>
+              <div>
+                <DonutChart paceData={emptyDonutData} />
+                Pace Distribution
+              </div>
+              <div>
+                <RadialBarChart avg={500} dataCall={emptyRadialBarData} call={'Pages'} />
+                {list} Page vs Average
+              </div>
+              <div>
+                <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
+                {list} Book vs Average
+              </div>
+            </div>
+          ) : (
             <div className='flex flex-wrap justify-center items-center text-center'>
               <div>
                 {genreData && genreData.length > 0 ? (
-                  <div>
+                  <div className="">
                     <PieChart genreData={genreData} />
                     Genres Distribution
                   </div>
                 ) : (
                   <div>
-                    No Data Available(Make a loading page/component/empty)
+                    <PieChart genreData={emptyPieData} />
+                    Genres Distribution
                   </div>
                 )}
               </div>
@@ -316,7 +349,10 @@ if (loading){
                     Themes Distibution
                   </div>
                 ) : (
-                  <div>No Data Available</div>
+                  <div>
+                    <BubbleChart themeData={emptyBubbleData} />
+                    Themes Distibution
+                  </div>
                 )}
               </div>
               <div>
@@ -327,7 +363,8 @@ if (loading){
                   </div>
                 ) : (
                   <div>
-                    No Data Available
+                    <DonutChart paceData={emptyDonutData} />
+                    Pace Distribution
                   </div>
                 )}
               </div>
@@ -342,7 +379,8 @@ if (loading){
                         </div>
                       ) : (
                         <div>
-                          No Data Available
+                          <RadialBarChart avg={500} dataCall={emptyRadialBarData} call={'Pages'} />
+                          {list} Page vs Average
                         </div>
                       )}
                     </div>
@@ -350,11 +388,12 @@ if (loading){
                       {monthBookData ? (
                         <div>
                           <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
-                          {list} vs Average
+                          {list}Books vs Average
                         </div>
                       ) : (
                         <div>
-                          No Data Available
+                          <RadialBarChart avg={12} dataCall={monthBookData} call={'Books'} />
+                          {list} Book vs Average
                         </div>
                       )}
                     </div>
@@ -381,7 +420,7 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
@@ -403,7 +442,7 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
@@ -428,7 +467,7 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
@@ -450,25 +489,23 @@ if (loading){
                             </div>
                           ) : (
                             <div>
-                              No Data Available
+                              <LineChart monthData={emptyLineData} />
                             </div>
                           )}
                         </div>
                       </div>
                     )
-
                     }
                   </div>
-
                 )
-
                 }
               </div>
             </div>
+          )
         }
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

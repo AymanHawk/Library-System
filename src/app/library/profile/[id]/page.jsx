@@ -9,6 +9,8 @@ import edit from "../../../../images/edit-pen.png";
 import drop from "../../../../images/drop-white.png";
 import LibNavbar from "../../../../components/LibNavbar";
 import { usePathname } from "next/navigation";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Profile() {
   const pathname = usePathname();
@@ -71,8 +73,13 @@ function Profile() {
       const data = await res.json();
       if (!data.success) {
         console.error("Failed to update the Address");
+        toast.error('Falied to Update Library Information');
+      } else {
+        toast.success('Library Details Updated!!');
+
       }
     } catch (err) {
+      toast.error('Falied to Update Library Information');
       console.error("Error changing address:", err);
     }
   };
@@ -91,11 +98,13 @@ function Profile() {
   return (
     <div>
       <LibNavbar libId={id} libPath={pathname} />
-      <div className="border-solid border-2 border-secondary rounded-md mx-[350px] mt-10 h-[500px] flex flex-col">
+      <div className="border-solid border-2 border-secondary rounded-md md:mx-[75px] lg:mx-[175px] xl:mx-[250px] mt-10  flex flex-col">
         <h1 className="text-primary text-[35px] mt-2 ml-6">Library Profile</h1>
         <div className="text-white text-[22px] ml-6 mt-2 flex flex-row items-center">
-          Current Profile:
-          <div className="ml-4">
+          <div className="content-center">
+            Current Profile:
+          </div>
+          <div className="ml-4 flex">
             <UserButton>
               <UserButton.MenuItems>
                 <UserButton.Action
@@ -128,11 +137,11 @@ function Profile() {
             </UserButton>
           </div>
         </div>
-        <div className="text-white text-[22px] ml-6 mt-2 flex flex-row items-center">
+        <div className="text-white text-[22px] ml-6 mt-2 flex flex-col justify-start flex-wrap">
           Email:
           <input
             type="text"
-            className="ml-4 border-solid border-[1px] border-primary bg-transparent text-white text-[18px] p-1 w-[427px]"
+            className="placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-white text-[18px] p-1 w-[250px] sm:w-[410px] md:w-[427px]"
             placeholder="Change Email"
             value={email}
             onChange={(e) => {
@@ -148,7 +157,7 @@ function Profile() {
                 Street Address
                 <input
                   type="text"
-                  className="border-solid border-[1px] border-primary bg-transparent text-white text-[18px] p-1 w-[427px]"
+                  className="placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-white text-[18px] p-1 w-[250px] sm:w-[410px] md:w-[427px]"
                   placeholder="Change Street Address"
                   value={stAdd}
                   onChange={(e) => {
@@ -156,14 +165,13 @@ function Profile() {
                   }}
                 />
               </div>
-              <Image src={edit} alt="edit" width={32} height={32} />
             </div>
-            <div className="flex justify-start gap-3">
+            <div className="flex justify-start flex-wrap gap-3">
               <div className="flex flex-col">
                 City
                 <input
                   type="text"
-                  className="border-solid border-[1px] border-primary bg-transparent text-white text-[18px] p-1 w-[200px]"
+                  className="placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-white text-[18px] p-1 w-[100px] sm:w-[200px]"
                   placeholder="Change City"
                   value={cityAdd}
                   onChange={(e) => {
@@ -175,7 +183,7 @@ function Profile() {
                 State
                 <input
                   type="text"
-                  className="border-solid border-[1px] border-primary bg-transparent text-white text-[18px] p-1 w-[200px]"
+                  className="placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-white text-[18px] p-1 w-[100px] sm:w-[200px]"
                   placeholder="Change State"
                   value={stateAdd}
                   onChange={(e) => {
@@ -187,7 +195,7 @@ function Profile() {
                 Zip
                 <input
                   type="text"
-                  className="border-solid border-[1px] border-primary bg-transparent text-white text-[18px] p-1 w-[115px]"
+                  className="placeholder:text-white bg-transparent border-[1px] border-solid border-primary text-white text-[18px] p-1 w-[115px]"
                   placeholder="Change Zip"
                   value={zipAdd}
                   onChange={(e) => {
@@ -201,7 +209,7 @@ function Profile() {
         <div>
           <button
             onClick={changeDetails}
-            className="ml-6 mt-12 bg-secondary py-2 px-4 rounded-md text-[20px]"
+            className="ml-6 mt-6 mb-4 bg-secondary py-2 px-4 rounded-md text-[20px] transition-transform duration-300 hover:scale-[1.01]"
           >
             Save Changes
           </button>

@@ -101,6 +101,9 @@ export async function GET(req) {
                         libName: "$LibDetails.name"
                     }
                 },
+                {
+                    $sort: { orderAt: -1 }
+                },
                 { $skip: skip },
                 { $limit: limit }
             ]
