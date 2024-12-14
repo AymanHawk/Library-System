@@ -211,14 +211,14 @@ function Preferences() {
           </div>
           <div>
             <h2 className='text-primary text-xl sm:text-2xl md:text-4xl mb-2'>Library Card</h2>
-            <div className='w-[300px] overflow-x-auto no-scrollbar mb-2'>
+            <div className='2xl:w-[850px] xl:w-[750px] lg:w-[550px] norm:w-[525px] md:w-[390px] sm:w-[270px] w-[280px] overflow-x-auto no-scrollbar mb-2'>
               {cards ? (
                 cards.length > 0 ? (
                   <div className='flex row-gap-3'>
                     {cards.map((card, index) => (
                       <div key={index}>
                         {card.library && (
-                          <div className='border-secondary w-[250px] border-[1px] p-2 rounded-md'>
+                          <div className='mr-4  border-secondary w-[250px] border-[1px] p-2 rounded-md'>
                             <div>
                               <div>
                                 <div>
