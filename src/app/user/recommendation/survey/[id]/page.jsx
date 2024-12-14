@@ -241,7 +241,7 @@ function Survey() {
   return (
     <div>
       <UserNavbar userId={id} userPath={pathname} />
-      <div className="mx-20">
+      <div className="sm:mx-5 md:mx-20">
         {/* Search and Select Books */}
         <div className="border-secondary rounded-md border-2 p-3 mb-10">
           <h1 className="text-white text-sm sm:text-base md:text-xl norm:text-2xl lg:text-3xl mb-4">
