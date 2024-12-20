@@ -35,37 +35,37 @@ const ThreeWaySlider = ({
         >
           <Slider.Track className="bg-slate-200 relative grow rounded-full h-2 overflow-hidden">
             <div
-              className="absolute h-full bg-red-500"
+              className="absolute h-full bg-secondary hover:bg-[#4f5aa3]"
               style={{ width: `${percentages.tempo}%` }}
             />
             <div
-              className="absolute h-full bg-green-500"
+              className="absolute h-full bg-[#4CC860] hover:bg-green-600"
               style={{ width: `${percentages.genre}%`, left: `${percentages.tempo}%` }}
             />
             <div
-              className="absolute h-full bg-blue-500"
+              className="absolute h-full bg-[#5F2D77] hover:bg-fuchsia-900"
               style={{ width: `${percentages.theme}%`, left: `${100 - percentages.theme}%` }}
             />
           </Slider.Track>
           {sliderValues.map((value, index) => (
             <Slider.Thumb
               key={index}
-              className="block w-5 h-5 bg-white shadow-md rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400"
+              className="block w-5 h-5 bg-white shadow-md rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-100"
             />
           ))}
         </Slider.Root>
       </div>
       <div className="space-y-2">
         <p className="text-sm font-medium flex items-center">
-          <span className="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
+          <span className="w-3 h-3 bg-secondary rounded-full mr-2"></span>
           Tempo: {percentages.tempo}%
         </p>
         <p className="text-sm font-medium flex items-center">
-          <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+          <span className="w-3 h-3 bg-[#4CC860] rounded-full mr-2"></span>
           Genre: {percentages.genre}%
         </p>
         <p className="text-sm font-medium flex items-center">
-          <span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
+          <span className="w-3 h-3 bg-[#5F2D77] rounded-full mr-2"></span>
           Theme: {percentages.theme}%
         </p>
       </div>

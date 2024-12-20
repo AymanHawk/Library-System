@@ -10,6 +10,7 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
+  signOut,
   UserButton,
   useUser,
   useOrganizationList,

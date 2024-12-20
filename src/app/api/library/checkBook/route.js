@@ -9,7 +9,6 @@ export async function GET(req) {
         const lang = req.headers.get('lang');
         const format = req.headers.get('format');
 
-        console.log(lang);
 
         const client = await clientPromise;
         const db = client.db('lib');

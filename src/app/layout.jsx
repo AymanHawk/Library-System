@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
     >
       <RouterProvider>
        <html lang="en">
-          <body className="bg-background p-5 text-white">
+          <body className="bg-background p-5 text-white no-scrollbar">
             {!hideUserNav && <Navbar />}
             {children}
             <ToastContainer 

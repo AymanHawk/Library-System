@@ -55,6 +55,16 @@ export async function POST(req) {
         const client = await clientPromise;
         const db = client.db('lib');
 
+        if(cardNumber === '') {
+            return new Response(JSON.stringify({
+                success: false,
+                error: err.message
+            }), {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            })
+        }
+
         const card = {
             libId: new ObjectId(libId),
             cardId: cardNumber

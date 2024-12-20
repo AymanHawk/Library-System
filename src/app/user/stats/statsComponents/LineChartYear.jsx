@@ -69,7 +69,7 @@ const LineChartYears = ({ yearData }) => {
     };
 
     return (
-        <div className='md:w-[600px] md:h-[300px] sm:w-[480px] w-[340px] xs:w-[250px]'>
+        <div className='md:w-[600px] md:h-[300px] sm:w-[480px] w-[340px]'>
             <Line data={data} options={options} />
         </div>
     )

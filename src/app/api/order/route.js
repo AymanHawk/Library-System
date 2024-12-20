@@ -115,7 +115,7 @@ export async function GET(req) {
             ]
         ).toArray();
 
-        return NextResponse.json({ order:order[0] }, { status: 200 });
+        return NextResponse.json( order , { status: 200 });
 
 
     } catch (error) {

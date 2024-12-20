@@ -59,7 +59,7 @@ const PieChart = ({ genreData }) => {
     }
 
     return (
-        <div className='sm:h-[400px] sm:w-[400px] w-[340px] xs:w-[250px]'>
+        <div className='sm:h-[250px] sm:w-[250px] md:h-[400px] md:w-[400px] w-[250px] h-[250px]'>
             <Pie data={data} options={options}/>
         </div>
     );

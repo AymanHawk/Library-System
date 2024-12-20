@@ -15,7 +15,6 @@ function UserNavbar({ userId, userPath }) {
   ];
 
   const handleRoutes = (path) => {
-    // console.log("activated")
     router.push(path);
   }
 
